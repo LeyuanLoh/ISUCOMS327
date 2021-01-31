@@ -1,1 +1,2 @@
 1/25/2021 - Created repository for the project.
+1/31/2021 - Leyuan created a function called topple() to stimulate when the sandpile has more than 8 sands. Also, he has created helper functions functions - max and min. 
