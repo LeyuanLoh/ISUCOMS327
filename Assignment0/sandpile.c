@@ -5,7 +5,7 @@
 
 void initializeSandPile(int sandPile[23][23]);
 void outputSandPile(int sandPile[23][23]);
-void topple(int grid[23][23], int y, int x);
+void topple(int sandPile[23][23], int y, int x);
 int min(int y, int x);
 int max(int y, int x);
 
@@ -55,8 +55,14 @@ int main(int argc, char *argv[])
         }
     }
 
-    //output sandPile
-    outputSandPile(sandPile);
+    //TODO
+    while (1) {
+        usleep(1000000 / fps);
+        sandPile[11][11] += 1;
+        topple(sandPile, 11, 11);
+        //output sandPile
+        outputSandPile(sandPile);
+    }
 }
 
 void initializeSandPile(int sandPile[23][23])
@@ -89,14 +95,14 @@ void outputSandPile(int sandPile[23][23])
 }
 
 
-void topple(int grid[23][23], int y, int x)
+void topple(int sandPile[23][23], int y, int x)
 {
-    if (grid[y][x] <= 8)
+    if (sandPile[y][x] <= 8)
     {
         return;
     }
 
-    grid[y][x] = grid[y][x] - 8;
+    sandPile[y][x] = sandPile[y][x] - 8;
 
     for (int k = max(y - 1, 0); k <= min(y + 1, 22); k++)
     {
@@ -104,12 +110,12 @@ void topple(int grid[23][23], int y, int x)
         {
             if (k != y || l != x)
             {
-                if (grid[k][l] != -1)
+                if (sandPile[k][l] != -1)
                 {
-                    grid[k][l] = grid[k][l] + 1;
-                    if (grid[k][l] > 8)
+                    sandPile[k][l] = sandPile[k][l] + 1;
+                    if (sandPile[k][l] > 8)
                     {
-                        topple(grid, k, l);
+                        topple(sandPile, k, l);
                     }
                 }
             }
