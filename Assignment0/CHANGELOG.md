@@ -5,4 +5,7 @@
 <h3>2/1/2021</h3> 
 - Lee upload a file with some function in there. Initialize grid and output grid. There are also some if else statement in there which handle the argument of the input from user. <br />
 - Blake merged the two files into one and updated the CHANGELOG <br />
+- Added infinite loop to print the board <br />
+- Added in functionality to handle the case of an input location greater than 8 <br />
+- Updated README to coordinate with requirements <br />
 

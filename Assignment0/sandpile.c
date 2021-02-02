@@ -19,45 +19,66 @@ int main(int argc, char *argv[])
     initializeSandPile(sandPile);
 
     //if there is argument
-    if(argc>1)
+    if (argc > 1)
     {
 
         //variable
         int i;
-        int corx;
-        int cory;
+        int coorY;
+        int coorX;
         int h;
 
         //if there is fps in argument
-        if(!strcmp("--fps",argv[1])){
+        if (!strcmp("--fps", argv[1]))
+        {
             fps = atoi(argv[2]);
-            for(i =1; i<argc;i++){
-                if(i%3 ==0){
-                    corx = atoi(argv[i-2+2]);
-                    cory = atoi(argv[i-1+2]);
-                    h = atoi(argv[i+2]);
-                    sandPile[corx][cory] = h;
+            for (i = 1; i < argc; i++)
+            {
+                if (i % 3 == 0)
+                {
+                    coorY = atoi(argv[i - 2 + 2]);
+                    coorX = atoi(argv[i - 1 + 2]);
+                    h = atoi(argv[i + 2]);
+                    sandPile[coorY][coorX] = h;
+                }
+
+                //Check inputs if a number is greater than 8 but not count fps
+                //If input is greater than 8, topple at the location coorY and coorX
+                if (h > 8)
+                {
+                    topple(sandPile, coorY, coorX);
                 }
             }
         }
 
         //if there is no fps in argument
-        else{
+        else
+        {
             fps = 60; //default 60 fps
-            for(i =1; i<argc;i++){
-                if(i%3 ==0){
-                    corx = atoi(argv[i-2]);
-                    cory = atoi(argv[i-1]);
+            for (i = 1; i < argc; i++)
+            {
+                if (i % 3 == 0)
+                {
+                    coorY = atoi(argv[i - 2]);
+                    coorX = atoi(argv[i - 1]);
                     h = atoi(argv[i]);
-                    sandPile[corx][cory] = h;
+                    sandPile[coorY][coorX] = h;
+                }
+
+                //Check inputs if a number is greater than 8 but not count fps
+                //If input is greater than 8, topple at the location coorY and coorX
+                if (h > 8)
+                {
+                    topple(sandPile, coorY, coorX);
                 }
             }
         }
     }
 
     //TODO
-    while (1) {
-        usleep(1000000 / fps);
+    while (1)
+    {
+        usleep((float)1000000 / fps);
         sandPile[11][11] += 1;
         topple(sandPile, 11, 11);
         //output sandPile
@@ -67,10 +88,12 @@ int main(int argc, char *argv[])
 
 void initializeSandPile(int sandPile[23][23])
 {
-    int i,j;
+    int i, j;
 
-    for(j=0;j<23;j++){
-        for(i = 0;i<23;i++){
+    for (j = 0; j < 23; j++)
+    {
+        for (i = 0; i < 23; i++)
+        {
             sandPile[j][i] = 0;
         }
     }
@@ -78,22 +101,25 @@ void initializeSandPile(int sandPile[23][23])
 
 void outputSandPile(int sandPile[23][23])
 {
-    int i,j;
+    int i, j;
 
-    for(j=0;j<23;j++){
-        for(i = 0;i<23;i++){
-            if(sandPile[j][i]!=-1){
-                printf("%3d",sandPile[j][i]);
+    for (j = 0; j < 23; j++)
+    {
+        for (i = 0; i < 23; i++)
+        {
+            if (sandPile[j][i] != -1)
+            {
+                printf("%3d", sandPile[j][i]);
             }
-            else{
-                printf("%3c",'#');
+            else
+            {
+                printf("%3c", '#');
             }
         }
         printf("\n");
-
     }
+    printf("\n");
 }
-
 
 void topple(int sandPile[23][23], int y, int x)
 {
