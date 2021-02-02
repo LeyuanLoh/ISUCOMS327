@@ -75,7 +75,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    //TODO
     while (1)
     {
         usleep((float)1000000 / fps);
@@ -146,11 +145,6 @@ void topple(int sandPile[23][23], int y, int x)
                 }
             }
         }
-
-        // for (int l = max(x - 1, 0); l <= min(x + 1, 22); l++)
-        // {
-
-        // }
     }
 }
 
