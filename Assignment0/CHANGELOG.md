@@ -8,4 +8,6 @@
 - Added infinite loop to print the board <br />
 - Added in functionality to handle the case of an input location greater than 8 <br />
 - Updated README to coordinate with requirements <br />
+<h3>2/2/2021</h3>
+- Finished and submitted program
 
