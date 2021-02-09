@@ -7,6 +7,7 @@
 #define GRIDY (21)
 #define GRIDX (80)
 static char grid[GRIDY][GRIDX];
+int numRoom;
 
 void output();
 void initialize();
@@ -37,7 +38,7 @@ int **createNewRooms()
     //Math stuff
     do
     {
-        const int numRoom = (rand() % (MAX_ROOM_NUMBER - MIN_ROOM_NUMBER + 1)) + MIN_ROOM_NUMBER;
+        numRoom = (rand() % (MAX_ROOM_NUMBER - MIN_ROOM_NUMBER + 1)) + MIN_ROOM_NUMBER;
 
         const int MAX_ROOMY_SIZE = 17 / numRoom + 5;
         const int MAX_ROOMX_SIZE = 76 / numRoom;
@@ -90,9 +91,9 @@ int placeRooms(int **arraySize, int numRooms, int **roomMidPoint)
         int placeFoo = canPlace(insertY, insertX, sizeY, sizeX);
         if (placeFoo == 0)
         {
-            for (int j = 0; j<sizeY; j++)
+            for (int j = 0; j < sizeY; j++)
             {
-                for (int k = 0; k<sizeX; k++)
+                for (int k = 0; k < sizeX; k++)
                 {
                     // if (sizeX > 4 && (k == 1 || k == sizeX))
                     // {
@@ -233,13 +234,6 @@ void createCorridors(int **rooms)
         -[] Determine place to connect
         -[] Generate corridor in open space
     */
-
-    int y, x, y2, x2;
-    int n = 1;
-
-    //FIXME: is 8 everytime
-    int arraySize = sizeof(rooms);
-
     // x midpint room 1 = rooms[0][1];
     // y midpoint room 1= rooms[0][0];
 
@@ -253,8 +247,76 @@ void createCorridors(int **rooms)
     Swap room 1 and 2 (rooms[n+1][1], rooms[n+1[0]]) becomes (rooms[n][1], rooms[n][0])
     Repeat above until iterated through numRooms
     */
+
+   /*
+        Scheaffer's easy method
+        Take x point from room1
+        Take y point from room2
+        Carve Path from x point to the point (xRoom1, yRoom2)
+        Carve Path from y point to the point (xRoom1, yRoom2)
+        if(point == "." || point == ">" || point == "<") {
+            break;
+        } else {
+            point == "#";
+        }
+   */
+    printf("test\n");
+    for(int roomNum = 1; roomNum <= numRoom; roomNum++) {
+        printf("test ");
+        // int midpointX = rooms[roomNum][1];
+        int size = sizeof(rooms);
+        printf("%d", size);
+        // int midpointY = rooms[roomNum][0];
+
+        // int midpointX2 = rooms[roomNum + 1][1];
+        // int midpointY2 = rooms[roomNum + 1][0];
+
+        // int newPointY = midpointY2;
+        // int newPointX = midpointX;
+        
+        // if(newPointY > midpointY) {
+        //     for(int i = midpointY + 1; i <= newPointY; i++) {
+        //         if(grid[i][midpointX] == '.' || grid[i][midpointX] == '>' || grid[i][midpointX]== '<') {
+        //             continue;
+        //         } else {
+        //             grid[i][midpointX] == '#';
+        //         }
+        //     }
+        // } else {
+        //     for(int i = midpointY - 1; i >= newPointY; i--) {
+        //         if(grid[i][midpointX] == '.' || grid[i][midpointX] == '>' || grid[i][midpointX]== '<') {
+        //             continue;
+        //         } else {
+        //             grid[i][midpointX] == '#';
+        //         }
+        //     }
+        // }
+        
+        // if(newPointX > midpointX) {
+        //     for(int i = midpointX + 1; i <= newPointX; i++) {
+        //         if(grid[newPointY][i] == '.' || grid[newPointY][i] == '>' || grid[newPointY][i]== '<') {
+        //             continue;
+        //         } else {
+        //             grid[newPointY][i] == '#';
+        //         }
+        //     }
+        // } else {
+        //     for(int i = midpointX - 1; i >= newPointX; i--) {
+        //         if (grid[newPointY][i] == '.' || grid[newPointY][i] == '>' || grid[newPointY][i] == '<')
+        //         {
+        //             continue;
+        //         }
+        //         else
+        //         {
+        //             grid[newPointY][i] == '#';
+        //         }
+        //     }
+        // }
+        
+    }
 }
 
-double EuclideanDistance(int y, int x, int y2, int x2) {
+double EuclideanDistance(int y, int x, int y2, int x2)
+{
     return sqrt(pow(x2 - x, 2) + pow(y2 - y, 2) * 1.0);
 }
