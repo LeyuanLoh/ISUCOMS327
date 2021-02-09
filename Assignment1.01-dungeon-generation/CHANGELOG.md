@@ -5,3 +5,4 @@
 <h3>2/8/21</h3>
 * Lee - Modifying, refactoring and remove error of the code. Add new array to create corridor. <br />
 * Blake - Created Makefile, Started figuring out how to connect the different rooms using corridors. <br/>
+* lee - Fix bugs and get the random room working correctly.
