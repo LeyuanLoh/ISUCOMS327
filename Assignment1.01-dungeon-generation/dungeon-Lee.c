@@ -65,6 +65,8 @@ int **createNewRooms()
         }
 
     } while (success == 1);
+
+    return NULL;
 }
 
 //Place the rooms. Generate a random point and check surrounding already has a room or not. If not, then place it.
@@ -88,9 +90,9 @@ int placeRooms(int **arraySize, int numRooms, int **roomMidPoint)
         int placeFoo = canPlace(insertY, insertX, sizeY, sizeX);
         if (placeFoo == 0)
         {
-            for (int j = 1; j <= sizeY; j++)
+            for (int j = 0; j<sizeY; j++)
             {
-                for (int k = 1; k <= sizeX; k++)
+                for (int k = 0; k<sizeX; k++)
                 {
                     // if (sizeX > 4 && (k == 1 || k == sizeX))
                     // {
@@ -143,6 +145,7 @@ int canPlace(int insertY, int insertX, int sizeY, int sizeX)
     }
     else
     {
+        posY = insertY;
         surroundY = sizeY;
     }
     if (insertX > 2)
@@ -152,6 +155,7 @@ int canPlace(int insertY, int insertX, int sizeY, int sizeX)
     }
     else
     {
+        posX = insertX;
         surroundX = sizeX;
     }
     //Checking the surrounding.
@@ -161,16 +165,16 @@ int canPlace(int insertY, int insertX, int sizeY, int sizeX)
     {
         for (j = 0; j <= surroundX; j++)
         {
-            if (insertX + j >= 79)
+            if (posX + j >= 79)
             {
                 return 1;
             }
-            if (grid[insertY + i][insertX + j] == '.')
+            if (grid[posY + i][posX + j] == '.')
             {
                 return 1;
             }
         }
-        if (insertY + i >= 20)
+        if (posY + i >= 20)
         {
             return 1;
         }
@@ -216,20 +220,20 @@ void createCorridors(int **rooms)
         Corridors Printed with '#'
         Should connect every room
         Should not extend into rooms
-        
+
         -[] Use array of midpoints to locate the rooms
             Move through the array connecting room 1 with room 2, so on
             Connected room n with room 1-(n-1)
-            
+
             Find the closest room in the already connected set using Euclidean distance to its
-            centroid then carve a path to it by changing rock to open space; this can always be 
-            done with zero or one change of direction. If you get that working, then add some 
+            centroid then carve a path to it by changing rock to open space; this can always be
+            done with zero or one change of direction. If you get that working, then add some
             random changes of direction in there to make it look a little more exciting.
-        
+
         -[] Determine place to connect
         -[] Generate corridor in open space
     */
-   
+
     int y, x, y2, x2;
     int n = 1;
 
