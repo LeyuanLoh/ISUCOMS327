@@ -1,0 +1,4 @@
+#Ignore .exe files 
+.exe
+.class
+.o
