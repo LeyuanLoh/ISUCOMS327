@@ -8,3 +8,4 @@
 * lee - Fix bugs and get the random room working correctly.
 <h3>2/9/21</h3>
 * Blake - worked more on creating corridors <br />
+* Blake - finished createCorridors() <br />
