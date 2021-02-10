@@ -9,3 +9,5 @@
 <h3>2/9/21</h3>
 * Blake - worked more on creating corridors <br />
 * Blake - finished createCorridors() <br />
+<h3>2/9/21</h3>
+* Loh - implemented placeStairs<br/>

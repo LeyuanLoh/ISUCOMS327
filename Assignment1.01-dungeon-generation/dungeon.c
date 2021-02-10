@@ -15,6 +15,7 @@ int placeRooms(int **arraySize, int numRooms, int **roomMidPoint);
 int canPlace(int insertY, int insertX, int sizeY, int sizeX);
 void createCorridors(int **rooms);
 double EuclideanDistance(int y, int x, int y2, int x2);
+void placeStair();
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +23,7 @@ int main(int argc, char *argv[])
     initialize();
     rooms = createNewRooms();
     createCorridors(rooms);
+    placeStair();
     output();
 }
 
@@ -216,7 +218,8 @@ void initialize()
 
 void createCorridors(int **rooms)
 {
-    for(int roomNum = 0; roomNum < numRoom - 1; roomNum++) {
+    for (int roomNum = 0; roomNum < numRoom - 1; roomNum++)
+    {
         int midpointX = rooms[roomNum][1];
         int midpointY = rooms[roomNum][0];
 
@@ -225,35 +228,40 @@ void createCorridors(int **rooms)
 
         int newPointY = midpointY2;
         int newPointX = midpointX;
-        
-        if(newPointY > midpointY) {
-            for(int i = midpointY + 1; i <= newPointY; i++) {
-                if(grid[i][midpointX] == '.' || grid[i][midpointX] == '>' || grid[i][midpointX]== '<') {
+
+        if (newPointY > midpointY)
+        {
+            for (int i = midpointY + 1; i <= newPointY; i++)
+            {
+                if (grid[i][midpointX] == '.' || grid[i][midpointX] == '>' || grid[i][midpointX] == '<')
+                {
                     continue;
-                } else {
-                    grid[i][midpointX] = '#';
                 }
-            }
-        } else {
-            for(int i = midpointY - 1; i >= newPointY; i--) {
-                if(grid[i][midpointX] == '.' || grid[i][midpointX] == '>' || grid[i][midpointX]== '<') {
-                    continue;
-                } else {
+                else
+                {
                     grid[i][midpointX] = '#';
                 }
             }
         }
-        
-        if(newPointX > midpointX2) {
-            for(int i = midpointX2 + 1; i <= newPointX; i++) {
-                if(grid[newPointY][i] == '.' || grid[newPointY][i] == '>' || grid[newPointY][i]== '<') {
+        else
+        {
+            for (int i = midpointY - 1; i >= newPointY; i--)
+            {
+                if (grid[i][midpointX] == '.' || grid[i][midpointX] == '>' || grid[i][midpointX] == '<')
+                {
                     continue;
-                } else {
-                    grid[newPointY][i] = '#';
+                }
+                else
+                {
+                    grid[i][midpointX] = '#';
                 }
             }
-        } else {
-            for(int i = midpointX2 - 1; i >= newPointX; i--) {
+        }
+
+        if (newPointX > midpointX2)
+        {
+            for (int i = midpointX2 + 1; i <= newPointX; i++)
+            {
                 if (grid[newPointY][i] == '.' || grid[newPointY][i] == '>' || grid[newPointY][i] == '<')
                 {
                     continue;
@@ -264,6 +272,55 @@ void createCorridors(int **rooms)
                 }
             }
         }
-        
+        else
+        {
+            for (int i = midpointX2 - 1; i >= newPointX; i--)
+            {
+                if (grid[newPointY][i] == '.' || grid[newPointY][i] == '>' || grid[newPointY][i] == '<')
+                {
+                    continue;
+                }
+                else
+                {
+                    grid[newPointY][i] = '#';
+                }
+            }
+        }
+    }
+}
+
+void placeStair()
+{
+#define MAX_UP_STAIRS 2
+#define MIN_UP_STAIRS 1
+
+#define MAX_DOWN_STAIRS 2
+#define MIN_DOWN_STAIRS 1
+
+    int numUpStair = (rand() % (MAX_UP_STAIRS - MIN_UP_STAIRS + 1)) + MIN_UP_STAIRS;
+
+    while (numUpStair > 0)
+    {
+        int insertY = (rand() % (17 - 2 + 1)) + 2;
+        int insertX = (rand() % (76 - 2 + 1)) + 2;
+
+        if (grid[insertY][insertX] == '#' || grid[insertY][insertX] == '.')
+        {
+            grid[insertY][insertX] = '<';
+            numUpStair--;
+        }
+    }
+
+    int numDownStair = (rand() % (MAX_DOWN_STAIRS - MIN_DOWN_STAIRS + 1)) + MIN_DOWN_STAIRS;
+    while (numDownStair > 0)
+    {
+        int insertY = (rand() % (17 - 2 + 1)) + 2;
+        int insertX = (rand() % (76 - 2 + 1)) + 2;
+
+        if (grid[insertY][insertX] == '#' || grid[insertY][insertX] == '.')
+        {
+            grid[insertY][insertX] = '>';
+            numDownStair--;
+        }
     }
 }
