@@ -260,58 +260,54 @@ void createCorridors(int **rooms)
             point == "#";
         }
    */
-    printf("test\n");
-    for(int roomNum = 1; roomNum <= numRoom; roomNum++) {
-        printf("test ");
-        // int midpointX = rooms[roomNum][1];
-        int size = sizeof(rooms);
-        printf("%d", size);
-        // int midpointY = rooms[roomNum][0];
+    for(int roomNum = 0; roomNum < numRoom - 1; roomNum++) {
+        int midpointX = rooms[roomNum][1];
+        int midpointY = rooms[roomNum][0];
 
-        // int midpointX2 = rooms[roomNum + 1][1];
-        // int midpointY2 = rooms[roomNum + 1][0];
+        int midpointX2 = rooms[roomNum + 1][1];
+        int midpointY2 = rooms[roomNum + 1][0];
 
-        // int newPointY = midpointY2;
-        // int newPointX = midpointX;
+        int newPointY = midpointY2;
+        int newPointX = midpointX;
         
-        // if(newPointY > midpointY) {
-        //     for(int i = midpointY + 1; i <= newPointY; i++) {
-        //         if(grid[i][midpointX] == '.' || grid[i][midpointX] == '>' || grid[i][midpointX]== '<') {
-        //             continue;
-        //         } else {
-        //             grid[i][midpointX] == '#';
-        //         }
-        //     }
-        // } else {
-        //     for(int i = midpointY - 1; i >= newPointY; i--) {
-        //         if(grid[i][midpointX] == '.' || grid[i][midpointX] == '>' || grid[i][midpointX]== '<') {
-        //             continue;
-        //         } else {
-        //             grid[i][midpointX] == '#';
-        //         }
-        //     }
-        // }
+        if(newPointY > midpointY) {
+            for(int i = midpointY + 1; i <= newPointY; i++) {
+                if(grid[i][midpointX] == '.' || grid[i][midpointX] == '>' || grid[i][midpointX]== '<') {
+                    continue;
+                } else {
+                    grid[i][midpointX] = '#';
+                }
+            }
+        } else {
+            for(int i = midpointY - 1; i >= newPointY; i--) {
+                if(grid[i][midpointX] == '.' || grid[i][midpointX] == '>' || grid[i][midpointX]== '<') {
+                    continue;
+                } else {
+                    grid[i][midpointX] = '#';
+                }
+            }
+        }
         
-        // if(newPointX > midpointX) {
-        //     for(int i = midpointX + 1; i <= newPointX; i++) {
-        //         if(grid[newPointY][i] == '.' || grid[newPointY][i] == '>' || grid[newPointY][i]== '<') {
-        //             continue;
-        //         } else {
-        //             grid[newPointY][i] == '#';
-        //         }
-        //     }
-        // } else {
-        //     for(int i = midpointX - 1; i >= newPointX; i--) {
-        //         if (grid[newPointY][i] == '.' || grid[newPointY][i] == '>' || grid[newPointY][i] == '<')
-        //         {
-        //             continue;
-        //         }
-        //         else
-        //         {
-        //             grid[newPointY][i] == '#';
-        //         }
-        //     }
-        // }
+        if(newPointX > midpointX) {
+            for(int i = midpointX + 1; i <= newPointX; i++) {
+                if(grid[newPointY][i] == '.' || grid[newPointY][i] == '>' || grid[newPointY][i]== '<') {
+                    continue;
+                } else {
+                    grid[newPointY][i] = '#';
+                }
+            }
+        } else {
+            for(int i = midpointX - 1; i >= newPointX; i--) {
+                if (grid[newPointY][i] == '.' || grid[newPointY][i] == '>' || grid[newPointY][i] == '<')
+                {
+                    continue;
+                }
+                else
+                {
+                    grid[newPointY][i] = '#';
+                }
+            }
+        }
         
     }
 }
