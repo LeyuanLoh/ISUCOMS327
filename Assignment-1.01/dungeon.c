@@ -75,7 +75,6 @@ int **createNewRooms()
 int placeRooms(int **arraySize, int numRooms, int **roomMidPoint)
 {
     srand(time(NULL));
-    int availableCell = (76 * 17);
     int i = 0;
     int trial = 0;
     while (i < numRooms)
