@@ -76,6 +76,10 @@ typedef struct room
   pair_t size;
 } room_t;
 
+struct pc {
+  int8_t x,y;
+}pc;
+
 typedef struct dungeon
 {
   uint32_t num_rooms;
@@ -819,8 +823,17 @@ void init_dungeon(dungeon_t *d)
   empty_dungeon(d);
 }
 
-void loadFile(char * path) {
+void loadFile( dungeon_t *d) {
   FILE * file;
+
+  char * home = getenv("HOME");
+  char * game_dir = ".rlg327";
+  char * save_file = "dungeon";
+  char * path = mallac(strlen(home) + strlen (game_dir) + strlen (save_file) + 2 +1);
+
+  sprintf(path, "%s/%s/%s", home, game_dir,save_file);
+
+
 
   file = fopen(path, "r");
 
@@ -836,23 +849,23 @@ void loadFile(char * path) {
   fread(semantic, 1, 12, file);
 
   //File version
-  uint32_t version;
+  int version;
   fread(&version, 4, 1, file);
   version = be32toh(version);
 
   //File size
-  uint32_t size;
+  int size;
   fread(&size, 4, 1, file);
   size = be32toh(size);
 
   //PC
-  uint8_t x, y;
-  fread(&x, 1, 1, file);
-  fread(&y, 1, 1, file);
+  fread(&pc.x, 1, 1, file);
+  fread(&pc.y, 1, 1, file);
+
+
   
   //Hardness
-  int8_t hardness[21][80];
-  fread(hardness, 1, 1680, file);
+  fread(d->hardness, 1, 1680, file);
 
   //Number of rooms
   uint16_t numRooms;
