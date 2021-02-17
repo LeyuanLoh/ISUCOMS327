@@ -893,6 +893,11 @@ void loadFile( dungeon_t *d) {
   //Position of downward staircases
 }
 
+void init_pc(){
+  pc.x = 0;
+  pc.y = 0;
+}
+
 int main(int argc, char *argv[])
 {
   dungeon_t d;
@@ -943,6 +948,7 @@ int main(int argc, char *argv[])
   printf("%d", loadFoo);
   if (loadFoo == 0)
   {
+    init_pc();
     init_dungeon(&d);
     gen_dungeon(&d);
     render_dungeon(&d);
