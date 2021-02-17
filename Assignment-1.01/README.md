@@ -13,5 +13,4 @@ Bo Sheng Lee: lee0717 <br />
 * at least one up and one down staircase.
 * staircase should be placed on a floor
 * room cells should be drawn with periods, corridor cells with hashes, rock with spaces, up staircases with less-than signs, and down staircases with greater-than signs.
-
 <br />
