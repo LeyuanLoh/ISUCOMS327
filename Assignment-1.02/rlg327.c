@@ -79,7 +79,7 @@ typedef struct room
 struct pc
 {
   int8_t x, y;
-} pc;
+} pc_t;
 
 typedef struct dungeon
 {
@@ -784,7 +784,7 @@ void render_dungeon(dungeon_t *d)
   {
     for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++)
     {
-      if (p[dim_y] == pc.y && p[dim_x] == pc.x)
+      if (p[dim_y] == pc_t.y && p[dim_x] == pc_t.x)
       {
         putchar('@');
         continue;
@@ -834,9 +834,9 @@ void loadFile(dungeon_t *d)
   FILE *file;
 
   char *home = getenv("HOME");
-  char *game_dir = ".rlg327";
-  char *save_file = "dungeon";
-  char *path = mallac(strlen(home) + strlen(game_dir) + strlen(save_file) + 2 + 1);
+  char *game_dir = "coms327/Assignment-1.02/.rlg327";
+  char *save_file = "00.rlg327";
+  char *path = malloc(strlen(home) + strlen(game_dir) + strlen(save_file) + 2 + 1);
 
   sprintf(path, "%s/%s/%s", home, game_dir, save_file);
 
@@ -854,19 +854,28 @@ void loadFile(dungeon_t *d)
   semantic[12] = '\0';
   fread(semantic, 1, 12, file);
 
+  printf("Semantic: %s \n", semantic);
+
   //File version
   int version;
   fread(&version, 4, 1, file);
   version = be32toh(version);
 
+  printf("Version : %d \n", version);
+
   //File size
   int size;
   fread(&size, 4, 1, file);
   size = be32toh(size);
+  printf("Size : %d \n", size);
 
   //PC
-  fread(&pc.x, 1, 1, file);
-  fread(&pc.y, 1, 1, file);
+
+  fread(&pc_t.x, 1, 1, file);
+  fread(&pc_t.y, 1, 1, file);
+
+  printf("Pc x : %d \n", pc_t.x);
+  printf("Pc y : %d \n", pc_t.y);
 
   //Hardness
   fread(d->hardness, 1, 1680, file);
@@ -875,6 +884,7 @@ void loadFile(dungeon_t *d)
   uint16_t numRooms;
   fread(&numRooms, 2, 1, file);
   numRooms = be16toh(numRooms);
+  printf("Numer of rooms : %d \n", numRooms);
 
   //Positions of rooms
   /*
@@ -883,26 +893,34 @@ void loadFile(dungeon_t *d)
   */
   for (int i = 0; i < numRooms; i++)
   {
-    int x, y, h, w;
+    int8_t x, y, h, w;
 
     fread(&x, 1, 1, file);
     fread(&y, 1, 1, file);
     fread(&w, 1, 1, file);
     fread(&h, 1, 1, file);
 
-    room_t *r;
-    r = d->rooms + i;
+    printf("Room%d: x:%d, y:%d, w:%d, h:%d \n", i, x, y, w, h);
 
     d->rooms[i].position[dim_x] = x;
     d->rooms[i].position[dim_y] = y;
     d->rooms[i].size[dim_x] = w;
     d->rooms[i].size[dim_x] = h;
+
+    //placing the room
+
+    pair_t p;
+
+    for (p[dim_y] = y; p[dim_y] < y + h; p[dim_y]++)
+    {
+      for (p[dim_x] = x; p[dim_x] < x + w; p[dim_x]++)
+      {
+        mappair(p) = ter_floor_room;
+      }
+    }
   }
-
-  //Hopefully this function is what I want.
-  place_rooms(d);
-
-  part_t p;
+  printf("Successfully placed rooms. \n");
+  pair_t p;
   //Placing the corridos.
   for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++)
   {
@@ -914,21 +932,28 @@ void loadFile(dungeon_t *d)
       }
     }
   }
+  printf("Successfully placed corridos. \n");
 
   //Number of upward staircases
   uint16_t numUpStairs;
   fread(&numUpStairs, 2, 1, file);
   numUpStairs = be16toh(numUpStairs);
+  printf("Up stairs : %d\n", numUpStairs);
 
   //Position of upward staircases
   for (int i = 0; i < numUpStairs; i++)
   {
-    int x, y;
+    int8_t x, y;
     fread(&x, 1, 1, file);
     fread(&y, 1, 1, file);
 
-    mapxy(x,y) = ter_stairs_up;
+    printf("X : %d \n", x);
+    printf("Y : %d \n", y);
+
+    mapxy(x, y) = ter_stairs_up;
   }
+
+  printf("Successfully placed up stairs. \n");
 
   //Number of downward staircases
   uint16_t numDownStairs;
@@ -938,18 +963,19 @@ void loadFile(dungeon_t *d)
   //Position of downward staircases
   for (int i = 0; i < numUpStairs; i++)
   {
-    int x, y;
+    int8_t x, y;
     fread(&x, 1, 1, file);
     fread(&y, 1, 1, file);
-
-    mapxy(x,y) = ter_stairs_down;
+    mapxy(x, y) = ter_stairs_down;
   }
+
+  printf("Successfully placed down stairs. \n");
 }
 
 void init_pc()
 {
-  pc.x = 0;
-  pc.y = 0;
+  pc_t.x = 12;
+  pc_t.y = 12;
 }
 
 int main(int argc, char *argv[])
@@ -984,7 +1010,6 @@ int main(int argc, char *argv[])
       }
       else
       {
-        printf("%d\n", 3);
         seed = atoi(argv[i]);
         i++;
       }
@@ -999,11 +1024,11 @@ int main(int argc, char *argv[])
   printf("Using seed: %u\n", seed);
   srand(seed);
 
-  printf("%d", loadFoo);
-  if (loadFoo == 0)
+  if (loadFoo == 1)
   {
     init_pc();
     init_dungeon(&d);
+    loadFile(&d);
     render_dungeon(&d);
     delete_dungeon(&d);
   }
