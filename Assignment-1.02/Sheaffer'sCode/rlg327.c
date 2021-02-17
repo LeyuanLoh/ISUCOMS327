@@ -876,6 +876,7 @@ int main(int argc, char *argv[])
   }
   else if (saveFoo == 0)
   {
+    printf("save");
   }
   
 
