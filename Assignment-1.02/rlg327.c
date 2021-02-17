@@ -876,14 +876,19 @@ void loadFile(dungeon_t *d)
   fread(&numRooms, 2, 1, file);
   numRooms = be16toh(numRooms);
 
+  //Positions of rooms
+  /*
+    Create rooms array
+    4 * number of rooms bytes
+  */
   for (int i = 0; i < numRooms; i++)
   {
     int x, y, h, w;
 
     fread(&x, 1, 1, file);
     fread(&y, 1, 1, file);
-    fread(&h, 1, 1, file);
     fread(&w, 1, 1, file);
+    fread(&h, 1, 1, file);
 
     room_t *r;
     r = d->rooms + i;
@@ -894,13 +899,21 @@ void loadFile(dungeon_t *d)
     d->rooms[i].size[dim_x] = h;
   }
 
-  
+  //Hopefully this function is what I want.
+  place_rooms(d);
 
-  //Positions of rooms
-  /*
-    Create rooms array
-    4 * number of rooms bytes
-  */
+  part_t p;
+  //Placing the corridos.
+  for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++)
+  {
+    for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++)
+    {
+      if (mappair(p) == ter_wall && hardnesspair(p) == 0)
+      {
+        mappair(p) = ter_floor_hall;
+      }
+    }
+  }
 
   //Number of upward staircases
   uint16_t numUpStairs;
@@ -908,6 +921,14 @@ void loadFile(dungeon_t *d)
   numUpStairs = be16toh(numUpStairs);
 
   //Position of upward staircases
+  for (int i = 0; i < numUpStairs; i++)
+  {
+    int x, y;
+    fread(&x, 1, 1, file);
+    fread(&y, 1, 1, file);
+
+    mapxy(x,y) = ter_stairs_up;
+  }
 
   //Number of downward staircases
   uint16_t numDownStairs;
@@ -915,6 +936,14 @@ void loadFile(dungeon_t *d)
   numDownStairs = be16toh(numDownStairs);
 
   //Position of downward staircases
+  for (int i = 0; i < numUpStairs; i++)
+  {
+    int x, y;
+    fread(&x, 1, 1, file);
+    fread(&y, 1, 1, file);
+
+    mapxy(x,y) = ter_stairs_down;
+  }
 }
 
 void init_pc()
