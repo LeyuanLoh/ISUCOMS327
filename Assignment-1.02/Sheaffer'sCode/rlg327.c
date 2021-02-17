@@ -874,7 +874,7 @@ int main(int argc, char *argv[])
     render_dungeon(&d);
   delete_dungeon(&d);
   }
-  else if (saveFoo == 0)
+  else if (saveFoo == 1)
   {
     printf("save");
   }
