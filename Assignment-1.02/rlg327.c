@@ -835,7 +835,7 @@ void loadFile(dungeon_t *d)
 
   char *home = getenv("HOME");
   char *game_dir = "coms327/Assignment-1.02/.rlg327";
-  char *save_file = "00.rlg327";
+  char *save_file = "03.rlg327";
   char *path = malloc(strlen(home) + strlen(game_dir) + strlen(save_file) + 2 + 1);
 
   sprintf(path, "%s/%s/%s", home, game_dir, save_file);
@@ -854,28 +854,28 @@ void loadFile(dungeon_t *d)
   semantic[12] = '\0';
   fread(semantic, 1, 12, file);
 
-  printf("Semantic: %s \n", semantic);
+  // printf("Semantic: %s \n", semantic);
 
   //File version
   int version;
   fread(&version, 4, 1, file);
   version = be32toh(version);
 
-  printf("Version : %d \n", version);
+  //printf("Version : %d \n", version);
 
   //File size
   int size;
   fread(&size, 4, 1, file);
   size = be32toh(size);
-  printf("Size : %d \n", size);
+  //printf("Size : %d \n", size);
 
   //PC
 
   fread(&pc_t.x, 1, 1, file);
   fread(&pc_t.y, 1, 1, file);
 
-  printf("Pc x : %d \n", pc_t.x);
-  printf("Pc y : %d \n", pc_t.y);
+  //printf("Pc x : %d \n", pc_t.x);
+  //printf("Pc y : %d \n", pc_t.y);
 
   //Hardness
   fread(d->hardness, 1, 1680, file);
@@ -884,7 +884,7 @@ void loadFile(dungeon_t *d)
   uint16_t numRooms;
   fread(&numRooms, 2, 1, file);
   numRooms = be16toh(numRooms);
-  printf("Numer of rooms : %d \n", numRooms);
+  //printf("Numer of rooms : %d \n", numRooms);
 
   //Positions of rooms
   /*
@@ -900,7 +900,7 @@ void loadFile(dungeon_t *d)
     fread(&w, 1, 1, file);
     fread(&h, 1, 1, file);
 
-    printf("Room%d: x:%d, y:%d, w:%d, h:%d \n", i, x, y, w, h);
+    //printf("Room%d: x:%d, y:%d, w:%d, h:%d \n", i, x, y, w, h);
 
     d->rooms[i].position[dim_x] = x;
     d->rooms[i].position[dim_y] = y;
@@ -919,7 +919,7 @@ void loadFile(dungeon_t *d)
       }
     }
   }
-  printf("Successfully placed rooms. \n");
+  //printf("Successfully placed rooms. \n");
   pair_t p;
   //Placing the corridos.
   for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++)
@@ -932,13 +932,13 @@ void loadFile(dungeon_t *d)
       }
     }
   }
-  printf("Successfully placed corridos. \n");
+  //printf("Successfully placed corridos. \n");
 
   //Number of upward staircases
   uint16_t numUpStairs;
   fread(&numUpStairs, 2, 1, file);
   numUpStairs = be16toh(numUpStairs);
-  printf("Up stairs : %d\n", numUpStairs);
+  //printf("Up stairs : %d\n", numUpStairs);
 
   //Position of upward staircases
   for (int i = 0; i < numUpStairs; i++)
@@ -947,13 +947,13 @@ void loadFile(dungeon_t *d)
     fread(&x, 1, 1, file);
     fread(&y, 1, 1, file);
 
-    printf("X : %d \n", x);
-    printf("Y : %d \n", y);
+    // printf("X : %d \n", x);
+    // printf("Y : %d \n", y);
 
     mapxy(x, y) = ter_stairs_up;
   }
 
-  printf("Successfully placed up stairs. \n");
+  //printf("Successfully placed up stairs. \n");
 
   //Number of downward staircases
   uint16_t numDownStairs;
@@ -969,7 +969,7 @@ void loadFile(dungeon_t *d)
     mapxy(x, y) = ter_stairs_down;
   }
 
-  printf("Successfully placed down stairs. \n");
+  //printf("Successfully placed down stairs. \n");
 }
 
 void init_pc()
