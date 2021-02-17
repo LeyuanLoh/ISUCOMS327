@@ -819,6 +819,67 @@ void init_dungeon(dungeon_t *d)
   empty_dungeon(d);
 }
 
+void loadFile(char * path) {
+  FILE * file;
+
+  file = fopen(path, "r");
+
+  if(file == NULL) {
+    fprintf(stderr, "FILE ERROR: Could not open dungeon file at %s!\n", path);
+
+    exit(1);
+  }
+
+  //Semantic
+  char semantic[13];
+  semantic[12] = '\0';
+  fread(semantic, 1, 12, file);
+
+  //File version
+  uint32_t version;
+  fread(&version, 4, 1, file);
+  version = be32toh(version);
+
+  //File size
+  uint32_t size;
+  fread(&size, 4, 1, file);
+  size = be32toh(size);
+
+  //PC
+  uint8_t x, y;
+  fread(&x, 1, 1, file);
+  fread(&y, 1, 1, file);
+
+  //Hardness
+  int8_t hardness[21][80];
+  fread(hardness, 1, 1680, file);
+
+  //Number of rooms
+  uint16_t numRooms;
+  fread(&numRooms, 2, 1, file);
+  numRooms = be16toh(numRooms);
+
+  //Positions of rooms
+  /*
+    Create rooms array
+    4 * number of rooms bytes
+  */
+
+  //Number of upward staircases
+  uint16_t numUpStairs;
+  fread(&numUpStairs, 2, 1, file);
+  numUpStairs = be16toh(numUpStairs);
+
+  //Position of upward staircases
+
+  //Number of downward staircases
+  uint16_t numDownStairs;
+  fread(&numUpStairs, 2, 1, file);
+  numDownStairs = be16toh(numDownStairs);
+
+  //Position of downward staircases
+}
+
 int main(int argc, char *argv[])
 {
   dungeon_t d;
