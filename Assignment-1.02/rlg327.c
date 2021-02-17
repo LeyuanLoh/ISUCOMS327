@@ -76,9 +76,10 @@ typedef struct room
   pair_t size;
 } room_t;
 
-struct pc {
-  int8_t x,y;
-}pc;
+struct pc
+{
+  int8_t x, y;
+} pc;
 
 typedef struct dungeon
 {
@@ -783,6 +784,11 @@ void render_dungeon(dungeon_t *d)
   {
     for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++)
     {
+      if (p[dim_y] == pc.y && p[dim_x] == pc.x)
+      {
+        putchar('@');
+        continue;
+      }
       switch (mappair(p))
       {
       case ter_wall:
@@ -823,21 +829,21 @@ void init_dungeon(dungeon_t *d)
   empty_dungeon(d);
 }
 
-void loadFile( dungeon_t *d) {
-  FILE * file;
+void loadFile(dungeon_t *d)
+{
+  FILE *file;
 
-  char * home = getenv("HOME");
-  char * game_dir = ".rlg327";
-  char * save_file = "dungeon";
-  char * path = mallac(strlen(home) + strlen (game_dir) + strlen (save_file) + 2 +1);
+  char *home = getenv("HOME");
+  char *game_dir = ".rlg327";
+  char *save_file = "dungeon";
+  char *path = mallac(strlen(home) + strlen(game_dir) + strlen(save_file) + 2 + 1);
 
-  sprintf(path, "%s/%s/%s", home, game_dir,save_file);
-
-
+  sprintf(path, "%s/%s/%s", home, game_dir, save_file);
 
   file = fopen(path, "r");
 
-  if(file == NULL) {
+  if (file == NULL)
+  {
     fprintf(stderr, "FILE ERROR: Could not open dungeon file at %s!\n", path);
 
     exit(1);
@@ -862,8 +868,6 @@ void loadFile( dungeon_t *d) {
   fread(&pc.x, 1, 1, file);
   fread(&pc.y, 1, 1, file);
 
-
-  
   //Hardness
   fread(d->hardness, 1, 1680, file);
 
@@ -871,6 +875,26 @@ void loadFile( dungeon_t *d) {
   uint16_t numRooms;
   fread(&numRooms, 2, 1, file);
   numRooms = be16toh(numRooms);
+
+  for (int i = 0; i < numRooms; i++)
+  {
+    int x, y, h, w;
+
+    fread(&x, 1, 1, file);
+    fread(&y, 1, 1, file);
+    fread(&h, 1, 1, file);
+    fread(&w, 1, 1, file);
+
+    room_t *r;
+    r = d->rooms + i;
+
+    d->rooms[i].position[dim_x] = x;
+    d->rooms[i].position[dim_y] = y;
+    d->rooms[i].size[dim_x] = w;
+    d->rooms[i].size[dim_x] = h;
+  }
+
+  
 
   //Positions of rooms
   /*
@@ -893,7 +917,8 @@ void loadFile( dungeon_t *d) {
   //Position of downward staircases
 }
 
-void init_pc(){
+void init_pc()
+{
   pc.x = 0;
   pc.y = 0;
 }
@@ -914,14 +939,14 @@ int main(int argc, char *argv[])
     int i = 1;
     while (i < argc)
     {
-      
-      if (strcmp(argv[i], "--save") ==0 )
+
+      if (strcmp(argv[i], "--save") == 0)
       {
         // printf("%d\n",1);
         saveFoo = 1;
         i++;
       }
-      else if (strcmp(argv[i], "--load") ==0)
+      else if (strcmp(argv[i], "--load") == 0)
       {
         // printf("$s\n", argv[i])
         // printf("%d\n",2);
@@ -930,7 +955,7 @@ int main(int argc, char *argv[])
       }
       else
       {
-        printf("%d\n",3);
+        printf("%d\n", 3);
         seed = atoi(argv[i]);
         i++;
       }
@@ -950,7 +975,6 @@ int main(int argc, char *argv[])
   {
     init_pc();
     init_dungeon(&d);
-    gen_dungeon(&d);
     render_dungeon(&d);
     delete_dungeon(&d);
   }
@@ -958,7 +982,14 @@ int main(int argc, char *argv[])
   {
     printf("save");
   }
-  
+  else
+  {
+    init_pc();
+    init_dungeon(&d);
+    gen_dungeon(&d);
+    render_dungeon(&d);
+    delete_dungeon(&d);
+  }
 
   return 0;
 }
