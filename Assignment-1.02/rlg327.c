@@ -849,7 +849,7 @@ void loadFile(char * path) {
   uint8_t x, y;
   fread(&x, 1, 1, file);
   fread(&y, 1, 1, file);
-
+  
   //Hardness
   int8_t hardness[21][80];
   fread(hardness, 1, 1680, file);
@@ -933,7 +933,7 @@ int main(int argc, char *argv[])
     init_dungeon(&d);
     gen_dungeon(&d);
     render_dungeon(&d);
-  delete_dungeon(&d);
+    delete_dungeon(&d);
   }
   else if (saveFoo == 1)
   {
