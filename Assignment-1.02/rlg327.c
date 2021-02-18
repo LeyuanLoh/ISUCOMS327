@@ -86,7 +86,7 @@ struct pc
 typedef struct dungeon
 {
   uint32_t num_rooms;
-  room_t * rooms;
+  room_t *rooms;
   terrain_type_t map[DUNGEON_Y][DUNGEON_X];
   /* Since hardness is usually not used, it would be expensive to pull it *
    * into cache every time we need a map cell, so we store it in a        *
@@ -888,11 +888,10 @@ void loadFile(dungeon_t *d)
   fread(&numRooms, 2, 1, file);
   numRooms = be16toh(numRooms);
 
-  dungeon_t temp = {.num_rooms = numRooms, .rooms =malloc(numRooms * sizeof(room_t)) };
+  
 
-  memcpy(temp.hardness, d->hardness, sizeof(uint8_t)*DUNGEON_X*DUNGEON_Y);
-  memcpy(temp.map, d-> map, sizeof(terrain_type_t)*DUNGEON_X*DUNGEON_Y);
-  *d = temp;
+  d ->num_rooms = numRooms;
+  d -> rooms =malloc(numRooms * sizeof(room_t)) ;
 
   // d->num_rooms = numRooms;
   //printf("Numer of rooms : %d \n", numRooms);
@@ -902,7 +901,8 @@ void loadFile(dungeon_t *d)
     4 * number of rooms bytes
   */
   for (int i = 0; i < numRooms; i++)
-  {    u_int8_t x, y, h, w;
+  {
+    u_int8_t x, y, h, w;
 
     fread(&x, 1, 1, file);
     fread(&y, 1, 1, file);
@@ -996,30 +996,31 @@ void save_dungeon(dungeon_t *d)
   char *gamedir = ".rlg327";
   char *gameName = "dungeon";
 
+  char *path = malloc(strlen(home) + strlen(gamedir) + strlen(gameName) + 2 + 1);
+  sprintf(path, "%s/%s/%s", home, gamedir, gameName);
 
-  char *path = malloc(strlen(home)+strlen(gamedir)+strlen(gameName)+2+1);
-  sprintf(path, "%s/%s/%s",home,gamedir,gameName);
-  
-  FILE *file = fopen(path,"w");
+  FILE *file = fopen(path, "w");
 
   fwrite("RLG327-S2021", 1, 12, file);
 
   //write verison
   int verison = 0;
   uint32_t version_to_write = htobe32(verison);
-  fwrite(&version_to_write,4,1,file);
+  fwrite(&version_to_write, 4, 1, file);
 
-  //write size 
+  //write size
   int size = 0;
   int up_stairs = 0;
   int down_stairs = 0;
 
-
   pair_t p;
 
-  for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
-    for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
-      switch (mappair(p)) {
+  for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++)
+  {
+    for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++)
+    {
+      switch (mappair(p))
+      {
       case ter_stairs_up:
         up_stairs++;
         break;
@@ -1031,53 +1032,59 @@ void save_dungeon(dungeon_t *d)
       }
     }
   }
-  
-  size = 1708 + (d->num_rooms*4)+(up_stairs*2)+(down_stairs*2);
-  uint32_t size_to_write = htobe32(size);
-  fwrite(&size_to_write,4,1,file);
 
-  //write pc 
+  size = 1708 + (d->num_rooms * 4) + (up_stairs * 2) + (down_stairs * 2);
+  uint32_t size_to_write = htobe32(size);
+  fwrite(&size_to_write, 4, 1, file);
+
+  //write pc
   uint8_t pc_x_to_write = pc_t.x;
   uint8_t pc_y_to_write = pc_t.y;
 
-  fwrite(&pc_x_to_write,1,1,file);
-  fwrite(&pc_y_to_write,1,1,file);
+  fwrite(&pc_x_to_write, 1, 1, file);
+  fwrite(&pc_y_to_write, 1, 1, file);
 
   //write hardness
-  int i,j =0;
-  for(j=0;j<DUNGEON_Y;j++){
-    for(i =0;i<DUNGEON_X;i++){
-      fwrite(&hardnessxy(i,j),1,1,file);
+  int i, j = 0;
+  for (j = 0; j < DUNGEON_Y; j++)
+  {
+    for (i = 0; i < DUNGEON_X; i++)
+    {
+      fwrite(&hardnessxy(i, j), 1, 1, file);
     }
   }
 
   //write number of rooms
   uint16_t num_rooms_to_write = htobe16(d->num_rooms);
-  fwrite(&num_rooms_to_write,2,1,file);
-  
+  fwrite(&num_rooms_to_write, 2, 1, file);
+
   //write num_rooms information
   int count = 0;
-  for (count=0;count<d->num_rooms;count++){
+  for (count = 0; count < d->num_rooms; count++)
+  {
     uint8_t x_pos_to_write = d->rooms[count].position[dim_x];
-    fwrite(&x_pos_to_write,1,1,file);
+    fwrite(&x_pos_to_write, 1, 1, file);
     uint8_t y_pos_to_write = d->rooms[count].position[dim_y];
-    fwrite(&y_pos_to_write,1,1,file);
+    fwrite(&y_pos_to_write, 1, 1, file);
     uint8_t x_size_to_write = d->rooms[count].size[dim_x];
-    fwrite(&x_size_to_write,1,1,file);
+    fwrite(&x_size_to_write, 1, 1, file);
     uint8_t y_size_to_write = d->rooms[count].size[dim_y];
-    fwrite(&y_size_to_write,1,1,file);
+    fwrite(&y_size_to_write, 1, 1, file);
   }
 
   //write stairs
 
   pair_t up_stairs_pos[up_stairs];
-  int count_up =0;
+  int count_up = 0;
   pair_t down_stairs_pos[down_stairs];
-  int count_down =0;
+  int count_down = 0;
 
-  for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
-    for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
-      switch (mappair(p)) {
+  for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++)
+  {
+    for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++)
+    {
+      switch (mappair(p))
+      {
       case ter_stairs_up:
         up_stairs_pos[count_up][dim_x] = p[dim_x];
         up_stairs_pos[count_up][dim_y] = p[dim_y];
@@ -1094,23 +1101,25 @@ void save_dungeon(dungeon_t *d)
     }
   }
   uint16_t up_stairs_to_write = htobe16(up_stairs);
-  fwrite(&up_stairs_to_write,2,1,file);
+  fwrite(&up_stairs_to_write, 2, 1, file);
 
-  for(int j = 0;j<up_stairs;j++){
-    uint8_t up_stairs_x_to_write= up_stairs_pos[j][dim_x];
-    uint8_t up_stairs_y_to_write= up_stairs_pos[j][dim_y];
-    fwrite(&up_stairs_x_to_write,1,1,file);
-    fwrite(&up_stairs_y_to_write,1,1,file);
+  for (int j = 0; j < up_stairs; j++)
+  {
+    uint8_t up_stairs_x_to_write = up_stairs_pos[j][dim_x];
+    uint8_t up_stairs_y_to_write = up_stairs_pos[j][dim_y];
+    fwrite(&up_stairs_x_to_write, 1, 1, file);
+    fwrite(&up_stairs_y_to_write, 1, 1, file);
   }
 
   uint16_t down_stairs_to_write = htobe16(down_stairs);
-  fwrite(&down_stairs_to_write,2,1,file);
+  fwrite(&down_stairs_to_write, 2, 1, file);
 
-  for(int j = 0;j<down_stairs;j++){
-    uint8_t down_stairs_x_to_write= down_stairs_pos[j][dim_x];
-    uint8_t down_stairs_y_to_write= down_stairs_pos[j][dim_y];
-    fwrite(&down_stairs_x_to_write,1,1,file);
-    fwrite(&down_stairs_y_to_write,1,1,file);
+  for (int j = 0; j < down_stairs; j++)
+  {
+    uint8_t down_stairs_x_to_write = down_stairs_pos[j][dim_x];
+    uint8_t down_stairs_y_to_write = down_stairs_pos[j][dim_y];
+    fwrite(&down_stairs_x_to_write, 1, 1, file);
+    fwrite(&down_stairs_y_to_write, 1, 1, file);
   }
 }
 
@@ -1122,7 +1131,7 @@ void init_pc()
 
 int main(int argc, char *argv[])
 {
-  dungeon_t d = {0,  malloc(NUM_ROOMS * sizeof(room_t))};
+  dungeon_t d = {0, malloc(NUM_ROOMS * sizeof(room_t))};
   struct timeval tv;
   uint32_t seed;
 
@@ -1177,7 +1186,8 @@ int main(int argc, char *argv[])
     loadFile(&d);
     render_dungeon(&d);
 
-    if(saveFoo == 1){
+    if (saveFoo == 1)
+    {
       save_dungeon(&d);
     }
   }
@@ -1189,7 +1199,8 @@ int main(int argc, char *argv[])
     printf("Using seed: %u\n", seed);
     render_dungeon(&d);
 
-    if(saveFoo == 1){
+    if (saveFoo == 1)
+    {
       save_dungeon(&d);
     }
   }
