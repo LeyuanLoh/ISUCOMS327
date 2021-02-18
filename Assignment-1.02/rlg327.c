@@ -46,7 +46,7 @@ typedef int16_t pair_t[num_dims];
 #define DUNGEON_X 80
 #define DUNGEON_Y 21
 #define MIN_ROOMS 6
-#define MAX_ROOMS 10
+#define MAX_ROOMS 10000
 #define ROOM_MIN_X 4
 #define ROOM_MIN_Y 3
 #define ROOM_MAX_X 20
@@ -804,7 +804,7 @@ void render_dungeon(dungeon_t *d)
         break;
       case ter_debug:
         putchar('*');
-        fprintf(stderr, "Debug character at %d, %d\n", p[dim_y], p[dim_x]);
+        //fprintf(stderr, "Debug character at %d, %d\n", p[dim_y], p[dim_x]);
         break;
       case ter_stairs_up:
         putchar('<');
@@ -818,6 +818,7 @@ void render_dungeon(dungeon_t *d)
     }
     putchar('\n');
   }
+  putchar('\n');
 }
 
 void delete_dungeon(dungeon_t *d)
@@ -835,7 +836,7 @@ void loadFile(dungeon_t *d)
 
   char *home = getenv("HOME");
   char *game_dir = "coms327/Assignment-1.02/.rlg327";
-  char *save_file = "03.rlg327";
+  char *save_file = "hello.rlg327";
   char *path = malloc(strlen(home) + strlen(game_dir) + strlen(save_file) + 2 + 1);
 
   sprintf(path, "%s/%s/%s", home, game_dir, save_file);
@@ -857,14 +858,14 @@ void loadFile(dungeon_t *d)
   // printf("Semantic: %s \n", semantic);
 
   //File version
-  int version;
+  u_int32_t version;
   fread(&version, 4, 1, file);
   version = be32toh(version);
 
   //printf("Version : %d \n", version);
 
   //File size
-  int size;
+  u_int32_t size;
   fread(&size, 4, 1, file);
   size = be32toh(size);
   //printf("Size : %d \n", size);
@@ -874,18 +875,17 @@ void loadFile(dungeon_t *d)
   fread(&pc_t.x, 1, 1, file);
   fread(&pc_t.y, 1, 1, file);
 
-  //printf("Pc x : %d \n", pc_t.x);
-  //printf("Pc y : %d \n", pc_t.y);
+  // printf("Pc x : %d \n", pc_t.x);
+  // printf("Pc y : %d \n", pc_t.y);
 
   //Hardness
   fread(d->hardness, 1, 1680, file);
 
   //Number of rooms
-  uint16_t numRooms;
+  u_int16_t numRooms;
   fread(&numRooms, 2, 1, file);
   numRooms = be16toh(numRooms);
   //printf("Numer of rooms : %d \n", numRooms);
-
   //Positions of rooms
   /*
     Create rooms array
@@ -893,7 +893,7 @@ void loadFile(dungeon_t *d)
   */
   for (int i = 0; i < numRooms; i++)
   {
-    int8_t x, y, h, w;
+    u_int8_t x, y, h, w;
 
     fread(&x, 1, 1, file);
     fread(&y, 1, 1, file);
@@ -902,23 +902,31 @@ void loadFile(dungeon_t *d)
 
     //printf("Room%d: x:%d, y:%d, w:%d, h:%d \n", i, x, y, w, h);
 
-    d->rooms[i].position[dim_x] = x;
-    d->rooms[i].position[dim_y] = y;
-    d->rooms[i].size[dim_x] = w;
-    d->rooms[i].size[dim_x] = h;
+    // d->rooms[i].position[dim_x] = x;
+    // d->rooms[i].position[dim_y] = y;
+    // d->rooms[i].size[dim_x] = w;
+    // d->rooms[i].size[dim_x] = h;
+
+    room_t *r;
+
+    r = d->rooms + i;
+
+    r->position[dim_x] = x;
+    r->position[dim_y] = y;
+    r->size[dim_x] = w;
+    r->size[dim_y] = h;
 
     //placing the room
 
-    pair_t p;
-
-    for (p[dim_y] = y; p[dim_y] < y + h; p[dim_y]++)
+    for (int z = y; z < y + h; z++)
     {
-      for (p[dim_x] = x; p[dim_x] < x + w; p[dim_x]++)
+      for (int j = x; j < x + w; j++)
       {
-        mappair(p) = ter_floor_room;
+        d->map[z][j] = ter_floor_room;
       }
     }
   }
+
   //printf("Successfully placed rooms. \n");
   pair_t p;
   //Placing the corridos.
@@ -935,7 +943,7 @@ void loadFile(dungeon_t *d)
   //printf("Successfully placed corridos. \n");
 
   //Number of upward staircases
-  uint16_t numUpStairs;
+  u_int16_t numUpStairs;
   fread(&numUpStairs, 2, 1, file);
   numUpStairs = be16toh(numUpStairs);
   //printf("Up stairs : %d\n", numUpStairs);
@@ -943,7 +951,7 @@ void loadFile(dungeon_t *d)
   //Position of upward staircases
   for (int i = 0; i < numUpStairs; i++)
   {
-    int8_t x, y;
+    u_int8_t x, y;
     fread(&x, 1, 1, file);
     fread(&y, 1, 1, file);
 
@@ -956,14 +964,14 @@ void loadFile(dungeon_t *d)
   //printf("Successfully placed up stairs. \n");
 
   //Number of downward staircases
-  uint16_t numDownStairs;
+  u_int16_t numDownStairs;
   fread(&numUpStairs, 2, 1, file);
   numDownStairs = be16toh(numDownStairs);
 
   //Position of downward staircases
   for (int i = 0; i < numUpStairs; i++)
   {
-    int8_t x, y;
+    u_int8_t x, y;
     fread(&x, 1, 1, file);
     fread(&y, 1, 1, file);
     mapxy(x, y) = ter_stairs_down;
