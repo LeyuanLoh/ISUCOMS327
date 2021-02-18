@@ -57,6 +57,8 @@ typedef int16_t pair_t[num_dims];
 #define hardnesspair(pair) (d->hardness[pair[dim_y]][pair[dim_x]])
 #define hardnessxy(x, y) (d->hardness[y][x])
 
+int NUM_ROOMS = MAX_ROOMS;
+
 typedef enum __attribute__((__packed__)) terrain_type
 {
   ter_debug,
@@ -84,7 +86,7 @@ struct pc
 typedef struct dungeon
 {
   uint32_t num_rooms;
-  room_t rooms[MAX_ROOMS];
+  room_t * rooms;
   terrain_type_t map[DUNGEON_Y][DUNGEON_X];
   /* Since hardness is usually not used, it would be expensive to pull it *
    * into cache every time we need a map cell, so we store it in a        *
@@ -739,7 +741,7 @@ static int make_rooms(dungeon_t *d)
 {
   uint32_t i;
 
-  memset(d->rooms, 0, sizeof(d->rooms));
+  // memset(d->rooms, 0, sizeof(d->rooms));
 
   for (i = MIN_ROOMS; i < MAX_ROOMS && rand_under(5, 8); i++)
     ;
@@ -885,7 +887,14 @@ void loadFile(dungeon_t *d)
   u_int16_t numRooms;
   fread(&numRooms, 2, 1, file);
   numRooms = be16toh(numRooms);
-  d->num_rooms = numRooms;
+
+  dungeon_t temp = {.num_rooms = numRooms, .rooms =malloc(numRooms * sizeof(room_t)) };
+
+  memcpy(temp.hardness, d->hardness, sizeof(uint8_t)*DUNGEON_X*DUNGEON_Y);
+  memcpy(temp.map, d-> map, sizeof(terrain_type_t)*DUNGEON_X*DUNGEON_Y);
+  *d = temp;
+
+  // d->num_rooms = numRooms;
   //printf("Numer of rooms : %d \n", numRooms);
   //Positions of rooms
   /*
@@ -893,8 +902,7 @@ void loadFile(dungeon_t *d)
     4 * number of rooms bytes
   */
   for (int i = 0; i < numRooms; i++)
-  {
-    u_int8_t x, y, h, w;
+  {    u_int8_t x, y, h, w;
 
     fread(&x, 1, 1, file);
     fread(&y, 1, 1, file);
@@ -1114,7 +1122,7 @@ void init_pc()
 
 int main(int argc, char *argv[])
 {
-  dungeon_t d;
+  dungeon_t d = {0,  malloc(NUM_ROOMS * sizeof(room_t))};
   struct timeval tv;
   uint32_t seed;
 

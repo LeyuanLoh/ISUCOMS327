@@ -5,3 +5,5 @@
 ### 2/17/21
 * Leyuan - Completed load file functions. 
 * Lee - Complete the save fiel functions.
+*** 2/18/21
+* Leyuan - Dynamically initialize rooms arrays in dungeon_t
