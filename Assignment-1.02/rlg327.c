@@ -1131,7 +1131,8 @@ void init_pc()
 
 int main(int argc, char *argv[])
 {
-  dungeon_t d = {0, malloc(NUM_ROOMS * sizeof(room_t))};
+  dungeon_t d;
+  d.rooms = malloc(MAX_ROOMS * sizeof(room_t)) ;
   struct timeval tv;
   uint32_t seed;
 
