@@ -835,8 +835,8 @@ void loadFile(dungeon_t *d)
   FILE *file;
 
   char *home = getenv("HOME");
-  char *game_dir = "coms327/Assignment-1.02/.rlg327";
-  char *save_file = "hello.rlg327";
+  char *game_dir = ".rlg327";
+  char *save_file = "dungeon";
   char *path = malloc(strlen(home) + strlen(game_dir) + strlen(save_file) + 2 + 1);
 
   sprintf(path, "%s/%s/%s", home, game_dir, save_file);
@@ -885,6 +885,7 @@ void loadFile(dungeon_t *d)
   u_int16_t numRooms;
   fread(&numRooms, 2, 1, file);
   numRooms = be16toh(numRooms);
+  d->num_rooms = numRooms;
   //printf("Numer of rooms : %d \n", numRooms);
   //Positions of rooms
   /*
@@ -980,6 +981,131 @@ void loadFile(dungeon_t *d)
   //printf("Successfully placed down stairs. \n");
 }
 
+void save_dungeon(dungeon_t *d)
+{
+  char *home = getenv("HOME");
+  // char *gamedir = ".rlg327";
+  char *gamedir = ".rlg327";
+  char *gameName = "dungeon";
+
+
+  char *path = malloc(strlen(home)+strlen(gamedir)+strlen(gameName)+2+1);
+  sprintf(path, "%s/%s/%s",home,gamedir,gameName);
+  
+  FILE *file = fopen(path,"w");
+
+  fwrite("RLG327-S2021", 1, 12, file);
+
+  //write verison
+  int verison = 0;
+  uint32_t version_to_write = htobe32(verison);
+  fwrite(&version_to_write,4,1,file);
+
+  //write size 
+  int size = 0;
+  int up_stairs = 0;
+  int down_stairs = 0;
+
+
+  pair_t p;
+
+  for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
+    for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
+      switch (mappair(p)) {
+      case ter_stairs_up:
+        up_stairs++;
+        break;
+      case ter_stairs_down:
+        down_stairs++;
+        break;
+      default:
+        break;
+      }
+    }
+  }
+  
+  size = 1708 + (d->num_rooms*4)+(up_stairs*2)+(down_stairs*2);
+  uint32_t size_to_write = htobe32(size);
+  fwrite(&size_to_write,4,1,file);
+
+  //write pc 
+  uint8_t pc_x_to_write = pc_t.x;
+  uint8_t pc_y_to_write = pc_t.y;
+
+  fwrite(&pc_x_to_write,1,1,file);
+  fwrite(&pc_y_to_write,1,1,file);
+
+  //write hardness
+  int i,j =0;
+  for(j=0;j<DUNGEON_Y;j++){
+    for(i =0;i<DUNGEON_X;i++){
+      fwrite(&hardnessxy(i,j),1,1,file);
+    }
+  }
+
+  //write number of rooms
+  uint16_t num_rooms_to_write = htobe16(d->num_rooms);
+  fwrite(&num_rooms_to_write,2,1,file);
+  
+  //write num_rooms information
+  int count = 0;
+  for (count=0;count<d->num_rooms;count++){
+    uint8_t x_pos_to_write = d->rooms[count].position[dim_x];
+    fwrite(&x_pos_to_write,1,1,file);
+    uint8_t y_pos_to_write = d->rooms[count].position[dim_y];
+    fwrite(&y_pos_to_write,1,1,file);
+    uint8_t x_size_to_write = d->rooms[count].size[dim_x];
+    fwrite(&x_size_to_write,1,1,file);
+    uint8_t y_size_to_write = d->rooms[count].size[dim_y];
+    fwrite(&y_size_to_write,1,1,file);
+  }
+
+  //write stairs
+
+  pair_t up_stairs_pos[up_stairs];
+  int count_up =0;
+  pair_t down_stairs_pos[down_stairs];
+  int count_down =0;
+
+  for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
+    for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
+      switch (mappair(p)) {
+      case ter_stairs_up:
+        up_stairs_pos[count_up][dim_x] = p[dim_x];
+        up_stairs_pos[count_up][dim_y] = p[dim_y];
+        count_up++;
+        break;
+      case ter_stairs_down:
+        down_stairs_pos[count_down][dim_x] = p[dim_x];
+        down_stairs_pos[count_down][dim_y] = p[dim_y];
+        count_down++;
+        break;
+      default:
+        break;
+      }
+    }
+  }
+  uint16_t up_stairs_to_write = htobe16(up_stairs);
+  fwrite(&up_stairs_to_write,2,1,file);
+
+  for(int j = 0;j<up_stairs;j++){
+    uint8_t up_stairs_x_to_write= up_stairs_pos[j][dim_x];
+    uint8_t up_stairs_y_to_write= up_stairs_pos[j][dim_y];
+    fwrite(&up_stairs_x_to_write,1,1,file);
+    fwrite(&up_stairs_y_to_write,1,1,file);
+  }
+
+  uint16_t down_stairs_to_write = htobe16(down_stairs);
+  fwrite(&down_stairs_to_write,2,1,file);
+
+  for(int j = 0;j<down_stairs;j++){
+    uint8_t down_stairs_x_to_write= down_stairs_pos[j][dim_x];
+    uint8_t down_stairs_y_to_write= down_stairs_pos[j][dim_y];
+    fwrite(&down_stairs_x_to_write,1,1,file);
+    fwrite(&down_stairs_y_to_write,1,1,file);
+  }
+}
+
 void init_pc()
 {
   pc_t.x = 12;
@@ -1007,6 +1133,8 @@ int main(int argc, char *argv[])
       {
         // printf("%d\n",1);
         saveFoo = 1;
+        gettimeofday(&tv, NULL);
+        seed = (tv.tv_usec ^ (tv.tv_sec << 20)) & 0xffffffff;
         i++;
       }
       else if (strcmp(argv[i], "--load") == 0)
@@ -1014,6 +1142,8 @@ int main(int argc, char *argv[])
         // printf("$s\n", argv[i])
         // printf("%d\n",2);
         loadFoo = 1;
+        gettimeofday(&tv, NULL);
+        seed = (tv.tv_usec ^ (tv.tv_sec << 20)) & 0xffffffff;
         i++;
       }
       else
@@ -1029,7 +1159,7 @@ int main(int argc, char *argv[])
     seed = (tv.tv_usec ^ (tv.tv_sec << 20)) & 0xffffffff;
   }
 
-  printf("Using seed: %u\n", seed);
+  // printf("Using seed: %u\n", seed);
   srand(seed);
 
   if (loadFoo == 1)
@@ -1038,20 +1168,24 @@ int main(int argc, char *argv[])
     init_dungeon(&d);
     loadFile(&d);
     render_dungeon(&d);
-    delete_dungeon(&d);
-  }
-  else if (saveFoo == 1)
-  {
-    printf("save");
+
+    if(saveFoo == 1){
+      save_dungeon(&d);
+    }
   }
   else
   {
     init_pc();
     init_dungeon(&d);
     gen_dungeon(&d);
+    printf("Using seed: %u\n", seed);
     render_dungeon(&d);
-    delete_dungeon(&d);
+
+    if(saveFoo == 1){
+      save_dungeon(&d);
+    }
   }
+  delete_dungeon(&d);
 
   return 0;
 }
