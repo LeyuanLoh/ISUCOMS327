@@ -1,0 +1,228 @@
+commit c45f3342767b3b4e8738d2800299a818cb94fa1b (HEAD -> master)
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Fri Feb 19 20:23:44 2021 -0600
+
+    Add stairs switch, update changelog and README
+
+commit 5e8bcfb6a15155756e3f2fbf8ed9943581e1ac87
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Fri Feb 19 19:25:16 2021 -0600
+
+    Fix PGM save function and implement PGM load function
+
+commit 4fbde633562b0c5fc6d5257f07420a2a22fdf620
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Fri Feb 19 15:54:31 2021 -0600
+
+    Implement PGM save function
+
+commit e19c5c3761c7c71c09a38354ed1701a8d02256d2
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Fri Feb 19 14:08:13 2021 -0600
+
+    Add framework for loading and saving dungeons as PGM files so they can be edited. Now to implement the heavy lifting functions.
+
+commit 54e79c113119d4a6274eba7b25f7718b4e2674b5
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 18 23:04:38 2021 -0600
+
+    Update max file size to theoretical maximum size for a dungeon file.
+
+commit 9059e35bdb3a4d2cc17bd4aca8c3f6c9587fff6d
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 18 21:26:55 2021 -0600
+
+    Update .gitignore, README, and CHANGELOG for submission
+
+commit c4194a98f2809a469c741223531cf6d962ef27eb
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 18 21:19:03 2021 -0600
+
+    Rip out the gopt library and roll my own because it didn't do what I wanted... command line parsing is less painful than I thought.
+
+commit fe551bf7719cd208bfe501bc9c05799a87d82184
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 18 15:06:27 2021 -0600
+
+    Tweak load_dungeon() to only complain about dungeons with no rooms or stairs instead of rejecting them. Implement the gopt library so I don't have to hand parse command line arguments and can be a lot more flexible with it.
+
+commit 45b963ed27772e69c544300007d43e98ef75327b
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Wed Feb 17 03:15:51 2021 -0600
+
+    Update README and CHANGELOG for submission
+
+commit 37502e64b196ed35e61b336d1376a3cca083fcbe
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Wed Feb 17 03:06:59 2021 -0600
+
+    Tweak dungeon.c to not have to call realloc() for the generate_dungeons() method.
+
+commit 6fe8ab56b3e42279e834603401ca4fa01ee5da2b
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Wed Feb 17 02:02:29 2021 -0600
+
+    Change 2D arrays to be allocated with a single malloc() instead of many. Introduce macros to obfuscate away the pointer arithmetic.
+
+commit 129303c746bfdc3e56556680748ba945ae3020d0
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Tue Feb 16 23:22:38 2021 -0600
+
+    Add some explicit casts for type-safety and to keep my IDE happy.
+
+commit bbe488e17ad3d7a7ee80bf96a465f15a08bb5b27
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Tue Feb 16 22:57:54 2021 -0600
+
+    Heavily comment all functions.
+
+commit 934cad3299840530d2ffb2892d2732e20baa82cd
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Tue Feb 16 20:56:20 2021 -0600
+
+    Finished up load_dungeon() and save_dungeon()
+
+commit 26fda8e288f95382b776bdf048a1e2859fbd2ae0
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Tue Feb 16 02:27:50 2021 -0600
+
+    Started load_dungeon()
+
+commit 25d2eaf31af612683355ce26bd911cab14319693
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Tue Feb 16 00:34:21 2021 -0600
+
+    Ammend character.h to have coordinates stored... update dungeon.c so it doesn't cause a segfault in kill()
+
+commit d8a426ef2a23d3f02d24cbb0cbf03a8c677b4172
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Mon Feb 15 21:48:15 2021 -0600
+
+    Finish helpers for main... now to create the disk routines.
+
+commit 100aabb8b7c19c7d59a073c975e815f8c075ab65
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Mon Feb 15 17:02:13 2021 -0600
+
+    Add better kill support
+
+commit 9a0c631a93f94e361abdb233d6e453c4b63eed6f
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Mon Feb 15 16:42:12 2021 -0600
+
+    Adds preliminary character support
+
+commit 77f96a32b7da28886aad72b175e3ec9a0875952f
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Mon Feb 15 14:36:52 2021 -0600
+
+    Remove immutable flag, since its unnecessary, and update hardness to work properly.
+
+commit ff72316a641de695aacd9580253a493ecbc829f3
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Fri Feb 12 14:39:04 2021 -0600
+
+    Fix typos in comments
+
+commit f46e688289b98ce3fd008287eabb2450208ae94e
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Fri Feb 12 01:18:48 2021 -0600
+
+    Fully commented my code and update CHANGELOG for submission
+
+
+commit 93772b6b25fe0daf1f39f33401c2377d0e9a338b
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 11 23:50:34 2021 -0600
+
+    Update Makefile and README
+
+commit e5d687746b3a02282b5f97b2b828cbbdfeced772
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 11 23:40:15 2021 -0600
+
+    Undo accidentally staging build directory
+
+commit c8a21caa2d6bc5f9f2f0e2456d6cf78b38b4c0a4
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 11 23:32:48 2021 -0600
+
+    Implements hardness mappings to randomize hallways a bit.
+
+commit f97e6dd98d660b0fb925ba03a47ab60ce100df6b
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 11 20:46:34 2021 -0600
+
+    Finished hallways
+
+commit 6f222eeb3a39d6aec69491ff22414418ce4ea225
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 11 18:37:52 2021 -0600
+
+    Implement Dijkstra Mapping
+
+commit f9284f73cf56843dab570f9b08ea276dd36ed754
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 11 06:58:12 2021 -0600
+
+    Add README, Makefile, and CHANGELOG
+
+commit 3f693812466f7b24e7aa5dbdaacbe8bfb5212422
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 11 06:40:33 2021 -0600
+
+    Fully done with color output
+
+commit 62e751c4ec9bf8a91a89dc91484f08a3608e401b
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 11 02:40:57 2021 -0600
+
+    Generate rooms done
+
+commit 42841d2d12c7b950bf79748d0e59b6446f0449cc
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Thu Feb 11 01:06:12 2021 -0600
+
+    Partition function working
+
+commit f5d783bfe72bf4d0793a9aedf5471571a8f647f7
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Wed Feb 10 02:15:08 2021 -0600
+
+    Implement sectors functionality... next will be adding it to the generate_rooms subroutine
+
+commit 720345b357b905a74c2f876e52a44958e1ca1791
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Wed Feb 10 00:29:50 2021 -0600
+
+    Generate_rooms subroutine finished... but boring. Branch to fix.
+
+commit 44acc0b84ec9efb1c49f2161b2047cea46d65fb1
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Tue Feb 9 17:21:27 2021 -0600
+
+    Started work on generate_rooms subroutine
+
+commit 7a57e67c870da85a51882491b9d191ccce323a52
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Tue Feb 9 16:22:04 2021 -0600
+
+    Break up new_dungeon
+
+commit b2930634be65c33b6336f6ab2cda53d9cec57ac4
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Tue Feb 9 15:33:49 2021 -0600
+
+    Implement safe_malloc, and initial structs
+
+commit 3f61cdc691f6f0ec001525f91fd7341d40a2d413
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Tue Feb 9 14:19:17 2021 -0600
+
+    Add initial assignment_1.01 files
+
+commit e4da276589603cbbd2db58cdf087578ea7f14537
+Author: Eddie Mahoney <ermahone@iastate.edu>
+Date:   Tue Feb 9 14:15:44 2021 -0600
+
+    Initial
