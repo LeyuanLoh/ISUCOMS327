@@ -3,4 +3,7 @@
 * Lee - Start working on tunnle distance map
       - Add structure distance_path, tunnel_distance_map in dungeon structure.
       - Add function distance_path_cmp, generate_distance_map and print_distance_map
+## 2/24/21
+* Blake Started working on non-tunnling map
+      - Took the structure of the generate_distance_map and modified to follow the non-tunneling rules
       
