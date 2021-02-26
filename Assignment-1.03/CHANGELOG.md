@@ -8,3 +8,7 @@
       - Took the structure of the generate_distance_map and modified to follow the non-tunneling rules
 ## 2/25/21
 * Blake continued to work on non-tunnling map
+* Leyuan finalize everything 
+      - Make sure non tunnel map is correct
+      - Make sure everything looks good
+      
