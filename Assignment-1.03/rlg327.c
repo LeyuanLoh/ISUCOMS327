@@ -100,6 +100,7 @@ typedef struct dungeon {
   uint8_t hardness[DUNGEON_Y][DUNGEON_X];
   pair_t pc;
   uint8_t tunnel_distance_map[DUNGEON_Y][DUNGEON_X];
+  uint8_t nontunnel_distance_map[DUNGEON_Y][DUNGEON_X];
 } dungeon_t;
 
 static uint32_t in_room(dungeon_t *d, int16_t y, int16_t x)
@@ -1497,12 +1498,35 @@ void generate_distance_map_non_tunnel(dungeon_t *d)
   {
     for (x = 0; x < DUNGEON_X; x++)
     {
-      d->tunnel_distance_map[y][x] = path[y][x].cost;
+      d->nontunnel_distance_map[y][x] = path[y][x].cost;
     }
   }
 }
 
-void print_distance_map(dungeon_t *d)
+void print_nontunnel_distance_map(dungeon_t *d)
+{
+
+  uint32_t x, y;
+  
+  for (y = 0; y < DUNGEON_Y; y++) {
+    for (x = 0; x < DUNGEON_X; x++) {
+      if(y == d->pc[dim_y] && x == d->pc[dim_x]){
+        printf("@");
+      }
+      else if(y==0||x==0||y==DUNGEON_Y-1||x==DUNGEON_X-1) {
+        printf(" ");
+      }
+      else{
+        printf("%d", d->nontunnel_distance_map[y][x] % 10);
+      }
+      
+    
+    }
+    printf("\n");
+  }
+}
+
+void print_tunnel_distance_map(dungeon_t *d)
 {
 
   uint32_t x, y;
@@ -1662,7 +1686,8 @@ int main(int argc, char *argv[])
   
   render_dungeon(&d);
   generate_distance_map(&d);
-  print_distance_map(&d);
+  print_nontunnel_distance_map(&d);
+  print_tunnel_distance_map(&d);
   
 
   if (do_save) {

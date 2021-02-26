@@ -6,4 +6,5 @@
 ## 2/24/21
 * Blake Started working on non-tunnling map
       - Took the structure of the generate_distance_map and modified to follow the non-tunneling rules
-      
+## 2/25/21
+* Blake continued to work on non-tunnling map
