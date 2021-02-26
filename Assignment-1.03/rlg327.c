@@ -1608,6 +1608,11 @@ void generate_distance_map_non_tunnel(dungeon_t *d)
 
   while ((p = heap_remove_min(&h)))
   {
+    
+    //unreachable
+    if(p -> cost == INT_MAX){
+      break;
+    } 
     p->hn = NULL;
 
     int weight = 1;
@@ -1732,6 +1737,8 @@ void print_nontunnel_distance_map(dungeon_t *d)
       else if (y == 0 || x == 0 || y == DUNGEON_Y - 1 || x == DUNGEON_X - 1 || mapxy(x,y) == ter_wall_immutable || mapxy(x,y) == ter_wall)
       {
         printf(" ");
+      }else if(d->nontunnel_distance_map[y][x]==255){
+          printf("X");
       }
       else
       {
