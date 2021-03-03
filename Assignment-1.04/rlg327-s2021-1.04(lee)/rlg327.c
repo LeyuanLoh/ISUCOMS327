@@ -75,17 +75,21 @@ void generate_character(dungeon_t *d,heap_t *h){
     int random_y;
     int attempt = 0;
     do{
-      random_x = rand_range(1,79);
-      random_y = rand_range(1,20);
+      int random_room = rand_range(1,d->num_rooms-1);
+      random_x = (d->rooms[random_room].position[dim_x] +
+                            (rand() % d->rooms[random_room].size[dim_x]));
+      random_y = (d->rooms[random_room].position[dim_y] +
+                            (rand() % d->rooms[random_room].size[dim_y]));
 
       attempt ++;
       if(attempt>=2000){
-        printf("%s","Maximum can only be 1481");
+        printf("%s","Maximum can only be 1481\n");
         break;
       }
-    }while(d->map[random_y][random_x]==ter_wall_immutable ||
-          (random_x == d->pc.position[dim_x]&&random_y==d->pc.position[dim_y] )
+    }while(d->map[random_y][random_x]==ter_wall_immutable 
+          || (random_x == d->pc.position[dim_x]&&random_y==d->pc.position[dim_y] )
           || (d->characters[random_y][random_x]!=NULL));
+
     if(attempt>=2000){
         exit(0);
     }
@@ -100,7 +104,6 @@ void generate_character(dungeon_t *d,heap_t *h){
 
     d->characters[random_y][random_x] = m;
     //add to quue  
-    printf("%d ",d->characters[random_y][random_x]->sequence_next_turn);
     heap_insert(h,d->characters[random_y][random_x]);
   
   } 
@@ -114,10 +117,10 @@ void init_monster(dungeon_t *d)
 
   generate_character(d,&h);
 
-  character_t *temp;
-  while((temp = heap_remove_min(&h))){
-    printf("%d ",temp->sequence_next_turn);
-  }
+  // character_t *temp;
+  // while((temp = heap_remove_min(&h))){
+  //   printf("%d ",temp->sequence_next_turn);
+  // }
 
 }
 
