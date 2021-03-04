@@ -110,7 +110,7 @@ void generate_character(dungeon_t *d,heap_t *h){
 
 }
 
-void init_monster(dungeon_t *d)
+void init_monster(dungeon_t *d, heap_t *h)
 {
   heap_t h;
   heap_init(&h,monster_cmp,NULL);
@@ -122,6 +122,12 @@ void init_monster(dungeon_t *d)
   //   printf("%d ",temp->sequence_next_turn);
   // }
 
+}
+
+//Leyuan
+//Movement of monster and pc. 
+void movement(dungeon_t *d, heap_t *h){
+  
 }
 
 int main(int argc, char *argv[])
@@ -293,7 +299,18 @@ int main(int argc, char *argv[])
   //   }
   //   printf("\n");
   // }
-  init_monster(&d);
+
+  //Leyuan
+  heap_t h;
+  heap_init(&h,monster_cmp,NULL);
+  
+
+  //Lee
+  init_monster(&d, &h);
+
+  movement(&d, &h);
+  
+
   render_dungeon(&d);
 
   // dijkstra(&d);
