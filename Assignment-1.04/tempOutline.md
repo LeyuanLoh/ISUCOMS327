@@ -23,3 +23,17 @@
 - Erratic Behavior
     - Erractic monsters have a 50% chance of using their above characteristics
     - If they don't follow, they move to a random neighboring cell (tunneling still applies)
+
+
+- Killing
+    - The new arrival kills the original occupant
+
+
+- Game Ends
+    - PC is last alive
+    - PC dies
+    - Control + C
+
+- Redraw the dungeon after each PC move, pause so that an observer can see the updates (use `usleep(3)`,
+which sleeps for argument number of microseconds; something like 250000 is reasonable), and when the
+game ends, print the win/lose status to the terminal before exiting.
