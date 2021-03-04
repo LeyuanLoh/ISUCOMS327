@@ -60,7 +60,7 @@ typedef struct character{
 
 typedef struct dungeon {
   uint32_t num_rooms;
-  room_t *rooms;
+  room_t *rooms; 
   terrain_type_t map[DUNGEON_Y][DUNGEON_X];
   /* Since hardness is usually not used, it would be expensive to pull it *
    * into cache every time we need a map cell, so we store it in a        *
