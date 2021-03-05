@@ -359,6 +359,47 @@ void movement(dungeon_t *d, heap_t *h)
             d->hardness[smallestY][smallestX] = MAX(0, d->hardness[smallestY][smallestX] - 85);
           }
         }
+
+        else{
+          int x_min,y_min = 0;
+          int min_dis = INT_MAX;
+
+          //find lowest distance
+          for (int i = MAX(c->y_pos - 1, 1); i <= MIN(c->y_pos + 1, 19); i++)
+          {
+            for (int j = MAX(c->x_pos - 1, 1); j <= MIN(c->x_pos + 1, 78); j++)
+            {
+              if (i == c->y_pos && j == c->x_pos)
+              {
+                continue;
+              }
+              if(d->map[i][j] != ter_wall&&d->map[i][j] != ter_wall_immutable){
+                if (d->pc_distance[i][j] < min_dis)
+                {
+                  min_dis = d->pc_distance[i][j];
+                  x_min= j;
+                  y_min = i;
+                }
+              } 
+            }
+          }
+
+          //check if next place is pc
+          if ((d->characters[y_min][x_min]) != NULL)
+          {
+              //monster kill pc
+              if (d->characters[y_min][x_min]->pc != NULL)
+              {
+                move(c, x_min, y_min, d);
+                c = d->characters[y_min][x_min];
+                render_dungeon(d);
+                //Game end
+                break;
+              }
+          }
+          move(c,x_min,y_min,d);
+          c = d->characters[y_min][x_min];
+        }
       }
       heap_insert(h, c);
     }
