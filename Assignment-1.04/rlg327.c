@@ -36,11 +36,11 @@ static int32_t monster_cmp(const void *key, const void *with)
 {
   if (((character_t *)key)->next_turn == ((character_t *)with)->next_turn)
   {
-    return (int32_t)((character_t *)key)->sequence_next_turn - ((character_t *)with)->sequence_next_turn;
+    return ((int32_t)((character_t *)key)->sequence_next_turn - ((character_t *)with)->sequence_next_turn);
   }
   else
   {
-    return (int32_t)((character_t *)key)->next_turn - ((character_t *)with)->next_turn;
+    return ((int32_t)((character_t *)key)->next_turn - ((character_t *)with)->next_turn);
   }
 }
 
@@ -81,10 +81,12 @@ void generate_character(dungeon_t *d, heap_t *h)
   c->is_alive = 1;
 
   d->characters[d->pc.position[dim_y]][d->pc.position[dim_x]] = c;
-  heap_insert(h, &d->characters[d->pc.position[dim_y]][d->pc.position[dim_x]]);
+
+  heap_insert(h, d->characters[d->pc.position[dim_y]][d->pc.position[dim_x]]);
   //add to queue
 
   int i;
+  //remember to change it
   for (i = 0; i < d->num_monster; i++)
   {
 
@@ -185,6 +187,48 @@ int same_room(pair_t pc, pair_t mons, dungeon_t *d)
   return 0;
 }
 
+//Helper method to help moving a to b
+void move(character_t *a, int x, int y, dungeon_t *d)
+{
+
+  character_t *b = malloc(sizeof(character_t));
+  b->pc = malloc(sizeof(pc_t));
+  b->npc = malloc(sizeof(npc_t));
+
+  if (a->pc != NULL)
+  {
+    b->pc->position[dim_x] = x;
+    b->pc->position[dim_y] = y;
+  }
+  else
+  {
+    b->pc = NULL;
+  }
+
+  if (a->npc != NULL)
+  {
+    b->npc->monster_code = a->npc->monster_code;
+  }
+  else
+  {
+    b->npc = NULL;
+  }
+
+  b->is_alive = a->is_alive;
+  b->x_pos = x;
+  b->y_pos = y;
+  b->next_turn = a->next_turn;
+  b->sequence_next_turn = a->sequence_next_turn;
+  b->speed = a->speed;
+  b->is_alive = a->is_alive;
+  d->characters[y][x] = b;
+
+  if (!(x == a->x_pos && y == a->y_pos))
+  {
+    d->characters[a->y_pos][a->x_pos] = NULL;
+  }
+}
+
 //Leyuan
 //Movement of monster and pc.
 void movement(dungeon_t *d, heap_t *h)
@@ -192,55 +236,70 @@ void movement(dungeon_t *d, heap_t *h)
   dijkstra(d);
   dijkstra_tunnel(d);
   static character_t *c;
+
   while ((c = heap_remove_min(h)))
   {
 
+    if(h -> size == 0){
+          break;
+    }
+
+    c->next_turn = c->next_turn + (1000 / c->speed);
+
+    // printf("\n");
+    // printf("Heap size: %d\n", (h->size));
+    // printf("Address: %p\n", (void *)&c);
+
+    //printf("%d %d %d\n", c-> is_alive, c->sequence_next_turn, c-> y_pos);
     //First, check if they are alive or not. If not alive, ignore it and DON'T push it back to heap.
-    if (d->characters[c->y_pos][c->x_pos] && c->is_alive == 1)
+    if (d->characters[c->y_pos][c->x_pos] != NULL && c->is_alive == 1)
     {
+      //printf("Is a monster. \n");
       //check if its pc.
-      if (!c->pc)
-      {
-        //check surrounding cell if that is a monster. If yes, kill it.
+      if (c->pc != NULL)
+
+      { //check surrounding cell if that is a monster. If yes, kill it.
+
         for (int i = MAX(c->y_pos - 1, 1); i <= MIN(c->y_pos + 1, 19); i++)
         {
           for (int j = MAX(c->x_pos - 1, 1); j <= MIN(c->x_pos + 1, 78); j++)
           {
-            if (d->characters[i][j])
+            if (i == c->y_pos && j == c->x_pos)
             {
-              if (d->characters[i][j]->pc)
+              continue;
+            }
+            if (d->characters[i][j] != NULL)
+            {
+              if (d->characters[i][j]->npc != NULL)
               {
-                //kill it by setting it to null
-                d->characters[i][j] = NULL;
-
-                //move pc to the coord
-                d->characters[i][j] = c;
-                d->characters[c->y_pos][c->x_pos] = NULL;
+                //Freeing the memory.
+                //printf("Moved \n");
+                move(c, j, i, d);
                 c = d->characters[i][j];
-                goto endPc;
+                goto pcHere;
               }
             }
           }
         }
 
-        //place pc back to heap
-      endPc:
-        //update pc location in dungeon
+      //place pc back to heap
+      //update pc location in dungeon
+      pcHere:
         d->pc.position[dim_x] = c->pc->position[dim_x];
         d->pc.position[dim_y] = c->pc->position[dim_y];
-        c->next_turn = c->next_turn + (1000 / c->speed);
-        heap_insert(h, &c);
+        //printf("PC - next turn : %d\n", (c->next_turn));
+        
+        heap_insert(h, c);
         dijkstra(d);
         dijkstra_tunnel(d);
-        usleep(3);
+        usleep(1000000 / 6);
         render_dungeon(d);
-
+        
         continue;
       }
-
-      //check tunnel
-      if (((c->npc->monster_code & 4) != 4))
+      else
       {
+        int eat = 0;
         int smallestX = 0, smallestY = 0;
         int smallestDis = INT_MAX;
         //finding the neigbhors with the lowess hardness
@@ -248,6 +307,10 @@ void movement(dungeon_t *d, heap_t *h)
         {
           for (int j = MAX(c->x_pos - 1, 1); j <= MIN(c->x_pos + 1, 78); j++)
           {
+            if (i == c->y_pos && j == c->x_pos)
+            {
+              continue;
+            }
             if (d->pc_tunnel[i][j] < smallestDis)
             {
               smallestDis = d->pc_tunnel[i][j];
@@ -256,6 +319,7 @@ void movement(dungeon_t *d, heap_t *h)
             }
           }
         }
+
         //check if hardness is equal to 0
         if (d->hardness[smallestY][smallestX] == 0)
         {
@@ -264,28 +328,50 @@ void movement(dungeon_t *d, heap_t *h)
           {
             if (d->map[c->y_pos][c->x_pos] == ter_wall)
             {
-              d->characters[smallestY][smallestX] = c;
-              d->characters[c->y_pos][c->x_pos] = NULL;
               d->map[c->y_pos][c->x_pos] = ter_floor_hall;
-              c = d->characters[smallestY][smallestX];
             }
-            else
+            if ((d->characters[smallestY][smallestX]) != NULL)
             {
-              d->characters[smallestY][smallestX] = c;
-              d->characters[c->y_pos][c->x_pos] = NULL;
-              c = d->characters[smallestY][smallestX];
+              if (d->characters[smallestY][smallestX]->pc != NULL)
+              {
+                move(c, smallestX, smallestY, d);
+                c = d->characters[smallestY][smallestX];
+                render_dungeon(d);
+                break;
+              }
+              eat = 1;
             }
+            // printf("Label : %d\n", (c->npc->monster_code));
+            // printf("Current pos : %d, %d \n", (c->y_pos), (c->x_pos));
+            // printf("Move pos : %d, %d \n", (smallestY), (smallestX));
+            // printf("Mosnter - next turn : %d\n", (c->next_turn));
+            move(c, smallestX, smallestY, d);
+            c = d->characters[smallestY][smallestX];
           }
         }
-        //hardness not zero, minus 80.
+        //hardness not zero, minus 85.
         else
         {
-          d->hardness[smallestY][smallestX] = MAX(0, d->hardness[smallestY][smallestX] - 80);
+          //printf("Dig\n");
+          d->hardness[smallestY][smallestX] = MAX(0, d->hardness[smallestY][smallestX] - 85);
         }
         //place the monster back in to heap
-        c->next_turn = c->next_turn + (1000 / c->speed);
-        heap_insert(h, &c);
+
+        if (eat == 0)
+        {
+          //printf("Next turn : %d, Monster code: %d \n", (c -> next_turn), (c-> npc-> monster_code));
+          //printf("Address: %p\n", (void *)&c);
+          heap_insert(h, c);
+          //printf("Heap size: %d\n", (h->size));
+        }
       }
+
+      //check tunnel
+
+      // else if ((c->npc->monster_code & BIT_TUN))
+      // {
+
+      // }
     }
   }
 }
