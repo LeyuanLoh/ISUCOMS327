@@ -194,7 +194,9 @@ void move(character_t *a, int x, int y, dungeon_t *d)
   //set isAlive to 0.
   if (d->characters[y][x] != NULL)
   {
-    d->characters[y][x]->is_alive = 0;
+    if(d->characters[y][x]!= a){
+      d->characters[y][x]->is_alive = 0;
+    }
   }
 
   //create a new connection let char[y][x] to connect to.
@@ -230,6 +232,9 @@ void move(character_t *a, int x, int y, dungeon_t *d)
 
   //break the connection and create a new connection.
   d->characters[y][x] = b;
+  
+  
+  
 
   //Safe
   if (!(x == a->x_pos && y == a->y_pos))
@@ -250,6 +255,9 @@ void movement(dungeon_t *d, heap_t *h)
   {
     if (h->size == 0)
     {
+      if(c->pc != NULL){
+        printf("PC WIN  !\n");
+      }
       break;
     }
 
@@ -309,20 +317,58 @@ void movement(dungeon_t *d, heap_t *h)
           int smallestX = 0, smallestY = 0;
           int smallestDis = INT_MAX;
           //finding the neigbhors with the lowess hardness
-          for (int i = MAX(c->y_pos - 1, 1); i <= MIN(c->y_pos + 1, 19); i++)
+          if ((c->npc->monster_code & BIT_SMART))
           {
-            for (int j = MAX(c->x_pos - 1, 1); j <= MIN(c->x_pos + 1, 78); j++)
+            for (int i = MAX(c->y_pos - 1, 1); i <= MIN(c->y_pos + 1, 19); i++)
             {
-              if (i == c->y_pos && j == c->x_pos)
+              for (int j = MAX(c->x_pos - 1, 1); j <= MIN(c->x_pos + 1, 78); j++)
               {
-                continue;
+                if (i == c->y_pos && j == c->x_pos)
+                {
+                  continue;
+                }
+                if (d->pc_tunnel[i][j] < smallestDis)
+               {
+                  smallestDis = d->pc_tunnel[i][j];
+                  smallestX = j;
+                  smallestY = i;
+                }
               }
-              if (d->pc_tunnel[i][j] < smallestDis)
-              {
-                smallestDis = d->pc_tunnel[i][j];
-                smallestX = j;
-                smallestY = i;
+            }
+          }
+          else{
+            if ((c->npc->monster_code & BIT_TELE)){
+              if(d->pc.position[dim_x]>c->x_pos){
+                smallestX = c->x_pos+1;
+                smallestY = c->y_pos;
               }
+              else if(d->pc.position[dim_x]<c->x_pos){
+                smallestX = c->x_pos-1; 
+                smallestY = c->y_pos;
+             }
+             else{
+               smallestX = c->x_pos;
+               if(d->pc.position[dim_y]>c->y_pos){
+                 smallestY = c->y_pos+1;
+               } 
+               else if(d->pc.position[dim_y]<c->y_pos){
+                 smallestY = c->y_pos-1;  
+               }
+               else{
+                 smallestY = c->y_pos;
+               }
+              }
+            }
+            else{
+              int x_random;
+              int y_random ;
+              do{
+                 x_random = rand_range(-1,1);
+                 y_random = rand_range(-1,1);
+                
+              }while(d->map[c->y_pos+y_random][c->x_pos+x_random]==ter_wall_immutable);
+              smallestX = c->x_pos +x_random;
+              smallestY = c->y_pos+ y_random;
             }
           }
 
@@ -350,6 +396,7 @@ void movement(dungeon_t *d, heap_t *h)
               }
               move(c, smallestX, smallestY, d);
               c = d->characters[smallestY][smallestX];
+              render_dungeon(d);
             }
           }
           //hardness not zero, minus 85.
@@ -365,22 +412,58 @@ void movement(dungeon_t *d, heap_t *h)
           int min_dis = INT_MAX;
 
           //find lowest distance
-          for (int i = MAX(c->y_pos - 1, 1); i <= MIN(c->y_pos + 1, 19); i++)
-          {
-            for (int j = MAX(c->x_pos - 1, 1); j <= MIN(c->x_pos + 1, 78); j++)
+          if ((c->npc->monster_code & BIT_SMART)){
+            for (int i = MAX(c->y_pos - 1, 1); i <= MIN(c->y_pos + 1, 19); i++)
             {
-              if (i == c->y_pos && j == c->x_pos)
-              {
-                continue;
+             for (int j = MAX(c->x_pos - 1, 1); j <= MIN(c->x_pos + 1, 78); j++)
+             {
+               if (i == c->y_pos && j == c->x_pos)
+               {
+                 continue;
+               }
+               if(d->map[i][j] != ter_wall&&d->map[i][j] != ter_wall_immutable){
+                 if (d->pc_distance[i][j] < min_dis)
+                 {
+                   min_dis = d->pc_distance[i][j];
+                   x_min= j;
+                   y_min = i;
+                 }
+               } 
+             }
+            }
+          }
+          else{
+            if(d->pc.position[dim_x]>c->x_pos){
+              x_min = c->x_pos+1;
+              y_min = c->y_pos;
+              if(d->map[y_min][x_min]==ter_wall||d->map[y_min][x_min]==ter_wall_immutable){
+                x_min = c->x_pos;
               }
-              if(d->map[i][j] != ter_wall&&d->map[i][j] != ter_wall_immutable){
-                if (d->pc_distance[i][j] < min_dis)
-                {
-                  min_dis = d->pc_distance[i][j];
-                  x_min= j;
-                  y_min = i;
+            }
+            else if(d->pc.position[dim_x]<c->x_pos){
+              x_min = c->x_pos-1; 
+              y_min = c->y_pos;
+              if(d->map[y_min][x_min]==ter_wall||d->map[y_min][x_min]==ter_wall_immutable){
+                x_min = c->x_pos;
+              }
+            }
+            else{
+              x_min = c->x_pos;
+              if(d->pc.position[dim_y]>c->y_pos){
+                y_min = c->y_pos+1;
+                if(d->map[y_min][x_min]==ter_wall||d->map[y_min][x_min]==ter_wall_immutable){
+                  y_min = c->y_pos;
                 }
               } 
+              else if(d->pc.position[dim_y]<c->y_pos){
+                y_min = c->y_pos-1;
+                if(d->map[y_min][x_min]==ter_wall||d->map[y_min][x_min]==ter_wall_immutable){
+                  y_min = c->y_pos;
+                }  
+              }
+              else{
+                y_min = c->y_pos;
+              }
             }
           }
 
@@ -399,11 +482,13 @@ void movement(dungeon_t *d, heap_t *h)
           }
           move(c,x_min,y_min,d);
           c = d->characters[y_min][x_min];
+          render_dungeon(d);
         }
       }
       heap_insert(h, c);
     }
   }
+
 }
 
 int main(int argc, char *argv[])

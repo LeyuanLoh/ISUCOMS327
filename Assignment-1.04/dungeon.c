@@ -624,6 +624,7 @@ void render_dungeon(dungeon_t *d)
 {
   pair_t p;
 
+  int is_alive =0;
   for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
     for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
       // if (d->pc.position[dim_x] == p[dim_x] && d->pc.position[dim_y] == p[dim_y]) {
@@ -644,6 +645,7 @@ void render_dungeon(dungeon_t *d)
         }
         else if(d -> characters[p[dim_y]][p[dim_x]] -> pc !=NULL){
             putchar('@');
+            is_alive =1;
         }
       }
        else {
@@ -675,6 +677,10 @@ void render_dungeon(dungeon_t *d)
       }
     }
     putchar('\n');
+  }
+
+  if(is_alive ==0){
+    printf("PC LOSE  !\n");
   }
 }
 
