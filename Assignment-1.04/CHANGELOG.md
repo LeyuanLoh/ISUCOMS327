@@ -3,4 +3,6 @@
 * Lee -  Start working on arguments, creating monster, placing monster and add them into heap
       - I added code in rlg327.c: `generate_monster_code(), generate_character(), init_monster(), main()`
 * Blake - Started working on the "dumb" monster implementation
-* Loh - Implemented the basic function for movement.      
+* Loh - Implemented the basic function for movement.   
+### 3/4/21
+* All - Worked multiple hours on trying to write working code. Ran in to lots of issues and ran out of time
