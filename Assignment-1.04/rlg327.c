@@ -191,6 +191,13 @@ int same_room(pair_t pc, pair_t mons, dungeon_t *d)
 void move(character_t *a, int x, int y, dungeon_t *d)
 {
 
+  //set isAlive to 0.
+  if (d->characters[y][x] != NULL)
+  {
+    d->characters[y][x]->is_alive = 0;
+  }
+
+  //create a new connection let char[y][x] to connect to.
   character_t *b = malloc(sizeof(character_t));
   b->pc = malloc(sizeof(pc_t));
   b->npc = malloc(sizeof(npc_t));
@@ -220,9 +227,11 @@ void move(character_t *a, int x, int y, dungeon_t *d)
   b->next_turn = a->next_turn;
   b->sequence_next_turn = a->sequence_next_turn;
   b->speed = a->speed;
-  b->is_alive = a->is_alive;
+
+  //break the connection and create a new connection.
   d->characters[y][x] = b;
 
+  //Safe
   if (!(x == a->x_pos && y == a->y_pos))
   {
     d->characters[a->y_pos][a->x_pos] = NULL;
@@ -239,31 +248,28 @@ void movement(dungeon_t *d, heap_t *h)
 
   while ((c = heap_remove_min(h)))
   {
+    if (h->size == 0)
+    {
+      break;
+    }
 
-    if(h -> size == 0){
-          break;
+    if (c->is_alive == 0)
+    {
+      continue;
     }
 
     c->next_turn = c->next_turn + (1000 / c->speed);
-
-    // printf("\n");
-    // printf("Heap size: %d\n", (h->size));
-    // printf("Address: %p\n", (void *)&c);
-
-    //printf("%d %d %d\n", c-> is_alive, c->sequence_next_turn, c-> y_pos);
     //First, check if they are alive or not. If not alive, ignore it and DON'T push it back to heap.
     if (d->characters[c->y_pos][c->x_pos] != NULL && c->is_alive == 1)
     {
-      //printf("Is a monster. \n");
       //check if its pc.
       if (c->pc != NULL)
-
       { //check surrounding cell if that is a monster. If yes, kill it.
-
         for (int i = MAX(c->y_pos - 1, 1); i <= MIN(c->y_pos + 1, 19); i++)
         {
           for (int j = MAX(c->x_pos - 1, 1); j <= MIN(c->x_pos + 1, 78); j++)
           {
+            //Skipping it current cell
             if (i == c->y_pos && j == c->x_pos)
             {
               continue;
@@ -272,10 +278,9 @@ void movement(dungeon_t *d, heap_t *h)
             {
               if (d->characters[i][j]->npc != NULL)
               {
-                //Freeing the memory.
-                //printf("Moved \n");
                 move(c, j, i, d);
                 c = d->characters[i][j];
+                //First time using this, its amazing.
                 goto pcHere;
               }
             }
@@ -287,91 +292,75 @@ void movement(dungeon_t *d, heap_t *h)
       pcHere:
         d->pc.position[dim_x] = c->pc->position[dim_x];
         d->pc.position[dim_y] = c->pc->position[dim_y];
-        //printf("PC - next turn : %d\n", (c->next_turn));
-        
-        heap_insert(h, c);
+
+        //update the map
         dijkstra(d);
         dijkstra_tunnel(d);
-        usleep(1000000 / 6);
+
+        //1000000/fps
+        usleep(1000000 / 3);
         render_dungeon(d);
-        
-        continue;
       }
+      //monster cases
       else
       {
-        int eat = 0;
-        int smallestX = 0, smallestY = 0;
-        int smallestDis = INT_MAX;
-        //finding the neigbhors with the lowess hardness
-        for (int i = MAX(c->y_pos - 1, 1); i <= MIN(c->y_pos + 1, 19); i++)
+        if ((c->npc->monster_code & 4))
         {
-          for (int j = MAX(c->x_pos - 1, 1); j <= MIN(c->x_pos + 1, 78); j++)
+          int smallestX = 0, smallestY = 0;
+          int smallestDis = INT_MAX;
+          //finding the neigbhors with the lowess hardness
+          for (int i = MAX(c->y_pos - 1, 1); i <= MIN(c->y_pos + 1, 19); i++)
           {
-            if (i == c->y_pos && j == c->x_pos)
+            for (int j = MAX(c->x_pos - 1, 1); j <= MIN(c->x_pos + 1, 78); j++)
             {
-              continue;
-            }
-            if (d->pc_tunnel[i][j] < smallestDis)
-            {
-              smallestDis = d->pc_tunnel[i][j];
-              smallestX = j;
-              smallestY = i;
-            }
-          }
-        }
-
-        //check if hardness is equal to 0
-        if (d->hardness[smallestY][smallestX] == 0)
-        {
-          //check if that is the border, I know this is not going to happen.
-          if (d->map[c->y_pos][c->x_pos] != ter_wall_immutable)
-          {
-            if (d->map[c->y_pos][c->x_pos] == ter_wall)
-            {
-              d->map[c->y_pos][c->x_pos] = ter_floor_hall;
-            }
-            if ((d->characters[smallestY][smallestX]) != NULL)
-            {
-              if (d->characters[smallestY][smallestX]->pc != NULL)
+              if (i == c->y_pos && j == c->x_pos)
               {
-                move(c, smallestX, smallestY, d);
-                c = d->characters[smallestY][smallestX];
-                render_dungeon(d);
-                break;
+                continue;
               }
-              eat = 1;
+              if (d->pc_tunnel[i][j] < smallestDis)
+              {
+                smallestDis = d->pc_tunnel[i][j];
+                smallestX = j;
+                smallestY = i;
+              }
             }
-            // printf("Label : %d\n", (c->npc->monster_code));
-            // printf("Current pos : %d, %d \n", (c->y_pos), (c->x_pos));
-            // printf("Move pos : %d, %d \n", (smallestY), (smallestX));
-            // printf("Mosnter - next turn : %d\n", (c->next_turn));
-            move(c, smallestX, smallestY, d);
-            c = d->characters[smallestY][smallestX];
           }
-        }
-        //hardness not zero, minus 85.
-        else
-        {
-          //printf("Dig\n");
-          d->hardness[smallestY][smallestX] = MAX(0, d->hardness[smallestY][smallestX] - 85);
-        }
-        //place the monster back in to heap
 
-        if (eat == 0)
-        {
-          //printf("Next turn : %d, Monster code: %d \n", (c -> next_turn), (c-> npc-> monster_code));
-          //printf("Address: %p\n", (void *)&c);
-          heap_insert(h, c);
-          //printf("Heap size: %d\n", (h->size));
+          //check if hardness is equal to 0
+          if (d->hardness[smallestY][smallestX] == 0)
+          {
+            //check if that is the border, I know this is not going to happen.
+            if (d->map[c->y_pos][c->x_pos] != ter_wall_immutable)
+            {
+              if (d->map[c->y_pos][c->x_pos] == ter_wall)
+              {
+                d->map[c->y_pos][c->x_pos] = ter_floor_hall;
+              }
+              if ((d->characters[smallestY][smallestX]) != NULL)
+              {
+                //monster kill pc
+                if (d->characters[smallestY][smallestX]->pc != NULL)
+                {
+                  move(c, smallestX, smallestY, d);
+                  c = d->characters[smallestY][smallestX];
+                  render_dungeon(d);
+                  //Game end
+                  break;
+                }
+              }
+              move(c, smallestX, smallestY, d);
+              c = d->characters[smallestY][smallestX];
+            }
+          }
+          //hardness not zero, minus 85.
+          else
+          {
+            //printf("Dig\n");
+            d->hardness[smallestY][smallestX] = MAX(0, d->hardness[smallestY][smallestX] - 85);
+          }
         }
       }
-
-      //check tunnel
-
-      // else if ((c->npc->monster_code & BIT_TUN))
-      // {
-
-      // }
+      heap_insert(h, c);
     }
   }
 }
