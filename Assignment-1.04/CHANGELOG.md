@@ -5,5 +5,6 @@
 * Blake - Started working on the "dumb" monster implementation
 * Loh - Implemented the basic function for movement.   
 ### 3/4/21
-* All - Worked multiple hours on trying to write working code. Ran in to lots of issues and ran out of time
+* All - Worked multiple hours on trying to write working code. 
 * Loh - Implemented the tunneling movement.
+* Lee - Add smart and telepathic, erratic ability.
