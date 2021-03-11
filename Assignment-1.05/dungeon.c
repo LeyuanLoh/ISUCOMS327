@@ -1453,7 +1453,7 @@ void stairs_move(dungeon_t *d)
     delete_dungeon(d);
     init_dungeon(d);
     gen_dungeon(d);
-    free(&d -> pc);
+    // free(&(d -> pc));
     config_pc(d);
     gen_monsters(d);
     d -> is_new = 1;
