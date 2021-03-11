@@ -711,6 +711,24 @@ int gen_dungeon(dungeon_t *d)
   return 0;
 }
 
+//@Author Leyuan
+int count_monster(dungeon_t *d)
+{
+  int count = 0;
+  for (int i = 0; i < DUNGEON_Y; i++)
+  {
+    for (int j = 0; j < DUNGEON_X; j++)
+    {
+      if (charxy(j, i) != NULL && charxy(j, i) ->pc == NULL)
+      {
+        count++;
+      }
+    }
+  }
+  return count;
+}
+
+
 void render_dungeon(dungeon_t *d)
 {
   pair_t p;
@@ -768,8 +786,12 @@ void render_dungeon(dungeon_t *d)
     x_pos = 0;
     y_pos++;
   }
+  move(21, 0);
+  addstr("The number of monsters are: ");
+  mvprintw(21, 29, "%d", count_monster(d) );
   refresh();
 }
+
 
 void delete_dungeon(dungeon_t *d)
 {
@@ -1456,6 +1478,6 @@ void stairs_move(dungeon_t *d)
     // free(&(d -> pc));
     config_pc(d);
     gen_monsters(d);
-    d -> is_new = 1;
+    d->is_new = 1;
   }
 }
