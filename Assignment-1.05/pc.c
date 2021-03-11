@@ -298,6 +298,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir)
       break;
     default:
       valid = 1;
+      render_dungeon(d);
       mvprintw(23, 1, "Unknown key is called");
       refresh();
       break;
