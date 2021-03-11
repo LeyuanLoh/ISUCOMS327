@@ -49,6 +49,7 @@ typedef struct npc {
   npc_characteristics_t characteristics;
   uint32_t have_seen_pc;
   pair_t pc_last_known_position;
+  pair_t dis_from_pc;
 
 } npc_t;
 

@@ -22,7 +22,7 @@
 #define DUNGEON_SAVE_FILE      "dungeon"
 #define DUNGEON_SAVE_SEMANTIC  "RLG327-" TERM
 #define DUNGEON_SAVE_VERSION   0U
-
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 #define mappair(pair) (d->map[pair[dim_y]][pair[dim_x]])
 #define mapxy(x, y) (d->map[y][x])
 #define hardnesspair(pair) (d->hardness[pair[dim_y]][pair[dim_x]])
@@ -75,6 +75,7 @@ typedef struct dungeon {
    * information from the current event.                                   */
   uint32_t time;
   uint32_t is_new;
+  npc_t *monster_list;
 } dungeon_t;
 
 void init_dungeon(dungeon_t *d);

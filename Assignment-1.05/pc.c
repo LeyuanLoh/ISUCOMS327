@@ -2,12 +2,17 @@
 #include <ncurses.h>
 
 #include "string.h"
-
+#include "math.h"
 #include "dungeon.h"
 #include "pc.h"
 #include "utils.h"
 #include "move.h"
 #include "path.h"
+#include "npc.h"
+
+#define KEY_ESC 27
+
+
 
 void pc_delete(pc_t *pc)
 {
@@ -52,6 +57,69 @@ void config_pc(dungeon_t *d)
   dijkstra_tunnel(d);
 }
 
+void print_monster_list(dungeon_t *d, int limit)
+{
+  int i = 0;
+  int j = 0;
+  int line = 4;
+  mvprintw(2,17,"                                    ");
+  mvprintw(3,17,"            Monster List            ");
+  for(i = limit, j=0; i<d->num_monsters&&j<13;i++,j++){
+      char *y_dir;
+      char *x_dir;
+      if(d->monster_list[i].dis_from_pc[dim_y]>0){
+        y_dir = "North";
+      }
+      else{
+        y_dir = "South";
+      }
+      if(d->monster_list[i].dis_from_pc[dim_x]>0){
+        x_dir = "East";
+      }
+      else{
+        x_dir = "West";
+      }
+      mvprintw(line,17, "   %2d  %c, %3d %s and %3d %s    ",
+                i+1,
+                d->monster_list[i].characteristics,
+                abs(d->monster_list[i].dis_from_pc[dim_y]), 
+                y_dir,
+                abs(d->monster_list[i].dis_from_pc[dim_x]), 
+                x_dir);
+      line++;                
+  }
+  mvprintw(j+4,17,"                                  ");
+
+}
+
+void create_monster_list(dungeon_t *d)
+{
+
+    d->monster_list = malloc(d->num_monsters * sizeof(npc_t));
+
+    int x_pc = d->pc.position[dim_x];
+    int y_pc = d->pc.position[dim_y];
+
+    int y,x,mon_counter =0;
+
+    for(y=0; y<DUNGEON_Y;y++){
+      for(x=0;x<DUNGEON_X;x++){
+        if(charxy(x,y) != NULL){
+          if(charxy(x,y)->pc ==NULL && mon_counter<d->num_monsters){
+            int y_monster,x_monster =0;
+            y_monster = charxy(x,y)->position[dim_y];
+            x_monster = charxy(x,y)->position[dim_x];
+            d->monster_list[mon_counter].characteristics = charxy(x,y)->symbol;
+            d->monster_list[mon_counter].dis_from_pc[dim_y] = y_monster - y_pc;
+            d->monster_list[mon_counter].dis_from_pc[dim_x] = x_monster - x_pc;
+
+            mon_counter++;
+          }
+        }
+      }
+    }
+}
+
 uint32_t pc_next_pos(dungeon_t *d, pair_t dir)
 {
 
@@ -86,7 +154,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir)
   do
   {
     key = getch();
-
+    int limit;
     switch (key)
     {
     case '>':
@@ -115,13 +183,39 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir)
 
       break;
     case 'm':
-      // print_monster_list();
-      // case: KEY_UP:
-      dir[dim_y] = 0;
-      dir[dim_x] = 0;
-      valid = 0;
-      mvprintw(23, 1, "monster list");
+      limit =0;
+
+      mvprintw(10,10,"%d",d->num_monsters);
+      create_monster_list(d);
+      print_monster_list(d,limit);
       refresh();
+      do
+      {
+        mvprintw(10,10,"%d",d->num_monsters);
+        key = getch();
+
+        if (key == KEY_UP &&  limit >0){
+          limit--;
+          // mvprintw( 10,10, "UP");
+        }
+        else if(key == KEY_DOWN && limit < d->num_monsters - 13){
+          limit++;
+          // mvprintw( 10,10, "DOWN");
+
+        }
+        else{
+          mvprintw(23,1,"    Invalid Input                ");
+        }
+
+        print_monster_list(d,limit);
+        refresh();
+
+      }while(key != KEY_ESC);
+
+      clear();
+      render_dungeon(d);      
+      valid = 1;
+      
       break;
     case '7':
     case 'y':
