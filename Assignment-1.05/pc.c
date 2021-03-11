@@ -153,6 +153,7 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir)
   int valid = 0;
   do
   {
+    render_dungeon(d);
     key = getch();
     int limit;
     switch (key)
@@ -184,29 +185,34 @@ uint32_t pc_next_pos(dungeon_t *d, pair_t dir)
       break;
     case 'm':
       limit =0;
-
-      mvprintw(10,10,"%d",d->num_monsters);
       create_monster_list(d);
       print_monster_list(d,limit);
       refresh();
       do
       {
-        mvprintw(10,10,"%d",d->num_monsters);
         key = getch();
 
         if (key == KEY_UP &&  limit >0){
           limit--;
-          // mvprintw( 10,10, "UP");
+           mvprintw(23,1, "                                 ");
         }
         else if(key == KEY_DOWN && limit < d->num_monsters - 13){
           limit++;
-          // mvprintw( 10,10, "DOWN");
+          mvprintw(23,1, "                                 ");
 
         }
         else{
-          mvprintw(23,1,"    Invalid Input                ");
+          if(limit == 0 && key == KEY_UP){
+            mvprintw(23,1,"You are at the top!              ");
+          }
+          else if(limit >= d->num_monsters - 13 && key == KEY_DOWN){
+            mvprintw(23,1,"You are at the bottom!           ");
+          }
+          else{
+            mvprintw(23,1,"    Invalid Input                ");
+          }
+          
         }
-
         print_monster_list(d,limit);
         refresh();
 
