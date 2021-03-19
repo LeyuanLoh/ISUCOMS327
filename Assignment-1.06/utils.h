@@ -13,8 +13,8 @@
 # define rand_range(min, max) ((rand() % (((max) + 1) - (min))) + (min))
 
 #define malloc(size) ({          \
-  void *_tmp;                    \
-  assert((_tmp = malloc(size))); \
+  char* _tmp;                    \
+  assert((_tmp = (char *)malloc(size))); \
   _tmp;                          \
 })
 

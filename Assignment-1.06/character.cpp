@@ -13,7 +13,7 @@ void character_delete(void *v)
   character_t *c;
 
   if (v) {
-    c = v;
+    c = (character *)v;
 
     if (c->npc) {
       npc_delete(c->npc);
