@@ -1483,7 +1483,7 @@ void new_dungeon(dungeon_t *d)
   delete_dungeon(d);
 
   init_dungeon(d);
-  init_seen_map(d);
+  init_seen_map(d); //Lee's
   d->seen = 0;
   gen_dungeon(d);
   d->character_sequence_number = sequence_number;

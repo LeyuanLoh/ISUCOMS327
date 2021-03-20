@@ -354,6 +354,7 @@ void io_display_monster_list(dungeon_t *d)
   getch();
 }
 
+//Lee's
 uint32_t io_teleport_pc(dungeon_t *d)
 {
   /* Just for fun. */
@@ -361,7 +362,6 @@ uint32_t io_teleport_pc(dungeon_t *d)
   int y_pc_tele = d->pc.position[dim_y];
   int x_pc_tele = d->pc.position[dim_x];
 
-  //Lee's
   d->seen = 1; 
   io_display(d);
   mvaddch(y_pc_tele+1,x_pc_tele,'*');
