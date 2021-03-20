@@ -7,10 +7,11 @@ extern "C" {
 
 # include <stdint.h>
 
-struct heap_node;
-typedef struct heap_node heap_node_t;
+class heap_node;
+typedef class heap_node heap_node_t;
 
-typedef struct heap {
+typedef class heap {
+  public:
   heap_node_t *min;
   uint32_t size;
   int32_t (*compare)(const void *key, const void *with);

@@ -41,11 +41,12 @@
 # define has_characteristic(character, bit)              \
   ((character)->npc->characteristics & NPC_##bit)
 
-typedef struct dungeon dungeon_t;
-typedef struct character character_t;
+typedef class dungeon dungeon_t;
+typedef class character character_t;
 typedef uint32_t npc_characteristics_t;
 
-typedef struct npc {
+typedef class npc {
+  public:
   npc_characteristics_t characteristics;
   uint32_t have_seen_pc;
   pair_t pc_last_known_position;
