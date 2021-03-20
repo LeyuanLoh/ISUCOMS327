@@ -358,11 +358,136 @@ uint32_t io_teleport_pc(dungeon_t *d)
 {
   /* Just for fun. */
   pair_t dest;
+  int y_pc_tele = d->pc.position[dim_y];
+  int x_pc_tele = d->pc.position[dim_x];
 
-  do {
-    dest[dim_x] = rand_range(1, DUNGEON_X - 2);
-    dest[dim_y] = rand_range(1, DUNGEON_Y - 2);
-  } while (charpair(dest));
+  //Lee's
+  d->seen = 1; 
+  io_display(d);
+  mvaddch(y_pc_tele+1,x_pc_tele,'*');
+  refresh();
+
+  uint32_t fail_code;
+  int key;
+  do{
+     switch (key = getch()) {
+      case '7':
+      case 'y':
+      case KEY_HOME:
+        y_pc_tele--;
+        x_pc_tele--;
+        fail_code =1;
+        break;
+      case '8':
+      case 'k':
+      case KEY_UP:
+        y_pc_tele--;
+        fail_code =1;
+        break;
+      case '9':
+      case 'u':
+      case KEY_PPAGE:
+        y_pc_tele--;
+        x_pc_tele++;
+        fail_code =1;
+        break;
+      case '6':
+      case 'l':
+      case KEY_RIGHT:
+        x_pc_tele++;
+        fail_code =1;
+        break;
+      case '3':
+      case 'n':
+      case KEY_NPAGE:
+        y_pc_tele++;
+        x_pc_tele++;
+        fail_code =1;
+        break;
+      case '2':
+      case 'j':
+      case KEY_DOWN:
+        y_pc_tele++;
+        fail_code =1;
+        break;
+      case '1':
+      case 'b':
+      case KEY_END:
+        y_pc_tele++;
+        x_pc_tele--;
+        fail_code =1;
+        break;
+      case '4':
+      case 'h':
+      case KEY_LEFT:
+        x_pc_tele--;
+        fail_code =1;
+        break;
+      case 'r':
+        do {
+          dest[dim_x] = rand_range(1, DUNGEON_X - 2);
+          dest[dim_y] = rand_range(1, DUNGEON_Y - 2);
+        } while (charpair(dest));
+        fail_code = 0;
+        break;
+      case 'g':
+
+        dest[dim_y] = y_pc_tele;
+        dest[dim_x] = x_pc_tele;
+
+        if(charpair(dest))
+        {
+          if(y_pc_tele == d->pc.position[dim_y]&&x_pc_tele == d->pc.position[dim_x]){
+             mvprintw(0, 0, "Why teleport back to original place?");
+          }
+          else{
+            mvprintw(0, 0, "Not allowed to teleport to monster");
+          }
+          fail_code = 2;
+        }
+        else{
+          fail_code =0;
+        }
+        break;
+
+      default:
+        mvprintw(0, 0, "Unbound key: %#o ", key);
+        fail_code = 2;
+     }
+
+     if(y_pc_tele<=0){
+       y_pc_tele++;
+     }
+     if(y_pc_tele>=DUNGEON_Y-1){
+       y_pc_tele--;
+     }
+     if(x_pc_tele<=0){
+       x_pc_tele++;
+     }
+     if(x_pc_tele>=DUNGEON_X-1){
+       x_pc_tele--;
+     }
+
+      if(fail_code==1){
+        io_display(d);
+        mvaddch(y_pc_tele+1,x_pc_tele,'*');
+        refresh();
+      }
+
+  }while(fail_code != 0);
+  
+
+  // if(key == 'r'){
+  //   do {
+  //   dest[dim_x] = rand_range(1, DUNGEON_X - 2);
+  //   dest[dim_y] = rand_range(1, DUNGEON_Y - 2);
+  // } while (charpair(dest));
+
+  
+  // do {
+  //   dest[dim_x] = rand_range(1, DUNGEON_X - 2);
+  //   dest[dim_y] = rand_range(1, DUNGEON_Y - 2);
+  // } while (charpair(dest));
 
   d->character[d->pc.position[dim_y]][d->pc.position[dim_x]] = NULL;
   d->character[dest[dim_y]][dest[dim_x]] = &d->pc;
@@ -376,6 +501,8 @@ uint32_t io_teleport_pc(dungeon_t *d)
 
   dijkstra(d);
   dijkstra_tunnel(d);
+
+  d->seen = 0;
 
   return 0;
 }
@@ -614,6 +741,7 @@ void io_handle_input(dungeon_t *d)
       break;
     case 'g':
       /* Teleport the PC to a random place in the dungeon.              */
+      //Lee's
       io_teleport_pc(d);
       fail_code = 0;
       break;
