@@ -201,6 +201,8 @@ int main(int argc, char *argv[])
 
   io_init_terminal();
   init_dungeon(&d);
+  //Lee's
+  init_seen_map(&d);
 
   if (do_load) {
     read_dungeon(&d, load_file);
@@ -214,13 +216,18 @@ int main(int argc, char *argv[])
   config_pc(&d);
   gen_monsters(&d);
 
+  update_seen_map(&d); //Lee's
   io_display(&d);
+  
+
   if (!do_load && !do_image) {
     io_queue_message("Seed is %u.", seed);
   }
   while (pc_is_alive(&d) && dungeon_has_npcs(&d) && !d.quit) {
     do_moves(&d);
+    update_seen_map(&d);
   }
+  update_seen_map(&d);
   io_display(&d);
 
   io_reset_terminal();

@@ -716,6 +716,28 @@ int gen_dungeon(dungeon_t *d)
   return 0;
 }
 
+//Lee's
+void update_seen_map(dungeon_t *d)
+{
+  int y_pc_pos = d->pc.position[dim_y];
+  int x_pc_pos = d->pc.position[dim_x];
+
+  int y,x;
+
+  for(y = y_pc_pos-2; y <= y_pc_pos+2; y++)
+  {
+    for(x = x_pc_pos-2; x<= x_pc_pos+2; x++)
+    {
+      if(y !=0 && x!= 0 && y < DUNGEON_Y && x < DUNGEON_X)
+      {
+        d->seen_map[y][x] = d->map[y][x];
+      }
+    }
+  }
+
+
+}
+
 void render_dungeon(dungeon_t *d)
 {
   pair_t p;
@@ -777,6 +799,18 @@ void init_dungeon(dungeon_t *d)
   empty_dungeon(d);
   memset(&d->events, 0, sizeof(d->events));
   heap_init(&d->events, compare_events, event_delete);
+}
+
+//Lee's to init_seen_map
+void init_seen_map(dungeon_t *d)
+{
+  int y, x;
+  for(y = 0; y < DUNGEON_Y; y++) {
+    for(x = 0; x < DUNGEON_X; x++) {
+      d->seen_map[y][x] = ter_wall;
+    }
+  }
+  d->seen = 0;
 }
 
 int write_dungeon_map(dungeon_t *d, FILE *f)
@@ -1091,6 +1125,8 @@ int read_rooms(dungeon_t *d, FILE *f)
 
   return 0;
 }
+
+
 
 int read_dungeon(dungeon_t *d, char *file)
 {

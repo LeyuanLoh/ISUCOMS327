@@ -198,42 +198,120 @@ static character_t *io_nearest_visible_monster(dungeon_t *d)
   return n;
 }
 
+//Lee's
+int seen_in_light(int y,int x, dungeon_t *d)
+{
+  int y_pc_pos = d->pc.position[dim_y];
+  int x_pc_pos = d->pc.position[dim_x];
+
+
+ if(y>=y_pc_pos-2 && y<= y_pc_pos+2){
+   if(x>=x_pc_pos-2 && x<= x_pc_pos+2){
+      return 1;   
+   }
+   else{
+     return 0;
+   }
+ }
+ else{
+   return 0;
+ }
+}
+
+//Lee's
 void io_display(dungeon_t *d)
 {
   uint32_t y, x;
   character_t *c;
 
   clear();
-  for (y = 0; y < 21; y++) {
-    for (x = 0; x < 80; x++) {
-      if (d->character[y][x]) {
-        mvaddch(y + 1, x, d->character[y][x]->symbol);
-      } else {
-        switch (mapxy(x, y)) {
-        case ter_wall:
-        case ter_wall_immutable:
-          mvaddch(y + 1, x, ' ');
-          break;
-        case ter_floor:
-        case ter_floor_room:
-          mvaddch(y + 1, x, '.');
-          break;
-        case ter_floor_hall:
-          mvaddch(y + 1, x, '#');
-          break;
-        case ter_debug:
-          mvaddch(y + 1, x, '*');
-          break;
-        case ter_stairs_up:
-          mvaddch(y + 1, x, '<');
-          break;
-        case ter_stairs_down:
-          mvaddch(y + 1, x, '>');
-          break;
-        default:
- /* Use zero as an error symbol, since it stands out somewhat, and it's *
-  * not otherwise used.                                                 */
-          mvaddch(y + 1, x, '0');
+  if(d->seen == 1){
+    for (y = 0; y < 21; y++) {
+      for (x = 0; x < 80; x++) {
+        if (d->character[y][x]) {
+          mvaddch(y + 1, x, d->character[y][x]->symbol);
+        } else {
+          switch (mapxy(x, y)) {
+          case ter_wall:
+          case ter_wall_immutable:
+            mvaddch(y + 1, x, ' ');
+            break;
+          case ter_floor:
+          case ter_floor_room:
+            mvaddch(y + 1, x, '.');
+            break;
+          case ter_floor_hall:
+            mvaddch(y + 1, x, '#');
+            break;
+          case ter_debug:
+            mvaddch(y + 1, x, '*');
+            break;
+          case ter_stairs_up:
+            mvaddch(y + 1, x, '<');
+            break;
+          case ter_stairs_down:
+            mvaddch(y + 1, x, '>');
+            break;
+          default:
+  /* Use zero as an error symbol, since it stands out somewhat, and it's *
+    * not otherwise used.                                                 */
+            mvaddch(y + 1, x, '0');
+          }
+        }
+      }
+    }
+  }
+  //for seen_map
+  else{
+    for (y = 0; y < 21; y++) {
+      for (x = 0; x < 80; x++) {
+        if (d->character[y][x] && seen_in_light(y,x,d)) {
+          mvaddch(y + 1, x, d->character[y][x]->symbol);
+        } else {
+          switch (seen_mapxy(x, y)) {
+          case ter_wall:
+          case ter_wall_immutable:
+            if(seen_in_light(y,x,d))
+              mvaddch(y + 1, x, ' ' | A_BOLD);
+            else
+              mvaddch(y + 1, x, ' ');
+            break;
+          case ter_floor:
+          case ter_floor_room:
+            if(seen_in_light(y,x,d))
+              mvaddch(y + 1, x, '.'| A_BOLD);
+            else
+              mvaddch(y + 1, x, '.'); //Problem
+            break;
+          case ter_floor_hall:
+            if(seen_in_light(y,x,d))
+              mvaddch(y + 1, x, '#'| A_BOLD);
+            else  
+              mvaddch(y + 1, x, '#');
+            break;
+          case ter_debug:
+            if(seen_in_light(y,x,d))
+              mvaddch(y + 1, x, '*'| A_BOLD);
+            else
+              mvaddch(y + 1, x, '*');
+            break;
+          case ter_stairs_up:
+            if(seen_in_light(y,x,d))
+              mvaddch(y + 1, x, '<'| A_BOLD);
+            else
+              mvaddch(y + 1, x, '<');
+            break;
+          case ter_stairs_down:
+            if(seen_in_light(y,x,d))
+              mvaddch(y + 1, x, '>'| A_BOLD);
+            else
+              mvaddch(y + 1, x, '>');
+            break;
+          default:
+  /* Use zero as an error symbol, since it stands out somewhat, and it's *
+    * not otherwise used.                                                 */
+            mvaddch(y + 1, x, '0');
+          }
         }
       }
     }
@@ -499,6 +577,12 @@ void io_handle_input(dungeon_t *d)
       break;
     case '<':
       fail_code = move_pc(d, '<');
+      break;
+    //Lee's
+    case 'f':
+      d->seen = !d->seen;
+      fail_code = 1;
+      io_display(d);
       break;
     case 'Q':
       d->quit = 1;

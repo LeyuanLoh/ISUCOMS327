@@ -166,7 +166,7 @@ void do_moves(dungeon_t *d)
 
     heap_insert(&d->events, update_event(d, e, 1000 / c->speed));
   }
-
+  update_seen_map(d);
   io_display(d);
   if (pc_is_alive(d) && e->c == &d->pc) {
     c = e->c;
@@ -314,6 +314,8 @@ uint32_t move_pc(dungeon_t *d, uint32_t dir)
   } else if (mappair(next) < ter_floor) {
     io_queue_message(wallmsg[rand() % (sizeof (wallmsg) /
                                        sizeof (wallmsg[0]))]);
+
+    update_seen_map(d); //Lee's
     io_display(d);
   }
 
