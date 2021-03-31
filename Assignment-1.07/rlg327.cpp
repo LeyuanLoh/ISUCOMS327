@@ -12,6 +12,7 @@
 #include "io.h"
 #include <iostream>
 #include <fstream>
+#include <vector>
 using namespace std;
 const char *victory =
     "\n                                       o\n"
@@ -291,16 +292,27 @@ void usage(char *name)
 //   return 0;
 // }
 
-class new_monster{
-  public:
-    string name;
-    string desc;
-    string color;
-    string abil;
-    string hp;
-    string dam;
-    string symb;
-    string rrty;
+class new_monster
+{
+public:
+  string name;
+  string desc;
+  int color;
+  string abil;
+  dice hp;
+  dice speed;
+  dice dam;
+  string symb;
+  int rrty;
+
+  new_monster()
+  {
+    name = "";
+    desc = "";
+    color = 0;
+    symb = "";
+    rrty = 0;
+  }
 };
 
 //@author: Leyuan Loh
@@ -321,70 +333,207 @@ int main(int argv, char *argc[])
 
   filename = (char *)malloc(len * sizeof(*filename));
   sprintf(filename, "%s/%s/%s", home, SAVE_DIR, "monster_desc.txt");
-  cout << filename << endl;
   string line;
   ifstream f(filename);
+  vector<new_monster> monsList;
   if (f.is_open())
   {
 
-    //check if there is a meta.
-    if (!(getline(f, line)))
-    {
-      exit(1);
-    }
-
     //Metadata for versioning
     //If it fails to match, you may terminate the program.
-    if (!(line.substr(0, line.find(" ")).compare("RLG327 MONSTER DESCRIPTION 1")))
+    if (!(line.compare("RLG327 MONSTER DESCRIPTION 1")))
     {
+      cout << "Wrong meta" << endl;
       exit(1);
     }
 
-    //Start really reading. 
-    while(getline(f,line)){
-      if(line.compare("BEGIN MONSTER")){
+    //Start really reading.
+    while (getline(f, line))
+    {
+      if (line.compare("BEGIN MONSTER"))
+      {
         bool wrong = false;
-        bool name;
-        bool desc;
-        bool colr;
-        bool sped;
-        bool abil;
-        bool hp;
-        bool dam;
-        bool symb;
-        bool rrty;
+        bool nameFoo = false;
+        bool descFoo = false;
+        bool colorFoo = false;
+        bool speedFoo = false;
+        bool abilFoo = false;
+        bool hpFoo = false;
+        bool damFoo = false;
+        bool symbFoo = false;
+        bool rrtyFoo = false;
 
-        getline(f,line);
+        new_monster monster;
+
+        getline(f, line);
         //read until end.
-        while(!(line.compare("END"))){
-          int pos=line.find(" "); 
-          string keyword = line.substr(0, pos);
-          if(keyword.compare("NAME")){
-
-          }else if(keyword.compare("DESC")){
-
-          }else if(keyword.compare("SPEED")){
-
-          }else if(keyword.compare("ABIL")){
-
-          }else if(keyword.compare("HP")){
-
-          }else if(keyword.compare("DAM")){
-
-          }else if(keyword.compare("SYMB")){
-
-          }else if(keyword.compare("RRTY")){
-
-          }else{
-            //unknown field.
-             wrong = true;
+        while (!(line.compare("END")))
+        {
+          cout << line << endl;
+          if (wrong)
+          {
+            continue;
           }
-
-          
-
-          getline(f,line);
+          int pos = line.find(" ");
+          string keyword = line.substr(0, pos);
+          if (!keyword.compare("DESC") && pos == -1)
+          {
+            wrong = true;
+            continue;
+          }
+          if (keyword.compare("NAME"))
+          {
+            if (nameFoo)
+            {
+              wrong = true;
+              continue;
+            }
+            monster.name = line.substr(pos + 1, line.length());
+            nameFoo = true;
+          }
+          else if (keyword.compare("COLOR"))
+          {
+            if (colorFoo)
+            {
+              wrong = true;
+              continue;
+            }
+            string colorStr = line.substr(pos + 1, line.length());
+            if (colorStr.compare("RED"))
+            {
+              monster.color = 1;
+            }
+            else if (colorStr.compare("GREEN"))
+            {
+              monster.color = 2;
+            }
+            else if (colorStr.compare("BLUE"))
+            {
+              monster.color = 4;
+            }
+            else if (colorStr.compare("CYAN"))
+            {
+              monster.color = 6;
+            }
+            else if (colorStr.compare("YELLOW"))
+            {
+              monster.color = 3;
+            }
+            else if (colorStr.compare("MAGENTA"))
+            {
+              monster.color = 5;
+            }
+            else if (colorStr.compare("WHITE"))
+            {
+              monster.color = 7;
+            }
+            else
+            {
+              monster.color = 0;
+            }
+            colorFoo = true;
+          }
+          else if (keyword.compare("DESC"))
+          {
+            if (descFoo)
+            {
+              wrong = true;
+              continue;
+            }
+            getline(f, line);
+            while (line.compare("."))
+            {
+              monster.name = monster.name + line;
+              getline(f, line);
+            }
+            descFoo = true;
+          }
+          else if (keyword.compare("SPEED"))
+          {
+            if (speedFoo)
+            {
+              wrong = true;
+              continue;
+            }
+            int temp = line.find("+");
+            monster.speed.base = stoi(line.substr(pos + 1, temp));
+            int temp1 = line.find("d");
+            monster.speed.roll = stoi(line.substr(temp + 1, temp1));
+            monster.speed.sides = stoi(line.substr(temp1 + 1, line.length()));
+            speedFoo = true;
+          }
+          else if (keyword.compare("ABIL"))
+          {
+            if (abilFoo)
+            {
+              wrong = true;
+              continue;
+            }
+            monster.abil = line.substr(pos + 1, line.length());
+            abilFoo = true;
+          }
+          else if (keyword.compare("HP"))
+          {
+            if (hpFoo)
+            {
+              wrong = true;
+              continue;
+            }
+            int temp = line.find("+");
+            monster.hp.base = stoi(line.substr(pos + 1, temp));
+            int temp1 = line.find("d");
+            monster.hp.roll = stoi(line.substr(temp + 1, temp1));
+            monster.hp.sides = stoi(line.substr(temp1 + 1, line.length()));
+            hpFoo = true;
+          }
+          else if (keyword.compare("DAM"))
+          {
+            if (damFoo)
+            {
+              wrong = true;
+              continue;
+            }
+            int temp = line.find("+");
+            monster.dam.base = stoi(line.substr(pos + 1, temp));
+            int temp1 = line.find("d");
+            monster.dam.roll = stoi(line.substr(temp + 1, temp1));
+            monster.dam.sides = stoi(line.substr(temp1 + 1, line.length()));
+            damFoo = true;
+          }
+          else if (keyword.compare("SYMB"))
+          {
+            if (symbFoo)
+            {
+              wrong = true;
+              continue;
+            }
+            monster.symb = line.substr(pos + 1, line.length());
+            symbFoo = true;
+          }
+          else if (keyword.compare("RRTY"))
+          {
+            if (rrtyFoo)
+            {
+              wrong = true;
+              continue;
+            }
+            monster.rrty = stoi(line.substr(pos + 1, line.length()));
+            rrtyFoo = true;
+          }
+          else
+          {
+            //unknown field.
+            wrong = true;
+          }
+          getline(f, line);
         }
+        if (!wrong && nameFoo && descFoo && colorFoo && speedFoo && abilFoo && hpFoo && damFoo && symbFoo && rrtyFoo)
+        {
+          monsList.push_back(monster);
+        }
+        getline(f, line);
       }
+      getline(f, line);
     }
   }
   else
@@ -392,4 +541,21 @@ int main(int argv, char *argc[])
     cout << "Ohh ohh. Something wrong.";
   }
   f.close();
+
+  //Now output
+  cout << monsList.size() << endl;
+  exit(1);
+  for (size_t i = 0; i < monsList.size(); i++)
+  {
+    new_monster mon = monsList[i];
+    cout << mon.name << endl;
+    cout << mon.desc << endl;
+    cout << mon.symb << endl;
+    cout << mon.speed.toString() << endl;
+    cout << mon.abil << endl;
+    cout << mon.hp.toString() << endl;
+    cout << mon.dam.toString() << endl;
+    cout << mon.rrty << endl
+         << endl;
+  }
 }

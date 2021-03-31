@@ -1,28 +1,30 @@
 #ifndef DUNGEON_H
-# define DUNGEON_H
+#define DUNGEON_H
 
-# include "heap.h"
-# include "dims.h"
-# include "character.h"
+#include "heap.h"
+#include "dims.h"
+#include "character.h"
+#include <ctime>
+#include <string>
 
-#define DUNGEON_X              80
-#define DUNGEON_Y              21
-#define MIN_ROOMS              6
-#define MAX_ROOMS              10
-#define ROOM_MIN_X             4
-#define ROOM_MIN_Y             3
-#define ROOM_MAX_X             20
-#define ROOM_MAX_Y             15
-#define PC_VISUAL_RANGE        3
-#define NPC_VISUAL_RANGE       15
-#define PC_SPEED               10
-#define NPC_MIN_SPEED          5
-#define NPC_MAX_SPEED          20
-#define MAX_MONSTERS           15
-#define SAVE_DIR               ".rlg327"
-#define DUNGEON_SAVE_FILE      "dungeon"
-#define DUNGEON_SAVE_SEMANTIC  "RLG327-" TERM
-#define DUNGEON_SAVE_VERSION   0U
+#define DUNGEON_X 80
+#define DUNGEON_Y 21
+#define MIN_ROOMS 6
+#define MAX_ROOMS 10
+#define ROOM_MIN_X 4
+#define ROOM_MIN_Y 3
+#define ROOM_MAX_X 20
+#define ROOM_MAX_Y 15
+#define PC_VISUAL_RANGE 3
+#define NPC_VISUAL_RANGE 15
+#define PC_SPEED 10
+#define NPC_MIN_SPEED 5
+#define NPC_MAX_SPEED 20
+#define MAX_MONSTERS 15
+#define SAVE_DIR ".rlg327"
+#define DUNGEON_SAVE_FILE "dungeon"
+#define DUNGEON_SAVE_SEMANTIC "RLG327-" TERM
+#define DUNGEON_SAVE_VERSION 0U
 
 #define mappair(pair) (d->map[pair[dim_y]][pair[dim_x]])
 #define mapxy(x, y) (d->map[y][x])
@@ -31,7 +33,8 @@
 #define charpair(pair) (d->character_map[pair[dim_y]][pair[dim_x]])
 #define charxy(x, y) (d->character_map[y][x])
 
-enum __attribute__ ((__packed__)) terrain_type {
+enum __attribute__((__packed__)) terrain_type
+{
   ter_debug,
   ter_unknown,
   ter_wall,
@@ -44,15 +47,17 @@ enum __attribute__ ((__packed__)) terrain_type {
   ter_stairs_down
 };
 
-typedef struct room {
+typedef struct room
+{
   pair_t position;
   pair_t size;
 } room_t;
 
 class pc;
 
-class dungeon {
- public:
+class dungeon
+{
+public:
   uint32_t num_rooms;
   room_t *rooms;
   terrain_type map[DUNGEON_Y][DUNGEON_X];
@@ -81,6 +86,55 @@ class dungeon {
   uint32_t time;
   uint32_t is_new;
   uint32_t quit;
+};
+
+//Lee's
+class dice
+{
+public:
+  int base;
+  int roll;
+  int sides;
+
+  dice()
+  {
+    base = 0;
+    roll = 0;
+    sides = 0;
+  }
+
+  dice(int b, int r, int s)
+  {
+    base = b;
+    roll = r;
+    sides = s;
+  }
+
+  int rolls()
+  {
+    srand(time(NULL));
+
+    if (roll == 0)
+    {
+      return base;
+    }
+
+    int final_value = 0;
+
+    int i;
+    for (i = 0; i < roll; i++)
+    {
+      int dice_value = rand() % sides + 1;
+      final_value += dice_value;
+    }
+
+    return base + final_value;
+  }
+
+  std::string toString()
+  {
+    return std::to_string(base) + ((std::string) "+") + std::to_string(roll) + (std::string) "d" + std::to_string(sides);
+  }
 };
 
 void init_dungeon(dungeon *d);
