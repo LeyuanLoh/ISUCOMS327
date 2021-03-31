@@ -21,5 +21,6 @@
 #define UNUSED(f) ((void) f)
 
 int makedirectory(char *dir);
+int roll_dice(int base, int dice, int sides);
 
 #endif

@@ -3,6 +3,11 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <stdio.h>
+#include <sys/time.h>
+#include <cstdlib>
+#include <ctime>
+
+
 
 #include "utils.h"
 
@@ -39,4 +44,25 @@ int makedirectory(char *dir)
   }
 
   return 0;
+}
+
+//Lee's
+int roll_dice(int base, int dice, int sides)
+{
+
+  srand(time(NULL));
+
+  if(dice ==0){
+      return base;
+  }
+
+  int final_value = 0;
+
+  int i;
+  for(i =0; i<dice; i++){
+    int dice_value = rand()%sides +1;
+    final_value += dice_value;
+  }
+
+  return base + final_value;
 }

@@ -4,6 +4,7 @@
 # include "heap.h"
 # include "dims.h"
 # include "character.h"
+#include <ctime>
 
 #define DUNGEON_X              80
 #define DUNGEON_Y              21
@@ -81,6 +82,38 @@ class dungeon {
   uint32_t time;
   uint32_t is_new;
   uint32_t quit;
+};
+
+//Lee's 
+class dice {
+  public: 
+    int base;
+    int roll;
+    int sides;
+
+    dice(int b, int r, int s){
+      base = b;
+      roll = r;
+      sides = s;
+    }
+
+    int rolls(){
+      srand(time(NULL));
+
+      if(roll ==0){
+        return base;
+      }
+
+      int final_value = 0;
+
+      int i;
+      for(i =0; i<roll; i++){
+        int dice_value = rand()%sides +1;
+        final_value += dice_value;
+      }
+
+      return base + final_value;
+    }  
 };
 
 void init_dungeon(dungeon *d);
