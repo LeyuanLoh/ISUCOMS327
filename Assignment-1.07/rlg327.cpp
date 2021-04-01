@@ -570,7 +570,7 @@ int main(int argv, char *argc[])
 
     //change here
     //not sure need to output the orignal description or the actual description.
-    cout << mon.desc << endl;
+    cout << mon.origdesc << endl;
     cout << mon.symb << endl;
     cout << mon.speed.toString() << endl;
     cout << mon.abil << endl;
