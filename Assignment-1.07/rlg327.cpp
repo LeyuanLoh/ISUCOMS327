@@ -306,7 +306,6 @@ public:
   dice dam;
   string symb;
   int rrty;
-  string origdesc;
 
   new_monster()
   {
@@ -314,40 +313,37 @@ public:
     desc = "";
     symb = "";
     rrty = 0;
-    origdesc = "";
   }
-};
 
-//Lee's
-void printColor(new_monster monster){
+void printColor(){
 
-    for(size_t i = 0; i < monster.color.size();i++)
+    for(size_t i = 0; i < color.size();i++)
     {
-      if (monster.color[i] == 1)
+      if (color[i] == 1)
       {
         cout << "RED";
       }
-      else if(monster.color[i]== 2)
+      else if(color[i]== 2)
       {
         cout << "GREEN";
       }
-      else if( monster.color[i] ==3)
+      else if( color[i] ==3)
       {
         cout << "YELLOW";
       }
-      else if( monster.color[i]==4)
+      else if( color[i]==4)
       {
         cout << "BLUE";
       }
-      else if(monster.color[i] ==5)
+      else if(color[i] ==5)
       {
         cout << "MAGENTA";
       }
-      else if(monster.color[i]== 6)
+      else if(color[i]== 6)
       {
         cout << "CYAN";
       }
-      else if(monster.color[i] == 7)
+      else if(color[i] == 7)
       {
         cout << "WHITE";
       }
@@ -361,47 +357,53 @@ void printColor(new_monster monster){
     cout << endl;
 }
 
-void printAbil(new_monster monster)
+void printAbil()
 {
   bitset<9> temp(NPC_SMART);
-  if( (monster.abil & temp) == NPC_SMART){
+  if( (abil & temp) == NPC_SMART){
     cout << "SMART ";
   }
   temp <<= 1;
-  if( (monster.abil & temp) == NPC_TELEPATH){
+  if( (abil & temp) == NPC_TELEPATH){
     cout << "TELE ";
   }
   temp <<= 1;
-  if( (monster.abil & temp) == NPC_TUNNEL){
+  if( (abil & temp) == NPC_TUNNEL){
     cout << "TUNNEL ";
   }
   temp <<= 1;
-  if( (monster.abil & temp) == NPC_ERRATIC){
+  if( (abil & temp) == NPC_ERRATIC){
     cout << "ERRATIC ";
   }
   temp <<= 1;
-  if( (monster.abil & temp) == NPC_PASS){
+  if( (abil & temp) == NPC_PASS){
     cout << "PASS ";
   }
   temp <<= 1;
-  if( (monster.abil & temp) == NPC_PICKUP){
+  if( (abil & temp) == NPC_PICKUP){
     cout << "PICKUP ";
   }
   temp <<= 1;
-  if( (monster.abil & temp) == NPC_DESTROY){
+  if( (abil & temp) == NPC_DESTROY){
     cout << "DESTROY ";
   }
   temp <<= 1;
-  if( (monster.abil & temp) == NPC_UNIQ){
+  if( (abil & temp) == NPC_UNIQ){
     cout << "UNIQ ";
   }
   temp <<= 1;
-  if( (monster.abil & temp) == NPC_BOSS){
+  if( (abil & temp) == NPC_BOSS){
     cout << "BOSS ";
   }
   cout << "\n";
   
 }
+
+};
+
+//Lee's
+//We are using the method from https://www.geeksforgeeks.org/split-string-substrings-using-delimiter/. 
+//The method simple split a string into a vector.
 vector<string> splitStrings(string str, char dl)
 {
     string word = "";
@@ -577,23 +579,11 @@ int main(int argv, char *argc[])
             string cand = "";
             while (line.compare(".") != 0)
             {
-              if (monster.desc.length() < 78)
-              {
-                monster.desc += line + "\n";
-                monster.desc = monster.desc.substr(0, 77);
-
-                if (monster.desc.length() >= 77 && monster.desc.at(76) == '\n')
-                {
-                  monster.desc = monster.desc.substr(0, 75);
-                }
-              }
-              cand = cand + line + "\n";
+              monster.desc += line.substr(0,77) + "\n";
               getline(f, line);
             }
             //remove last \n from cand
-            cand = cand.substr(0, cand.length() - 1);
-            monster.origdesc = cand;
-
+            monster.desc = monster.desc.substr(0, cand.length() - 1);
             descFoo = true;
           }
           else if (keyword.compare("SPEED") == 0)
@@ -623,7 +613,6 @@ int main(int argv, char *argc[])
             
             for(size_t i = 0; i < abilVector.size();i++)
             {
-                cout << "###" + abilVector[i] << endl;
 
                 if (abilVector[i].compare("SMART") == 0)
                 {
@@ -745,10 +734,10 @@ int main(int argv, char *argc[])
 
     //change here
     //not sure need to output the orignal description or the actual description.
-    cout << mon.origdesc << endl;
-    printColor(mon); //Lee's
+    cout << mon.desc << endl;
+    mon.printColor(); //Lee's
     cout << mon.speed.toString() << endl;
-    printAbil(mon);
+    mon.printAbil();
     cout << mon.hp.toString() << endl;
     cout << mon.dam.toString() << endl;
     cout << mon.symb << endl;
