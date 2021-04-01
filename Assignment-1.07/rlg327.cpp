@@ -304,6 +304,7 @@ public:
   dice dam;
   string symb;
   int rrty;
+  string origdesc;
 
   new_monster()
   {
@@ -312,6 +313,7 @@ public:
     color = 0;
     symb = "";
     rrty = 0;
+    origdesc = "";
   }
 };
 
@@ -350,7 +352,7 @@ int main(int argv, char *argc[])
     //Start really reading.
     while (getline(f, line))
     {
-      if (line.compare("BEGIN MONSTER"))
+      if (line.compare("BEGIN MONSTER") == 0)
       {
         bool wrong = false;
         bool nameFoo = false;
@@ -367,21 +369,20 @@ int main(int argv, char *argc[])
 
         getline(f, line);
         //read until end.
-        while (!(line.compare("END")))
+        while ((line.compare("END") != 0))
         {
-          cout << line << endl;
           if (wrong)
           {
             continue;
           }
           int pos = line.find(" ");
           string keyword = line.substr(0, pos);
-          if (!keyword.compare("DESC") && pos == -1)
+          if (keyword.compare("DESC") != 0 && pos == -1)
           {
             wrong = true;
             continue;
           }
-          if (keyword.compare("NAME"))
+          if (keyword.compare("NAME") == 0)
           {
             if (nameFoo)
             {
@@ -391,7 +392,7 @@ int main(int argv, char *argc[])
             monster.name = line.substr(pos + 1, line.length());
             nameFoo = true;
           }
-          else if (keyword.compare("COLOR"))
+          else if (keyword.compare("COLOR") == 0)
           {
             if (colorFoo)
             {
@@ -399,31 +400,31 @@ int main(int argv, char *argc[])
               continue;
             }
             string colorStr = line.substr(pos + 1, line.length());
-            if (colorStr.compare("RED"))
+            if (colorStr.compare("RED") == 0)
             {
               monster.color = 1;
             }
-            else if (colorStr.compare("GREEN"))
+            else if (colorStr.compare("GREEN") == 0)
             {
               monster.color = 2;
             }
-            else if (colorStr.compare("BLUE"))
+            else if (colorStr.compare("BLUE") == 0)
             {
               monster.color = 4;
             }
-            else if (colorStr.compare("CYAN"))
+            else if (colorStr.compare("CYAN") == 0)
             {
               monster.color = 6;
             }
-            else if (colorStr.compare("YELLOW"))
+            else if (colorStr.compare("YELLOW") == 0)
             {
               monster.color = 3;
             }
-            else if (colorStr.compare("MAGENTA"))
+            else if (colorStr.compare("MAGENTA") == 0)
             {
               monster.color = 5;
             }
-            else if (colorStr.compare("WHITE"))
+            else if (colorStr.compare("WHITE") == 0)
             {
               monster.color = 7;
             }
@@ -433,22 +434,38 @@ int main(int argv, char *argc[])
             }
             colorFoo = true;
           }
-          else if (keyword.compare("DESC"))
+          else if (keyword.compare("DESC") == 0)
           {
+
             if (descFoo)
             {
               wrong = true;
               continue;
             }
             getline(f, line);
-            while (line.compare("."))
+            string cand = "";
+            while (line.compare(".") != 0)
             {
-              monster.name = monster.name + line;
+              if (monster.desc.length() < 78)
+              {
+                monster.desc += line + "\n";
+                monster.desc = monster.desc.substr(0, 77);
+
+                if (monster.desc.length() >= 77 && monster.desc.at(76) == '\n')
+                {
+                  monster.desc = monster.desc.substr(0, 75);
+                }
+              }
+              cand = cand + line + "\n";
               getline(f, line);
             }
+            //remove last \n from cand
+            cand = cand.substr(0, cand.length() - 1);
+            monster.origdesc = cand;
+
             descFoo = true;
           }
-          else if (keyword.compare("SPEED"))
+          else if (keyword.compare("SPEED") == 0)
           {
             if (speedFoo)
             {
@@ -462,7 +479,7 @@ int main(int argv, char *argc[])
             monster.speed.sides = stoi(line.substr(temp1 + 1, line.length()));
             speedFoo = true;
           }
-          else if (keyword.compare("ABIL"))
+          else if (keyword.compare("ABIL") == 0)
           {
             if (abilFoo)
             {
@@ -472,7 +489,7 @@ int main(int argv, char *argc[])
             monster.abil = line.substr(pos + 1, line.length());
             abilFoo = true;
           }
-          else if (keyword.compare("HP"))
+          else if (keyword.compare("HP") == 0)
           {
             if (hpFoo)
             {
@@ -486,7 +503,7 @@ int main(int argv, char *argc[])
             monster.hp.sides = stoi(line.substr(temp1 + 1, line.length()));
             hpFoo = true;
           }
-          else if (keyword.compare("DAM"))
+          else if (keyword.compare("DAM") == 0)
           {
             if (damFoo)
             {
@@ -500,7 +517,7 @@ int main(int argv, char *argc[])
             monster.dam.sides = stoi(line.substr(temp1 + 1, line.length()));
             damFoo = true;
           }
-          else if (keyword.compare("SYMB"))
+          else if (keyword.compare("SYMB") == 0)
           {
             if (symbFoo)
             {
@@ -510,7 +527,7 @@ int main(int argv, char *argc[])
             monster.symb = line.substr(pos + 1, line.length());
             symbFoo = true;
           }
-          else if (keyword.compare("RRTY"))
+          else if (keyword.compare("RRTY") == 0)
           {
             if (rrtyFoo)
             {
@@ -529,11 +546,13 @@ int main(int argv, char *argc[])
         }
         if (!wrong && nameFoo && descFoo && colorFoo && speedFoo && abilFoo && hpFoo && damFoo && symbFoo && rrtyFoo)
         {
+          if (monster.desc.at(monster.desc.length() - 1) == '\n')
+          {
+            monster.desc = monster.desc.substr(0, monster.desc.length() - 1);
+          }
           monsList.push_back(monster);
         }
-        getline(f, line);
       }
-      getline(f, line);
     }
   }
   else
@@ -543,12 +562,14 @@ int main(int argv, char *argc[])
   f.close();
 
   //Now output
-  cout << monsList.size() << endl;
-  exit(1);
+
   for (size_t i = 0; i < monsList.size(); i++)
   {
     new_monster mon = monsList[i];
     cout << mon.name << endl;
+
+    //change here
+    //not sure need to output the orignal description or the actual description.
     cout << mon.desc << endl;
     cout << mon.symb << endl;
     cout << mon.speed.toString() << endl;
