@@ -3,6 +3,7 @@
 #include <sys/time.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <bits/stdc++.h>
 
 #include "dungeon.h"
 #include "pc.h"
@@ -13,6 +14,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+
 using namespace std;
 const char *victory =
     "\n                                       o\n"
@@ -297,8 +299,8 @@ class new_monster
 public:
   string name;
   string desc;
-  int color;
-  string abil;
+  vector<int> color;
+  bitset<9> abil;
   dice hp;
   dice speed;
   dice dam;
@@ -310,12 +312,133 @@ public:
   {
     name = "";
     desc = "";
-    color = 0;
     symb = "";
     rrty = 0;
     origdesc = "";
   }
 };
+
+//Lee's
+void printColor(new_monster monster){
+
+    for(size_t i = 0; i < monster.color.size();i++)
+    {
+      if (monster.color[i] == 1)
+      {
+        cout << "RED";
+      }
+      else if(monster.color[i]== 2)
+      {
+        cout << "GREEN";
+      }
+      else if( monster.color[i] ==3)
+      {
+        cout << "YELLOW";
+      }
+      else if( monster.color[i]==4)
+      {
+        cout << "BLUE";
+      }
+      else if(monster.color[i] ==5)
+      {
+        cout << "MAGENTA";
+      }
+      else if(monster.color[i]== 6)
+      {
+        cout << "CYAN";
+      }
+      else if(monster.color[i] == 7)
+      {
+        cout << "WHITE";
+      }
+      else
+      {
+        cout << "BLACK";
+      }
+
+      cout << " ";
+    }
+    cout << endl;
+}
+
+void printAbil(new_monster monster)
+{
+  bitset<9> temp(NPC_SMART);
+  if( (monster.abil & temp) == NPC_SMART){
+    cout << "SMART ";
+  }
+  temp <<= 1;
+  if( (monster.abil & temp) == NPC_TELEPATH){
+    cout << "TELE ";
+  }
+  temp <<= 1;
+  if( (monster.abil & temp) == NPC_TUNNEL){
+    cout << "TUNNEL ";
+  }
+  temp <<= 1;
+  if( (monster.abil & temp) == NPC_ERRATIC){
+    cout << "ERRATIC ";
+  }
+  temp <<= 1;
+  if( (monster.abil & temp) == NPC_PASS){
+    cout << "PASS ";
+  }
+  temp <<= 1;
+  if( (monster.abil & temp) == NPC_PICKUP){
+    cout << "PICKUP ";
+  }
+  temp <<= 1;
+  if( (monster.abil & temp) == NPC_DESTROY){
+    cout << "DESTROY ";
+  }
+  temp <<= 1;
+  if( (monster.abil & temp) == NPC_UNIQ){
+    cout << "UNIQ ";
+  }
+  temp <<= 1;
+  if( (monster.abil & temp) == NPC_BOSS){
+    cout << "BOSS ";
+  }
+  cout << "\n";
+  
+}
+vector<string> splitStrings(string str, char dl)
+{
+    string word = "";
+  
+    // adding delimiter character at the end
+    // of 'str'
+    str = str + dl;
+  
+    // length of 'str'
+    int l = str.size();
+  
+    // traversing 'str' from left to right
+    vector<string> substr_list;
+    for (int i = 0; i < l; i++) {
+  
+        // if str[i] is not equal to the delimiter
+        // character then accumulate it to 'word'
+        if (str[i] != dl)
+            word = word + str[i];
+  
+        else {
+  
+            // if 'word' is not an empty string,
+            // then add this 'word' to the array
+            // 'substr_list[]'
+            if ((int)word.size() != 0)
+                substr_list.push_back(word);
+  
+            // reset 'word'
+            word = "";
+        }
+    }
+  
+    // return the splitted strings
+    return substr_list;
+}
+
 
 //@author: Leyuan Loh
 //its better to create a new main method.
@@ -373,6 +496,7 @@ int main(int argv, char *argc[])
         {
           if (wrong)
           {
+            getline(f, line);
             continue;
           }
           int pos = line.find(" ");
@@ -400,38 +524,45 @@ int main(int argv, char *argc[])
               continue;
             }
             string colorStr = line.substr(pos + 1, line.length());
-            if (colorStr.compare("RED") == 0)
+            vector<string> colorVector = splitStrings(colorStr,' ');
+            
+            for(size_t i = 0; i < colorVector.size();i++)
             {
-              monster.color = 1;
+                if (colorVector[i].compare("RED") == 0)
+                {
+                  monster.color.push_back(1);
+                }
+                else if (colorVector[i].compare("GREEN") == 0)
+                {
+                  monster.color.push_back(2);
+                }
+                else if (colorVector[i].compare("BLUE") == 0)
+                {
+                  monster.color.push_back(4);
+                }
+                else if (colorVector[i].compare("CYAN") == 0)
+                {
+                  monster.color.push_back(6);
+                }
+                else if (colorVector[i].compare("YELLOW") == 0)
+                {
+                  monster.color.push_back(3);
+                }
+                else if (colorVector[i].compare("MAGENTA") == 0)
+                {
+                  monster.color.push_back(5);
+                }
+                else if (colorVector[i].compare("WHITE") == 0)
+                {
+                  monster.color.push_back(7);
+                }
+                else
+                {
+                  monster.color.push_back(0);
+                }
             }
-            else if (colorStr.compare("GREEN") == 0)
-            {
-              monster.color = 2;
-            }
-            else if (colorStr.compare("BLUE") == 0)
-            {
-              monster.color = 4;
-            }
-            else if (colorStr.compare("CYAN") == 0)
-            {
-              monster.color = 6;
-            }
-            else if (colorStr.compare("YELLOW") == 0)
-            {
-              monster.color = 3;
-            }
-            else if (colorStr.compare("MAGENTA") == 0)
-            {
-              monster.color = 5;
-            }
-            else if (colorStr.compare("WHITE") == 0)
-            {
-              monster.color = 7;
-            }
-            else
-            {
-              monster.color = 0;
-            }
+
+            
             colorFoo = true;
           }
           else if (keyword.compare("DESC") == 0)
@@ -486,7 +617,51 @@ int main(int argv, char *argc[])
               wrong = true;
               continue;
             }
-            monster.abil = line.substr(pos + 1, line.length());
+            // monster.abil = line.substr(pos + 1, line.length());
+            string abilStr = line.substr(pos + 1, line.length());
+            vector<string> abilVector = splitStrings(abilStr,' ');
+            
+            for(size_t i = 0; i < abilVector.size();i++)
+            {
+                cout << "###" + abilVector[i] << endl;
+
+                if (abilVector[i].compare("SMART") == 0)
+                {
+                  monster.abil |= NPC_SMART;
+                }
+                else if (abilVector[i].compare("TELE") == 0)
+                {
+                  monster.abil |= NPC_TELEPATH;
+                }
+                else if (abilVector[i].compare("TUNNEL") == 0)
+                {
+                  monster.abil |= NPC_TUNNEL;
+                }
+                else if (abilVector[i].compare("ERRATIC") == 0)
+                {
+                  monster.abil |= NPC_ERRATIC;
+                }
+                else if (abilVector[i].compare("PASS") == 0)
+                {
+                  monster.abil |= NPC_PASS;
+                }
+                else if (abilVector[i].compare("PICKUP") == 0)
+                {
+                  monster.abil |= NPC_PICKUP;
+                }
+                else if (abilVector[i].compare("DESTROY") == 0)
+                {
+                  monster.abil |= NPC_DESTROY;
+                }
+                else if (abilVector[i].compare("UNIQ") == 0)
+                {
+                  monster.abil |= NPC_UNIQ;
+                }
+                else
+                {
+                  monster.abil |= NPC_BOSS;
+                }
+            }
             abilFoo = true;
           }
           else if (keyword.compare("HP") == 0)
@@ -571,11 +746,12 @@ int main(int argv, char *argc[])
     //change here
     //not sure need to output the orignal description or the actual description.
     cout << mon.origdesc << endl;
-    cout << mon.symb << endl;
+    printColor(mon); //Lee's
     cout << mon.speed.toString() << endl;
-    cout << mon.abil << endl;
+    printAbil(mon);
     cout << mon.hp.toString() << endl;
     cout << mon.dam.toString() << endl;
+    cout << mon.symb << endl;
     cout << mon.rrty << endl
          << endl;
   }

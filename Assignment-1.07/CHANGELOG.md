@@ -5,3 +5,9 @@
          - create a monster class to store the description (rlg327.cpp)
          - using vector to store the monster class (rlg327.cpp)
          - add tostring method in dice class (dungeon.h)
+
+### 4/1/21
+* BoSheng - create a dice class
+          - change color into color vector
+          -change ability into bitset instead of string
+          - fix duplicate field bug
