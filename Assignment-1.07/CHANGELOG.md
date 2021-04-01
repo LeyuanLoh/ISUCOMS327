@@ -11,4 +11,4 @@
           - change color into color vector
           -change ability into bitset instead of string
           - fix duplicate field bug
-* Leyuan  - finalise.
+* Leyuan  - finalize.
