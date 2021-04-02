@@ -577,9 +577,13 @@ int main(int argv, char *argc[])
             }
             getline(f, line);
             string cand = "";
-            while (line.compare(".") != 0)
+            while (line.compare(".") != 0 && wrong != true)
             {
-              monster.desc += line.substr(0,77) + "\n";
+              if(line.length() > 77){
+                wrong = true;
+                continue;
+              }
+              monster.desc += line + "\n";
               getline(f, line);
             }
             //remove last \n from cand
