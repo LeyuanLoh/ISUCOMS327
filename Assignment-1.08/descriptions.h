@@ -1,11 +1,11 @@
 #ifndef DESCRIPTIONS_H
-# define DESCRIPTIONS_H
+#define DESCRIPTIONS_H
 
-# include <stdint.h>
-# undef swap
-# include <vector>
-# include <string>
-# include "dice.h"
+#include <stdint.h>
+#undef swap
+#include <vector>
+#include <string>
+#include "dice.h"
 #include "npc.h"
 
 typedef struct dungeon dungeon_t;
@@ -14,7 +14,8 @@ uint32_t parse_descriptions(dungeon_t *d);
 uint32_t print_descriptions(dungeon_t *d);
 uint32_t destroy_descriptions(dungeon_t *d);
 
-typedef enum object_type {
+typedef enum object_type
+{
   objtype_no_type,
   objtype_WEAPON,
   objtype_OFFHAND,
@@ -39,17 +40,19 @@ typedef enum object_type {
 
 extern const char object_symbol[];
 
-class monster_description {
- private:
+class monster_description
+{
+private:
   std::string name, description;
   char symbol;
   std::vector<uint32_t> color;
   uint32_t abilities;
   dice speed, hitpoints, damage;
   uint32_t rarity;
- public:
-  monster_description() : name(),       description(), symbol(0),   color(0),
-                          abilities(0), speed(),       hitpoints(), damage(),
+
+public:
+  monster_description() : name(), description(), symbol(0), color(0),
+                          abilities(0), speed(), hitpoints(), damage(),
                           rarity(0)
   {
   }
@@ -67,7 +70,8 @@ class monster_description {
   std::string get_name() { return name; }
 
   //Lee's
-  npc *generate_npc(){
+  npc *generate_npc()
+  {
 
     npc *gen_monster;
 
@@ -84,23 +88,52 @@ class monster_description {
     gen_monster->rarity = rarity;
 
     return gen_monster;
-
   }
 };
 
-class object_description {
- private:
+//Leyuan
+class real_object
+{
+public:
+  std::string name;
+  std::string description;
+  object_type_t type;
+  uint32_t color;
+  int32_t hit;
+  dice damage;
+  int32_t dodge;
+  int32_t defence;
+  int32_t weight;
+  int32_t speed;
+  int32_t attribute;
+  int32_t value;
+  bool artifact;
+  uint32_t rarity;
+  pair_t position;
+
+  real_object()
+  {
+    name = "";
+    description = "";
+    type = objtype_no_type;
+  }
+};
+
+class object_description
+{
+private:
   std::string name, description;
   object_type_t type;
   uint32_t color;
   dice hit, damage, dodge, defence, weight, speed, attribute, value;
   bool artifact;
   uint32_t rarity;
- public:
-  object_description() : name(),    description(), type(objtype_no_type),
-                         color(0),  hit(),         damage(),
-                         dodge(),   defence(),     weight(),
-                         speed(),   attribute(),   value(),
+
+public:
+  object_description() : name(), description(), type(objtype_no_type),
+                         color(0), hit(), damage(),
+                         dodge(), defence(), weight(),
+                         speed(), attribute(), value(),
                          artifact(false), rarity(0)
   {
   }
@@ -133,8 +166,31 @@ class object_description {
   inline const dice &get_speed() const { return speed; }
   inline const dice &get_attribute() const { return attribute; }
   inline const dice &get_value() const { return value; }
+
+  //Leyuan
+  real_object *generate_obj()
+  {
+    real_object *gen_obj;
+    gen_obj = new real_object;
+    gen_obj->name = name;
+    gen_obj->description = description;
+    gen_obj->type = type;
+    gen_obj->color = color;
+    gen_obj->hit = hit.roll();
+    gen_obj->damage = damage;
+    gen_obj->dodge = dodge.roll();
+    gen_obj->defence = defence.roll();
+    gen_obj->weight = weight.roll();
+    gen_obj->speed = speed.roll();
+    gen_obj->attribute = attribute.roll();
+    gen_obj->value = value.roll();
+    gen_obj->rarity = rarity;
+    gen_obj->artifact = artifact;
+    return gen_obj;
+  }
 };
 
+void gen_object(dungeon *d);
 std::ostream &operator<<(std::ostream &o, monster_description &m);
 std::ostream &operator<<(std::ostream &o, object_description &od);
 

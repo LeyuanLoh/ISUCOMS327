@@ -59,7 +59,7 @@ class pc;
 class dungeon {
  public:
   dungeon() : num_rooms(0), rooms(0), map{ter_wall}, hardness{0},
-              pc_distance{0}, pc_tunnel{0}, character_map{0}, PC(0),
+              pc_distance{0}, pc_tunnel{0}, character_map{0}, object_map{0}, PC(0),
               num_monsters(0), max_monsters(0), character_sequence_number(0),
               time(0), is_new(0), quit(0), monster_descriptions(),
               object_descriptions() {}
@@ -78,6 +78,9 @@ class dungeon {
   uint8_t pc_distance[DUNGEON_Y][DUNGEON_X];
   uint8_t pc_tunnel[DUNGEON_Y][DUNGEON_X];
   character *character_map[DUNGEON_Y][DUNGEON_X];
+  //Leyuan
+  real_object *object_map[DUNGEON_Y][DUNGEON_X];
+
   pc *PC;
   heap_t events;
   uint16_t num_monsters;
@@ -95,8 +98,6 @@ class dungeon {
   std::vector<object_description> object_descriptions;
   std::vector<int> unique_monster_list;  
   std::vector<int> killed_unique_monster_list;
-
-
 };
 
 void init_dungeon(dungeon *d);
