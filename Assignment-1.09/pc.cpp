@@ -16,15 +16,16 @@ const char *eq_slot_type[num_eq_slots] = {
     "weapon",
     "offhand",
     "ranged",
+    "light",
     "armor",
     "helmet",
     "cloak",
     "gloves",
     "boots",
     "amulet",
-    "light",
     "lh ring",
-    "rh ring"};
+    "rh ring"
+};
 
 //initialize
 pc::pc()
@@ -439,27 +440,80 @@ uint32_t pc::expunge_item_on_slot(dungeon *d, uint32_t slot)
   }
 }
 
-//Leyuan Loh
-uint32_t pc::wear_item(dungeon *d, uint32_t slot)
+void pc::update_pc_speed()
 {
-  if (!inventory[slot])
+  uint32_t i;
+  int32_t default_speed = PC_SPEED;
+
+  for( i=0; i < num_eq_slots; i++){
+    if(equipment[i]){
+      default_speed += equipment[i]->get_speed();
+    }
+  }
+  
+  //try what will hppen if go to zero; it will get floating point execption lul
+  if(default_speed <=0){
+    default_speed = 1;
+  }
+
+  speed = default_speed;
+}
+
+uint32_t pc::wear_item_on_slot(dungeon *d, uint32_t slot)
+{
+  int32_t eq_slot;
+  object *temp;
+  
+  if (!inventory[slot] && !inventory[slot]->can_equip())
   {
     return 0;
   }
-  io_queue_message("You are wearing %s.", inventory[slot]->get_name());
-  //get the type of the item in carry slot.
-  int32_t obj_type = inventory[slot]->get_type();
-  switch (obj_type)
-  {
-  case 1:
-    if (!equipment[0])
-    {
-      equipment[0] = inventory[slot];
-      inventory[slot] = NULL;
+  eq_slot = inventory[slot]->get_equipment_slot();
+
+  if(equipment[eq_slot]){
+    if(equipment[eq_slot]->get_type() == objtype_RING){ //always swap the left ring first
+      if(!equipment[eq_slot +1]){
+        eq_slot++;
+      }
+      else{
+        io_queue_message("You are switching %s.", equipment[eq_slot]->get_name());
+      }
     }
-    else
-    {
-      
+    else{
+      io_queue_message("You are switching %s.", equipment[eq_slot]->get_name());
     }
   }
+
+  temp = equipment[eq_slot];
+  equipment[eq_slot] = inventory[slot];
+  inventory[slot] = temp;
+  
+  io_queue_message("You are wearing %s.", equipment[eq_slot]->get_name());
+
+  update_pc_speed();
+
+  return 1;
+}
+
+uint32_t pc::take_off_item_on_slot(dungeon *d, uint32_t slot)
+{
+  if(!equipment[slot]){
+    return 0;
+  }
+
+  if(!has_open_inventory_slot()){
+    io_queue_message("Your inventory is full, the item is drop on floor.");
+    equipment[slot]->set_next_obj(d->objmap[position[dim_y]][position[dim_x]]);
+    d->objmap[position[dim_y]][position[dim_x]] = equipment[slot];
+    equipment[slot] = NULL;
+  }
+  else{
+    io_queue_message("Your are taking off %s",equipment[slot]->get_name());
+    inventory[get_open_inventory_slot()] = equipment[slot];
+    equipment[slot] = NULL;
+  }
+
+  update_pc_speed();
+  
+  return 1;
 }

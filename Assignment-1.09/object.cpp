@@ -120,3 +120,16 @@ int32_t object::get_type()
 {
   return type;
 }
+
+int32_t object::can_equip()
+{
+  return type >= objtype_WEAPON && type <= objtype_RING;
+}
+
+int32_t object:: get_equipment_slot()
+{
+  if(type >= objtype_WEAPON && type <= objtype_RING ){
+    return type - 1;
+  }
+  return -1;
+}

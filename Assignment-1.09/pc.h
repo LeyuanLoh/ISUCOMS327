@@ -8,18 +8,19 @@
 #include "dungeon.h"
 
 //Lee's: an enum for object type
+//Follow the order of the object_type_t
 typedef enum equip_slot
 {
   weapon_slot,
   offhand_slot,
   ranged_slot,
+  light_slot,
   armor_slot,
   helmet_slot,
   cloak_slot,
   gloves_slot,
   boots_slot,
   amulet_slot,
-  light_slot,
   lring_slot,
   rring_slot,
   num_eq_slots
@@ -40,11 +41,14 @@ public:
   object *equipment[num_eq_slots];
   object *inventory[10];
   void pick_up(dungeon *d);
+  void update_pc_speed();
   uint32_t drop_item_on_slot(dungeon *d, uint32_t slot);
   uint32_t expunge_item_on_slot(dungeon *d, uint32_t slot);
   uint32_t has_open_inventory_slot();
   uint32_t get_open_inventory_slot();
-  uint32_t wear_item(dungeon *d, uint32_t slot);
+  uint32_t wear_item_on_slot(dungeon *d, uint32_t slot);
+  uint32_t take_off_item_on_slot(dungeon *d, uint32_t slot);
+
 };
 
 void pc_delete(pc *pc);

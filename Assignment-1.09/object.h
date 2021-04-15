@@ -39,6 +39,10 @@ class object {
   int32_t get_speed();
   int32_t roll_dice();
   int32_t get_type();
+  int32_t can_equip();
+  int32_t get_equipment_slot();
+
+
   //Lee's
   object *get_next_obj() { return next; }
   void set_next_obj(object *n) { next = n; }
@@ -51,5 +55,6 @@ class object {
 void gen_objects(dungeon *d);
 char object_get_symbol(object *o);
 void destroy_objects(dungeon *d);
+
 
 #endif

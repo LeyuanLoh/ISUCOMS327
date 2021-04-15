@@ -1090,6 +1090,8 @@ static void io_drop_inventory(dungeon *d)
     }
     else
     {
+      mvprintw(0, 0, "Invalid Input!");
+      refresh();
       valid = 0;
     }
 
@@ -1143,6 +1145,8 @@ static void io_expunge_inventory(dungeon *d)
     }
     else
     {
+      mvprintw(0, 0, "Invalid Input!");
+      refresh();
       valid = 0;
     }
 
@@ -1235,6 +1239,8 @@ static void io_inspect_item(dungeon *d)
     }
     else
     {
+      mvprintw(0, 0, "Invalid Input!");
+      refresh();
       valid = 0;
     }
 
@@ -1416,12 +1422,66 @@ void io_look_on_monster(dungeon *d)
   io_display(d);
 }
 
-//Leyuan Loh
 void io_wear_equipment(dungeon *d)
 {
   //first display the carry slot list
   uint32_t i;
+  char s[60];
+  int key;
+  int valid;
+
+  for (i = 0; i <= 19; i++)
+  {
+    mvprintw(i, 9, "%-60s", " ");
+  }
+
+  for (i = 0; i < 10; i++)
+  {
+    object_to_string(d->PC->inventory[i], s, 60);
+    mvprintw(i + 5, 9, "%d) %s ", i, s);
+  }
+  mvprintw(17, 9, " %-60s ", "");
+  mvprintw(18, 9, " %-60s ", "Which item to wear?(0-9)(Esc to cancel)");
+
+  refresh();
+
+  valid = 0;
+  do
+  {
+    key = getch();
+
+    if (key >= '0' && key <= '9')
+    {
+      valid = d->PC->wear_item_on_slot(d, key - '0');
+
+      if (valid == 0)
+      {
+        mvprintw(0, 0, "Slot number %d is an empty slot or not equippable.", key - '0');
+        refresh();
+      }
+    }
+    else if (key == 27)
+    {
+      valid = 1;
+    }
+    else
+    {
+      mvprintw(0, 0, "Invalid Input!");
+      refresh();
+      valid = 0;
+    }
+
+  } while (valid == 0);
+
+  io_display(d);
+}
+
+void io_take_off_equipment(dungeon *d)
+{
+  uint32_t i;
   char s[20], t[60];
+  int key;
+  int valid;
 
   for (i = 0; i <= 19; i++)
   {
@@ -1435,27 +1495,22 @@ void io_wear_equipment(dungeon *d)
     mvprintw(i + 5, 9, "%c %-9s) %-47s ", 'a' + i, s, t);
   }
 
-  mvprintw(18, 9, " %-60s ", "Hit any key to continue.");
+  mvprintw(18, 9, " %-60s ", "Choose equipment to take off(a-l)(Esc to cancel)");
 
   refresh();
-
-  refresh();
-
-  int key;
-  int valid;
 
   valid = 0;
   do
   {
     key = getch();
 
-    if (key >= '0' && key <= '9')
+    if (key >= 'a' && key <= 'l')
     {
-      valid = d->PC->drop_item_on_slot(d, key - '0');
+      valid = d->PC->take_off_item_on_slot(d, key - 'a');
 
       if (valid == 0)
       {
-        mvprintw(0, 0, "Slot number %d is an empty slot", key - '0');
+        mvprintw(0, 0, "Slot %c is an empty slot", key);
         refresh();
       }
     }
@@ -1465,16 +1520,14 @@ void io_wear_equipment(dungeon *d)
     }
     else
     {
+      mvprintw(0, 0, "Invalid Input!");
+      refresh();
       valid = 0;
     }
 
   } while (valid == 0);
-
+  
   io_display(d);
-}
-
-void io_take_off_equipment(dungeon *d)
-{
 }
 
 void io_handle_input(dungeon *d)
@@ -1624,15 +1677,14 @@ void io_handle_input(dungeon *d)
       io_list_equipment(d);
       fail_code = 1;
       break;
-    case 't':
+    case 'w':
       io_wear_equipment(d);
       fail_code = 1;
       break;
-
-    //Leyuan Loh
-    case 'w':
     case 't':
-
+      io_take_off_equipment(d);
+      fail_code = 1;
+      break;
     case 'q':
       /* Demonstrate use of the message queue.  You can use this for *
        * printf()-style debugging (though gdb is probably a better   *
