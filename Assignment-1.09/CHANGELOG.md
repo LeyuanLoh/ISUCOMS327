@@ -15,3 +15,4 @@
           - Last edit was on 1262 io.cpp which is to wear item
           - For wear and take off most probably u need to add functions in pc.cpp where wear only for object weapon tp ring, you can use the object_type in descriptions.h to help differenttiate.
 * Leyuan Loh - modified io_handle_input() in io.cpp
+             - wear_item() in pc.cpp
