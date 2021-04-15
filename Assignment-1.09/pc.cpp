@@ -24,8 +24,7 @@ const char *eq_slot_type[num_eq_slots] = {
     "boots",
     "amulet",
     "lh ring",
-    "rh ring"
-};
+    "rh ring"};
 
 //initialize
 pc::pc()
@@ -86,7 +85,10 @@ void place_pc(dungeon *d)
 
 void config_pc(dungeon *d)
 {
-  static dice pc_dice(0, 1, 4);
+  static dice pc_damage_dice(0, 1, 4);
+
+  //Leyuan
+  dice pc_hp(100000, 0, 1);
 
   d->PC = new pc;
 
@@ -99,8 +101,11 @@ void config_pc(dungeon *d)
   d->PC->sequence_number = 0;
   d->PC->kills[kill_direct] = d->PC->kills[kill_avenged] = 0;
   d->PC->color.push_back(COLOR_WHITE);
-  d->PC->damage = &pc_dice;
+  d->PC->damage = &pc_damage_dice;
   d->PC->name = "Isabella Garcia-Shapiro";
+  
+   //Leyuan
+  d->PC->hp = pc_hp.roll();
 
   d->character_map[d->PC->position[dim_y]][d->PC->position[dim_x]] = d->PC;
 
@@ -445,14 +450,17 @@ void pc::update_pc_speed()
   uint32_t i;
   int32_t default_speed = PC_SPEED;
 
-  for( i=0; i < num_eq_slots; i++){
-    if(equipment[i]){
+  for (i = 0; i < num_eq_slots; i++)
+  {
+    if (equipment[i])
+    {
       default_speed += equipment[i]->get_speed();
     }
   }
-  
+
   //try what will hppen if go to zero; it will get floating point execption lul
-  if(default_speed <=0){
+  if (default_speed <= 0)
+  {
     default_speed = 1;
   }
 
@@ -463,23 +471,28 @@ uint32_t pc::wear_item_on_slot(dungeon *d, uint32_t slot)
 {
   int32_t eq_slot;
   object *temp;
-  
+
   if (!inventory[slot] && !inventory[slot]->can_equip())
   {
     return 0;
   }
   eq_slot = inventory[slot]->get_equipment_slot();
 
-  if(equipment[eq_slot]){
-    if(equipment[eq_slot]->get_type() == objtype_RING){ //always swap the left ring first
-      if(!equipment[eq_slot +1]){
+  if (equipment[eq_slot])
+  {
+    if (equipment[eq_slot]->get_type() == objtype_RING)
+    { //always swap the left ring first
+      if (!equipment[eq_slot + 1])
+      {
         eq_slot++;
       }
-      else{
+      else
+      {
         io_queue_message("You are switching %s.", equipment[eq_slot]->get_name());
       }
     }
-    else{
+    else
+    {
       io_queue_message("You are switching %s.", equipment[eq_slot]->get_name());
     }
   }
@@ -487,7 +500,7 @@ uint32_t pc::wear_item_on_slot(dungeon *d, uint32_t slot)
   temp = equipment[eq_slot];
   equipment[eq_slot] = inventory[slot];
   inventory[slot] = temp;
-  
+
   io_queue_message("You are wearing %s.", equipment[eq_slot]->get_name());
 
   update_pc_speed();
@@ -497,23 +510,26 @@ uint32_t pc::wear_item_on_slot(dungeon *d, uint32_t slot)
 
 uint32_t pc::take_off_item_on_slot(dungeon *d, uint32_t slot)
 {
-  if(!equipment[slot]){
+  if (!equipment[slot])
+  {
     return 0;
   }
 
-  if(!has_open_inventory_slot()){
+  if (!has_open_inventory_slot())
+  {
     io_queue_message("Your inventory is full, the item is drop on floor.");
     equipment[slot]->set_next_obj(d->objmap[position[dim_y]][position[dim_x]]);
     d->objmap[position[dim_y]][position[dim_x]] = equipment[slot];
     equipment[slot] = NULL;
   }
-  else{
-    io_queue_message("Your are taking off %s",equipment[slot]->get_name());
+  else
+  {
+    io_queue_message("Your are taking off %s", equipment[slot]->get_name());
     inventory[get_open_inventory_slot()] = equipment[slot];
     equipment[slot] = NULL;
   }
 
   update_pc_speed();
-  
+
   return 1;
 }
