@@ -85,10 +85,10 @@ void place_pc(dungeon *d)
 
 void config_pc(dungeon *d)
 {
-  static dice pc_damage_dice(1000000, 1, 4);
+  static dice pc_damage_dice(10000, 1, 4);
 
   //Leyuan
-  dice pc_hp(100000, 0, 1);
+  dice pc_hp(10000, 0, 1);
 
   d->PC = new pc;
 

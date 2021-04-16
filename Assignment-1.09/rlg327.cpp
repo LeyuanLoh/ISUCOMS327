@@ -256,7 +256,7 @@ int main(int argc, char *argv[])
   {
     io_queue_message("Seed is %u.", seed);
   }
-  while (pc_is_alive(&d) && dungeon_has_npcs(&d) && d.boss_dead != 1 && !d.quit)
+  while (pc_is_alive(&d) && d.boss_dead != 1 && !d.quit)
   {
     do_moves(&d);
   }

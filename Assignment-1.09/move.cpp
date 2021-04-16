@@ -172,6 +172,7 @@ void do_combat(dungeon *d, character *atk, character *def)
       {
         //Pc. combat system.
         d->PC->hp -= (uint32_t)atk->damage->roll();
+        io_queue_message("You are being attacked by %s ! HP: %d",atk->name,d->PC->hp);
         if (d->PC->hp <= 0)
         {
           def->alive = 0;
@@ -206,6 +207,7 @@ void do_combat(dungeon *d, character *atk, character *def)
       {
         equip_slot_t equipSize = num_eq_slots;
         int32_t damage = d->PC->damage->roll();
+
         for (int i = 0; i < equipSize; i++)
         {
           if (d->PC->equipment[i] != 0)
@@ -213,6 +215,7 @@ void do_combat(dungeon *d, character *atk, character *def)
             damage += d->PC->equipment[i]->roll_dice();
           }
         }
+        io_queue_message("You deal %d damage to %s",damage,def->name);
         def->hp -= (uint32_t)damage;
         if (def->hp <= 0)
         {
