@@ -1,0 +1,754 @@
+==3768948== Memcheck, a memory error detector
+==3768948== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==3768948== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==3768948== Command: ./rlg327
+==3768948== Parent PID: 3768934
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x41807A: io_nearest_visible_monster(dungeon*) (io.cpp:344)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x55d6058 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417F1D: compare_monster_distance(void const*, void const*) (io.cpp:326)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x55d6058 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417F2B: compare_monster_distance(void const*, void const*) (io.cpp:327)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x55d6058 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x4C51150: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x55d6058 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x483EDB3: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x55d6058 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417F1D: compare_monster_distance(void const*, void const*) (io.cpp:326)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x55d6058 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417F2B: compare_monster_distance(void const*, void const*) (io.cpp:327)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x55d6058 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417F1D: compare_monster_distance(void const*, void const*) (io.cpp:326)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x55d6058 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417F2B: compare_monster_distance(void const*, void const*) (io.cpp:327)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x55d6058 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x4C51150: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x55d6058 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x483EDB3: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x55d6058 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x4180DC: io_nearest_visible_monster(dungeon*) (io.cpp:355)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x55d6058 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x4C51150: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x5638b18 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x483EDB3: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x5638b18 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417ED6: compare_monster_distance(void const*, void const*) (io.cpp:324)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x56ccc40 is 8 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417EE4: compare_monster_distance(void const*, void const*) (io.cpp:325)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x56ccc40 is 8 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x4C51189: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x56ccc40 is 8 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x483EDF0: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x56ccc40 is 8 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x4C51150: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x56ccc40 is 8 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x483EDED: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C513BE: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x56ccc38 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x483EDAB: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x56ccc38 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x483EDAB: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x56ccc38 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x483EDF0: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x56ccc48 is 16 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x483EDF0: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x56ccc40 is 8 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x41807A: io_nearest_visible_monster(dungeon*) (io.cpp:344)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x41043A: move_pc(dungeon*, unsigned int) (move.cpp:497)
+==3768948==    by 0x41B953: io_handle_input(dungeon*) (io.cpp:1583)
+==3768948==    by 0x40FDA1: do_moves(dungeon*) (move.cpp:346)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x56ccd88 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x41043A: move_pc(dungeon*, unsigned int) (move.cpp:497)
+==3768948==    by 0x41B953: io_handle_input(dungeon*) (io.cpp:1583)
+==3768948==    by 0x40FDA1: do_moves(dungeon*) (move.cpp:346)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x4180DC: io_nearest_visible_monster(dungeon*) (io.cpp:355)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x41043A: move_pc(dungeon*, unsigned int) (move.cpp:497)
+==3768948==    by 0x41B953: io_handle_input(dungeon*) (io.cpp:1583)
+==3768948==    by 0x40FDA1: do_moves(dungeon*) (move.cpp:346)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x56ccd88 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x41043A: move_pc(dungeon*, unsigned int) (move.cpp:497)
+==3768948==    by 0x41B953: io_handle_input(dungeon*) (io.cpp:1583)
+==3768948==    by 0x40FDA1: do_moves(dungeon*) (move.cpp:346)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417F1D: compare_monster_distance(void const*, void const*) (io.cpp:326)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x572fa18 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417F2B: compare_monster_distance(void const*, void const*) (io.cpp:327)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x572fa18 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x4C51150: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x572fa18 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x483EDF0: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x572fa18 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x4C51189: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x572fa18 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x483EDA3: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x572fa18 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417ED6: compare_monster_distance(void const*, void const*) (io.cpp:324)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x5760ea0 is 8 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417EE4: compare_monster_distance(void const*, void const*) (io.cpp:325)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x5760ea0 is 8 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417F1D: compare_monster_distance(void const*, void const*) (io.cpp:326)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x5760ea8 is 16 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417F2B: compare_monster_distance(void const*, void const*) (io.cpp:327)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x5760ea8 is 16 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x4C51189: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x5760ea0 is 8 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x483EDF0: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x5760ea0 is 8 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417ED6: compare_monster_distance(void const*, void const*) (io.cpp:324)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x5760e98 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x417EE4: compare_monster_distance(void const*, void const*) (io.cpp:325)
+==3768948==    by 0x4C51184: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x5760e98 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid read of size 8
+==3768948==    at 0x4C51189: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C510F4: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x5760e98 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+==3768948== Invalid write of size 8
+==3768948==    at 0x483ED9B: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948==  Address 0x5760e98 is 0 bytes after a block of size 120 alloc'd
+==3768948==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==3768948==    by 0x417F85: io_nearest_visible_monster(dungeon*) (io.cpp:335)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+==3768948== 
+
+valgrind: m_mallocfree.c:303 (get_bszB_as_is): Assertion 'bszB_lo == bszB_hi' failed.
+valgrind: Heap block lo/hi size mismatch: lo = 192, hi = 89388496.
+This is probably caused by your program erroneously writing past the
+end of a heap block and corrupting heap metadata.  If you fix any
+invalid writes reported by Memcheck, this assertion failure will
+probably go away.  Please try that before reporting this as a bug.
+
+
+host stacktrace:
+==3768948==    at 0x5804210A: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==3768948==    by 0x58042237: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==3768948==    by 0x580423DB: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==3768948==    by 0x5804C0D0: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==3768948==    by 0x5803A6DA: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==3768948==    by 0x58038DF7: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==3768948==    by 0x5803D7FD: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==3768948==    by 0x58038058: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==3768948==    by 0x1008D25F67: ???
+==3768948==    by 0x1008BADF2F: ???
+==3768948==    by 0x1008BADF17: ???
+==3768948==    by 0x1008BADF2F: ???
+==3768948==    by 0x1C0F: ???
+
+sched status:
+  running_tid=1
+
+Thread 1: status = VgTs_Runnable (lwpid 3768948)
+==3768948==    at 0x483EDF0: memcpy@GLIBC_2.2.5 (vg_replace_strmem.c:1032)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51111: msort_with_tmp.part.0 (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4C51675: qsort_r (in /usr/lib64/libc-2.31.so)
+==3768948==    by 0x4180B2: io_nearest_visible_monster(dungeon*) (io.cpp:351)
+==3768948==    by 0x418861: io_display(dungeon*) (io.cpp:468)
+==3768948==    by 0x40FD28: do_moves(dungeon*) (move.cpp:336)
+==3768948==    by 0x404079: main (rlg327.cpp:232)
+client stack range: [0x1FFEFDE000 0x1FFF000FFF] client SP: 0x1FFEFF79F8
+valgrind stack range: [0x1008AAE000 0x1008BADFFF] top usage: 7736 of 1048576
+
+
+Note: see also the FAQ in the source distribution.
+It contains workarounds to several common problems.
+In particular, if Valgrind aborted or crashed after
+identifying problems in your program, there's a good chance
+that fixing those problems will prevent Valgrind aborting or
+crashing, especially if it happened in m_mallocfree.c.
+
+If that doesn't help, please report this bug to: www.valgrind.org
+
+In the bug report, send all the above text, the valgrind
+version, and what OS and version you are using.  Thanks.
+

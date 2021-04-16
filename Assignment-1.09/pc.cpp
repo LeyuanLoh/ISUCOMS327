@@ -33,7 +33,7 @@ pc::pc()
 
   for (i = 0; i < 10; i++)
   {
-    inventory[i] = 0;
+    inventory[i] = 0 ;
   }
 
   for (i = 0; i < num_eq_slots; i++)
@@ -85,7 +85,7 @@ void place_pc(dungeon *d)
 
 void config_pc(dungeon *d)
 {
-  static dice pc_damage_dice(0, 1, 4);
+  static dice pc_damage_dice(1000000, 1, 4);
 
   //Leyuan
   dice pc_hp(100000, 0, 1);

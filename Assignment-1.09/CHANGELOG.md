@@ -18,4 +18,4 @@
              - wear_item() in pc.cpp
 ### 4/15/21
 * Leyuan Loh - Working on combat system.
-             - 
+             - Implemented the combat system. (move.cpp)

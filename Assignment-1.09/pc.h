@@ -38,7 +38,7 @@ public:
   uint8_t visible[DUNGEON_Y][DUNGEON_X];
 
   //Lee's
-  object *equipment[num_eq_slots];
+  object *equipment[10];
   object *inventory[10];
   void pick_up(dungeon *d);
   void update_pc_speed();

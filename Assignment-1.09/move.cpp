@@ -16,6 +16,8 @@
 #include "event.h"
 #include "io.h"
 #include "npc.h"
+#include "dice.h"
+#include "object.h"
 
 void do_combat(dungeon *d, character *atk, character *def)
 {
@@ -56,158 +58,181 @@ void do_combat(dungeon *d, character *atk, character *def)
 
   if (def->alive)
   {
-    // def->alive = 0;
-    //charpair(def->position) = NULL;
-
-    int posXDef = def->position[dim_x];
-    int posYDef = def->position[dim_y];
-    if (def != d->PC && atk != d->PC)
+    if (def != atk)
     {
-      //npc don't just kill each other
-      // d->num_monsters--;
-      //Try to see if can move to the neigbhouring cell or not. If not, just swapped.
-      //choose two numbers
-      int randX = def->position[dim_x];
-      int randY = def->position[dim_y];
-      while (randX == def->position[dim_x] && randY == def->position[dim_y])
-      {
-        randX = (rand() % 3) - 1;
-        randY = (rand() % 3) - 1;
-        //check if the rand is out of bound;
-        if ((posXDef + randX) < 0 || (posXDef + randX) >= DUNGEON_X || (posYDef + randY) < 0 ||
-            (posYDef + randY) >= DUNGEON_Y || (randX == 0 && randY == 0))
-        {
-          randX = def->position[dim_x];
-          randY = def->position[dim_y];
-        }
-      }
+      // def->alive = 0;
+      //charpair(def->position) = NULL;
 
-      int posX = posXDef + randX;
-      int posY = posYDef + randY;
-      do
+      int posXDef = def->position[dim_x];
+      int posYDef = def->position[dim_y];
+      if (def != d->PC && atk != d->PC)
       {
-        if (!charxy(posX, posY))
+        //npc don't just kill each other
+        // d->num_monsters--;
+        //Try to see if can move to the neigbhouring cell or not. If not, just swapped.
+        //choose two numbers
+        int randX = def->position[dim_x];
+        int randY = def->position[dim_y];
+        while (randX == def->position[dim_x] && randY == def->position[dim_y])
         {
-          pair_t next;
-          next[dim_x] = posX;
-          next[dim_y] = posY;
-          move_character(d, atk, next);
-          return;
-        }
-        if (posY == posYDef - 1)
-        {
-          if (posX + 1 >= DUNGEON_X)
+          randX = (rand() % 3) - 1;
+          randY = (rand() % 3) - 1;
+          //check if the rand is out of bound;
+          if ((posXDef + randX) < 0 || (posXDef + randX) >= DUNGEON_X || (posYDef + randY) < 0 ||
+              (posYDef + randY) >= DUNGEON_Y || (randX == 0 && randY == 0))
           {
-            posY += 1;
+            randX = def->position[dim_x];
+            randY = def->position[dim_y];
+          }
+        }
+
+        randX = posXDef + randX;
+        randY = posYDef + randY;
+
+        int posX = randX;
+        int posY = randY;
+        do
+        {
+          if (!charxy(posX, posY) && hardnessxy(posX, posY) == 0)
+          {
+            pair_t next;
+            next[dim_x] = posX;
+            next[dim_y] = posY;
+            move_character(d, atk, next);
+            return;
+          }
+          if (posY == posYDef - 1)
+          {
+            if (posX + 1 >= DUNGEON_X)
+            {
+              posY += 1;
+            }
+            else if (posX == posXDef + 1)
+            {
+              posY += 1;
+            }
+            else
+            {
+              posX += 1;
+            }
           }
           else if (posX == posXDef + 1)
           {
-            posY += 1;
-          }
-          else
-          {
-            posX += 1;
-          }
-        }
-        else if (posX == posXDef + 1)
-        {
-          if (posY + 1 >= DUNGEON_Y)
-          {
-            posX -= 1;
+            if (posY + 1 >= DUNGEON_Y)
+            {
+              posX -= 1;
+            }
+            else if (posY == posYDef + 1)
+            {
+              posX -= 1;
+            }
+            else
+            {
+              posY += 1;
+            }
           }
           else if (posY == posYDef + 1)
           {
-            posX -= 1;
+            if (posX - 1 < 0 || posX == posXDef - 1)
+            {
+              posY -= 1;
+            }
+            else
+            {
+              posX -= 1;
+            }
           }
-          else
+          else if (posX == posXDef - 1)
           {
-            posY += 1;
+            if (posY - 1 < 0 || posY == posYDef - 1)
+            {
+              posX += 1;
+            }
+            else
+            {
+              posY -= 1;
+            }
           }
-        }
-        else if (posY == posYDef + 1)
-        {
-          if (posX - 1 < 0 || posX == posXDef - 1)
-          {
-            posY -= 1;
-          }
-          else
-          {
-            posX -= 1;
-          }
-        }
-        else if (posX == posXDef - 1)
-        {
-          if (posY - 1 < 0 || posY == posYDef - 1)
-          {
-            posX += 1;
-          }
-          else
-          {
-            posY -= 1;
-          }
-        }
 
-      } while (posX != randX && posY != randY);
+        } while (posX != randX && posY != randY);
 
-      //At this point, the atk haven't found a place yet.
-      //Swap atk and def
-      character *temp = def;
-      charpair(def->position) = atk;
-      charpair(atk->position) = temp;
-    }
-    else if (def == d->PC)
-    {
-      //Pc. combat system.
-      d->PC->hp -= (uint32_t)atk->damage->roll();
-      if (d->PC->hp <= 0)
-      {
-        def->alive = 0;
-        charpair(def->position) = NULL;
+        //At this point, the atk haven't found a place yet.
+        //Swap atk and def
+        character tempDef = *def;
+        character tempAtk = *atk;
+        atk->position[dim_x] = def->position[dim_x];
+        atk->position[dim_y] = def->position[dim_y];
+        def->position[dim_x] = tempAtk.position[dim_x];
+        def->position[dim_y] = tempAtk.position[dim_y];
+        charpair(def->position) = def;
 
-        if ((part = rand() % (sizeof(organs) / sizeof(organs[0]))) < 26)
-        {
-          io_queue_message("As %s%s eats your %s,", is_unique(atk) ? "" : "the ",
-                           atk->name, organs[rand() % (sizeof(organs) / sizeof(organs[0]))]);
-          io_queue_message("   ...you wonder if there is an afterlife.");
-          /* Queue an empty message, otherwise the game will not pause for *
-         * player to see above.                                          */
-          io_queue_message("");
-        }
-        else
-        {
-          io_queue_message("Your last thoughts fade away as "
-                           "%s%s eats your %s...",
-                           is_unique(atk) ? "" : "the ",
-                           atk->name, organs[part]);
-          io_queue_message("");
-        }
-        /* Queue an empty message, otherwise the game will not pause for *
-       * player to see above.                                          */
-        io_queue_message("");
+        charpair(atk->position) = atk;
       }
-      atk->kills[kill_direct]++;
-      atk->kills[kill_avenged] += (def->kills[kill_direct] +
-                                   def->kills[kill_avenged]);
-    }
-  }
-  else if (atk == d->PC)
-  {
-    equip_slot_t equipSize = num_eq_slots;
-    int32_t damage = d->PC->damage->roll();
-    for (int i = 0; i < equipSize; i++)
-    {
-      object **pointer = d->PC->equipment;
-      (*pointer)->
-    }
-    def->hp -= (uint32_t)damage;
-    if (def->hp <= 0)
-    {
-      def->alive = 0;
-      charpair(def->position) = NULL;
-      io_queue_message("You smite %s%s!", is_unique(def) ? "" : "the ", def->name);
-      atk->kills[kill_direct]++;
-      atk->kills[kill_avenged] += (def->kills[kill_direct] +
-                                   def->kills[kill_avenged]);
+      else if (def == d->PC)
+      {
+        //Pc. combat system.
+        d->PC->hp -= (uint32_t)atk->damage->roll();
+        if (d->PC->hp <= 0)
+        {
+          def->alive = 0;
+          charpair(def->position) = NULL;
+
+          if ((part = rand() % (sizeof(organs) / sizeof(organs[0]))) < 26)
+          {
+            io_queue_message("As %s%s eats your %s,", is_unique(atk) ? "" : "the ",
+                             atk->name, organs[rand() % (sizeof(organs) / sizeof(organs[0]))]);
+            io_queue_message("   ...you wonder if there is an afterlife.");
+            /* Queue an empty message, otherwise the game will not pause for *
+         * player to see above.                                          */
+            io_queue_message("");
+          }
+          else
+          {
+            io_queue_message("Your last thoughts fade away as "
+                             "%s%s eats your %s...",
+                             is_unique(atk) ? "" : "the ",
+                             atk->name, organs[part]);
+            io_queue_message("");
+          }
+          /* Queue an empty message, otherwise the game will not pause for *
+       * player to see above.                                          */
+          io_queue_message("");
+          atk->kills[kill_direct]++;
+          atk->kills[kill_avenged] += (def->kills[kill_direct] +
+                                       def->kills[kill_avenged]);
+        }
+      }
+      else if (atk == d->PC)
+      {
+        equip_slot_t equipSize = num_eq_slots;
+        int32_t damage = d->PC->damage->roll();
+        for (int i = 0; i < equipSize; i++)
+        {
+          if (d->PC->equipment[i] != 0)
+          {
+            damage += d->PC->equipment[i]->roll_dice();
+          }
+        }
+        def->hp -= (uint32_t)damage;
+        if (def->hp <= 0)
+        {
+          def->alive = 0;
+          if (has_characteristic(def,BOSS))
+          {
+            d->boss_dead = 1;
+          }
+          charpair(def->position) = NULL;
+          if (d->num_monsters != 0)
+          {
+            d->num_monsters--;
+          }
+
+          io_queue_message("You smite %s%s!", is_unique(def) ? "" : "the ", def->name);
+          atk->kills[kill_direct]++;
+          atk->kills[kill_avenged] += (def->kills[kill_direct] +
+                                       def->kills[kill_avenged]);
+        }
+      }
     }
   }
 
