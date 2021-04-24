@@ -12,6 +12,7 @@ object::object(object_description &o, pair_t p, object *next) :
   description(o.get_description()),
   type(o.get_type()),
   color(o.get_color()),
+  rarity(o.get_rarity()), //Lee's
   damage(o.get_damage()),
   hit(o.get_hit().roll()),
   dodge(o.get_dodge().roll()),
@@ -36,6 +37,7 @@ object::object(object_description &o) :
   description(o.get_description()),
   type(o.get_type()),
   color(o.get_color()),
+  rarity(o.get_rarity()), //Lee's
   damage(o.get_damage()),
   hit(o.get_hit().roll()),
   dodge(o.get_dodge().roll()),
@@ -188,26 +190,13 @@ int32_t object::get_attribute()
 //Lee's
 int32_t object::get_gold_worth()
 {
-  // if( type == objtype_WEAPON){
-  //     int32_t dmg =  damage.roll();
-  //     int32_t digit = count_digit(dmg);
-  //     int32_t divider = 1;
-  //     for(int32_t i =1; i<digit;i++){
-  //       divider *= 10;
-  //     }
-  //     return (dmg/divider)*divider;
-  // }
-  // else if( type == objtype_RING){
-  //     int32_t digit = count_digit(speed);
-  //     int32_t divider = 1;
-  //     for(int32_t i =1; i<digit;i++){
-  //       divider *= 10;
-  //     }
-  //     return (speed/divider)*divider;
-  // }
-  return 25;
+  return rarity;
 }
 
 int32_t count_digit(int32_t number){
    return int(log10(number) + 1);
+}
+
+uint32_t object::get_rarity(){
+  return rarity;
 }

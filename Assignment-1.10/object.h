@@ -12,6 +12,8 @@ class object {
   const std::string &description;
   object_type_t type;
   uint32_t color;
+  //Lee's
+  uint32_t rarity; 
   pair_t position;
   const dice &damage;
   int32_t hit, dodge, defence, weight, speed, attribute, value;
@@ -56,6 +58,7 @@ class object {
   //Lee's
   int32_t get_attribute();
   int32_t get_gold_worth(); 
+  uint32_t get_rarity();
 };
 
 void gen_objects(dungeon *d);

@@ -142,6 +142,7 @@ class object_description {
   inline const std::string &get_description() const { return description; }
   inline const object_type_t get_type() const { return type; }
   inline const uint32_t get_color() const { return color; }
+  inline const uint32_t get_rarity() const { return rarity; } //Lee's
   inline const dice &get_hit() const { return hit; }
   inline const dice &get_damage() const { return damage; }
   inline const dice &get_dodge() const { return dodge; }

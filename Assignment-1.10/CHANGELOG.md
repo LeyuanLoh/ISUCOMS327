@@ -13,6 +13,8 @@
           - Create new object constructor
           - Add mehtod get_gold_worth for getting the value of every item
           - Done, left with how to decide the gold value of item
+          - Add rarity for object to calculate gold value
+          - Done with the store and gold new feature. 
 
 BEGIN OBJECT
 NAME Ringgit Malaysia

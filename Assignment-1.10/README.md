@@ -15,8 +15,8 @@ DEF 0+0d1
 HIT 0+0d1
 SPEED 0+0d1
 DESC
-I am from Malaysia so ringgi Malaysia must be here, but it jsut worth 
-lesser than US dolalr :(
+I am from Malaysia so ringgit Malaysia must be here, but it just worth 
+lesser than US dolar :(
 .
 ATTR 2+2d6
 RRTY 80
@@ -38,11 +38,11 @@ DESC
 Most human beings strongly believe that money is way less important than
 the life of a human being, but in reality five hundred, fifty, or even 
 five dollars are way more important to the lives of most human beings 
-than the lives of most human beings
+than the lives of most human beings 
 .
 ATTR 2+3d6
 RRTY 80
 ART FALSE
 END
 
-So, now they will be created and randomly places on the map just like the other object. At the beginning of the game, the player will have 0 gold. The player need to pick upo the gold the be able to buy item from the store. Every dungeon level will or will not have a store. The store is randomly place on the mpa and only in a room. The symbol of a store is '^'. To enter the store, the player need to step on the store and input '^'. Then , the store will randomly generate 3-6 item from the desctiion list. every store will have different item. And the player only allow to buy on item from the store. The store will also disappear after the player purchase one item or leave the store without pruchasing. 
+So, now they will be created and randomly places on the map just like the other object. At the beginning of the game, the player will have 0 gold. The player need to pick upo the gold the be able to buy item from the store. Every dungeon level will or will not have a store. The store is randomly place on the mpa and only in a room. The symbol of a store is '^'. To enter the store, the player need to step on the store and input '^'. Then , the store will randomly generate 3-6 item from the desctiion list. every store will have different item. And the player only allow to buy on item from the store. The store will also disappear after the player purchase one item or leave the store without pruchasing. The price of each item is set according to their rarity, so the price will be higher if their rarity is higher.
