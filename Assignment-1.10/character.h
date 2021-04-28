@@ -1,14 +1,15 @@
 #ifndef CHARACTER_H
-# define CHARACTER_H
+#define CHARACTER_H
 
-# include <cstdint>
-# include <vector>
-# include <cstdlib>
+#include <cstdint>
+#include <vector>
+#include <cstdlib>
 
-# include "dims.h"
-# include "utils.h"
+#include "dims.h"
+#include "utils.h"
 
-typedef enum kill_type {
+typedef enum kill_type
+{
   kill_direct,
   kill_avenged,
   num_kill_types
@@ -16,8 +17,9 @@ typedef enum kill_type {
 
 class dice;
 
-class character {
- public:
+class character
+{
+public:
   virtual ~character() {}
   char symbol;
   pair_t position;
@@ -25,7 +27,7 @@ class character {
   uint32_t alive;
   std::vector<uint32_t> color;
   uint32_t hp;
-  const dice *damage;
+  dice *damage;
   const char *name;
   /* Characters use to have a next_turn for the move queue.  Now that it is *
    * an event queue, there's no need for that here.  Instead it's in the    *

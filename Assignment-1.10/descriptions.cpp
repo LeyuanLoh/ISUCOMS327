@@ -1082,3 +1082,6 @@ npc *monster_description::generate_monster(dungeon *d)
 
   return n;
 }
+
+
+

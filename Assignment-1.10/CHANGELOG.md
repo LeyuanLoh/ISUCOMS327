@@ -58,3 +58,10 @@ RRTY 80
 ART FALSE
 END
 
+### 4/28/2021
+* Leyuan - Started to work with different stair level.
+         - If you got up (>), then the monster is stronger.
+         - If you got down (<), then the monster is weaker.
+         - Changed new_dungeon. 
+         - Created new method to generate weak monster and stronger monster.
+         - Fixed message bug.

@@ -1,25 +1,25 @@
 
-character.h,565
-# define CHARACTER_H2,20
-typedef enum kill_type 11,142
-  kill_direct,12,167
-  kill_avenged,13,182
-  num_kill_types14,198
-} kill_type_t;15,215
-class character 19,244
-  virtual ~character(21,271
-  char symbol;22,297
-  pair_t position;23,312
-  int32_t speed;24,331
-  uint32_t alive;25,348
-  std::vector<uint32_t> color;26,366
-  uint32_t hp;27,397
-  const dice *damage;damage28,412
-  const char *name;name29,434
-  uint32_t sequence_number;37,1001
-  uint32_t kills[kills38,1029
-  inline uint32_t get_color(39,1063
-  inline char get_symbol(40,1144
+character.h,555
+#define CHARACTER_H2,20
+typedef enum kill_type11,136
+  kill_direct,13,161
+  kill_avenged,14,176
+  num_kill_types15,192
+} kill_type_t;16,209
+class character20,238
+  virtual ~character(23,264
+  char symbol;24,290
+  pair_t position;25,305
+  int32_t speed;26,324
+  uint32_t alive;27,341
+  std::vector<uint32_t> color;28,359
+  uint32_t hp;29,390
+  dice *damage;damage30,405
+  const char *name;name31,421
+  uint32_t sequence_number;39,988
+  uint32_t kills[kills40,1016
+  inline uint32_t get_color(41,1050
+  inline char get_symbol(42,1131
 
 descriptions.h,2748
 # define DESCRIPTIONS_H2,23
@@ -581,53 +581,55 @@ void dir_nearest_wall(305,9080
 uint32_t against_wall(317,9491
 uint32_t in_corner(329,9975
 static void new_dungeon_level(347,10599
-uint32_t move_pc(371,11204
+uint32_t move_pc(371,11208
 
-npc.cpp,1571
+npc.cpp,1641
 static uint32_t max_monster_cells(13,193
-void gen_monsters(27,438
-void npc_next_pos_rand_tunnel(43,728
-    uint32_t i;47,815
-    uint8_t a[a48,831
-void npc_next_pos_rand(88,1577
-    uint32_t i;92,1657
-    uint8_t a[a93,1673
-void npc_next_pos_rand_pass(120,2132
-    uint32_t i;124,2223
-    uint8_t a[a125,2239
-void npc_next_pos_line_of_sight(152,2708
-void npc_next_pos_line_of_sight_tunnel(181,3555
-void npc_next_pos_gradient(214,4288
-static void npc_next_pos_00(337,8965
-static void npc_next_pos_01(349,9387
-static void npc_next_pos_02(368,10037
-static void npc_next_pos_03(376,10329
-static void npc_next_pos_04(382,10494
-static void npc_next_pos_05(394,10923
-static void npc_next_pos_06(413,11580
-static void npc_next_pos_07(421,11879
-static void npc_next_pos_10(429,12112
-static void npc_next_pos_11(434,12209
-static void npc_next_pos_12(452,12845
-static void npc_next_pos_13(460,13148
-static void npc_next_pos_14(468,13451
-static void npc_next_pos_15(480,13889
-static void npc_next_pos_16(485,13986
-static void npc_next_pos_17(493,14289
-static void npc_next_pos_18(501,14592
-static void npc_next_pos_19(511,14839
-static void npc_next_pos_1a(521,15086
-static void npc_next_pos_1b(531,15333
-static void npc_next_pos_1c(541,15580
-static void npc_next_pos_1d(551,15827
-static void npc_next_pos_1e(561,16074
-static void npc_next_pos_1f(571,16321
-static void npc_next_pos_erratic(620,17553
-void npc_next_pos(630,17820
-uint32_t dungeon_has_npcs(638,18011
-npc::npc(643,18080
-npc::~npc(~npc682,19242
-bool boss_is_alive(691,19322
+void gen_monsters(29,444
+void gen_weaker_mon(49,742
+void gen_stronger_mon(75,1253
+void npc_next_pos_rand_tunnel(102,1770
+    uint32_t i;107,1859
+    uint8_t a[a108,1875
+void npc_next_pos_rand(161,2677
+    uint32_t i;166,2759
+    uint8_t a[a167,2775
+void npc_next_pos_rand_pass(203,3280
+    uint32_t i;208,3373
+    uint8_t a[a209,3389
+void npc_next_pos_line_of_sight(245,3904
+void npc_next_pos_line_of_sight_tunnel(284,4780
+void npc_next_pos_gradient(323,5527
+static void npc_next_pos_00(468,10252
+static void npc_next_pos_01(483,10680
+static void npc_next_pos_02(506,11338
+static void npc_next_pos_03(514,11630
+static void npc_next_pos_04(520,11795
+static void npc_next_pos_05(535,12230
+static void npc_next_pos_06(558,12895
+static void npc_next_pos_07(566,13194
+static void npc_next_pos_10(574,13427
+static void npc_next_pos_11(579,13524
+static void npc_next_pos_12(601,14168
+static void npc_next_pos_13(609,14471
+static void npc_next_pos_14(617,14774
+static void npc_next_pos_15(632,15218
+static void npc_next_pos_16(637,15315
+static void npc_next_pos_17(645,15618
+static void npc_next_pos_18(653,15921
+static void npc_next_pos_19(666,16174
+static void npc_next_pos_1a(679,16427
+static void npc_next_pos_1b(692,16680
+static void npc_next_pos_1c(705,16933
+static void npc_next_pos_1d(718,17186
+static void npc_next_pos_1e(731,17439
+static void npc_next_pos_1f(744,17692
+static void npc_next_pos_erratic(795,18995
+void npc_next_pos(808,19268
+uint32_t dungeon_has_npcs(816,19459
+npc::npc(821,19528
+npc::~npc(~npc862,20693
+bool boss_is_alive(874,20778
 
 object.cpp,943
 object::object(10,117

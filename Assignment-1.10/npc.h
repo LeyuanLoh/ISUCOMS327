@@ -60,6 +60,8 @@ class npc : public character {
 };
 
 void gen_monsters(dungeon *d);
+void gen_stronger_mon(dungeon *d);
+void gen_weaker_mon(dungeon *d);
 void npc_delete(npc *n);
 void npc_next_pos(dungeon *d, npc *c, pair_t next);
 uint32_t dungeon_has_npcs(dungeon *d);

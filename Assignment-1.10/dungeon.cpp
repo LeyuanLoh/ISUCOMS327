@@ -1274,7 +1274,7 @@ void render_tunnel_distance_map(dungeon *d)
   }
 }
 
-void new_dungeon(dungeon *d)
+void new_dungeon(dungeon *d, int a)
 {
   uint32_t sequence_number;
 
@@ -1289,6 +1289,13 @@ void new_dungeon(dungeon *d)
   place_pc(d);
   d->character_map[d->PC->position[dim_y]][d->PC->position[dim_x]] = d->PC;
 
+  if(a == 1){
+    gen_weaker_mon(d);
+  }else if (a == 2){
+    gen_stronger_mon(d);
+  }else{
   gen_monsters(d);
+  }
+  
   gen_objects(d);
 }

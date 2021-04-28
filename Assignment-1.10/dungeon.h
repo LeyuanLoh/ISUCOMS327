@@ -105,7 +105,7 @@ class dungeon {
 };
 
 void init_dungeon(dungeon *d);
-void new_dungeon(dungeon *d);
+void new_dungeon(dungeon *d, int a);
 void delete_dungeon(dungeon *d);
 int gen_dungeon(dungeon *d);
 void render_dungeon(dungeon *d);
