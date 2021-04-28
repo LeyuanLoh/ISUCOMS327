@@ -58,7 +58,3 @@ RRTY 80
 ART FALSE
 END
 
-not all level will have store
-only 3-6 available itme in every store
-can only buy one item in a store
-once player enter a store and quit, the store will disappaer
