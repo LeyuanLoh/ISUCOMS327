@@ -354,13 +354,13 @@ static void new_dungeon_level(dungeon *d, uint32_t dir)
     io_queue_message("You go down the stairs.");
     io_queue_message(""); /* To force "more" */
     io_display(d); /* To force queue flush */
-    new_dungeon(d,0);
+    new_dungeon(d,1);
     break;
   case '>':
     io_queue_message("You go up the stairs.");
     io_queue_message(""); /* To force "more" */
     io_display(d); /* To force queue flush */
-    new_dungeon(d,1);
+    new_dungeon(d,2);
     break;
   default:
     break;
