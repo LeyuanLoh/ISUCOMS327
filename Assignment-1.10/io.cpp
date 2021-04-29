@@ -527,6 +527,8 @@ void io_display_no_fog(dungeon *d)
 
   mvprintw(23, 1, "PC position is (%2d,%2d).",
            d->PC->position[dim_x], d->PC->position[dim_y]);
+  mvprintw(23, 30, "PC gold value: $%d",
+           d->PC->gold); //Lee's         
   mvprintw(22, 1, "%d %s.", d->num_monsters,
            d->num_monsters > 1 ? "monsters" : "monster");
   mvprintw(22, 30, "Nearest visible monster: ");
